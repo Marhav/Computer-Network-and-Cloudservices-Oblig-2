@@ -1,3 +1,4 @@
+
 const express = require('express');
 const app = express();
 app.listen(2828, () => console.log('Listening for connections....'));
@@ -12,11 +13,16 @@ messages = []
 
 // General functions
 
-function abort_if_not_exists(){
-
+function abort_if_not_exists(user_id){
+    if (!users.includes(user_id)){
+        express.request.aborted = true // Litt usikker på denne syntaksen. :')
+    }
 }
 
-function abort_if_exists(){
+function abort_if_exists(user_id){
+    if(users.includes(user_id)){
+        express.request.aborted = true // Litt usikker på denne syntaksen. :')
+    }
 
 }
 
