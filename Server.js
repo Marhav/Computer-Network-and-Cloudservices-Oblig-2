@@ -29,7 +29,7 @@ function getAllUsers(){
 
 }
 
-function getOneUser(){
+function addOneUser(){
 
 }
 
