@@ -2,26 +2,26 @@
 const express = require('express');
 const app = express();
 app.listen(2828, () => console.log('Listening for connections....'));
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 // Arrays
-users = []
+users = [];
 
-chat_rooms = []
+chat_rooms = [];
 
-messages = []
+messages = [];
 
 // General functions
 
 function abort_if_not_exists(user_id){
     if (!users.includes(user_id)){
-        express.request.aborted = true // Litt usikker på denne syntaksen. :')
+        express.request.aborted = true; // Litt usikker på denne syntaksen. :')
     }
 }
 
 function abort_if_exists(user_id){
     if(users.includes(user_id)){
-        express.request.aborted = true // Litt usikker på denne syntaksen. :')
+        express.request.aborted = true; // Litt usikker på denne syntaksen. :')
     }
 
 }
@@ -32,7 +32,7 @@ function abort_if_exists(user_id){
 // /api/user
 
 function getAllUsers(){
-
+    return users
 }
 
 function addOneUser(){
@@ -42,12 +42,16 @@ function addOneUser(){
 // /api/user/<user-id>
 // Restrictions:<user-id> is already registered.
 
-function getOneUser(){
-
+function getOneUser(user_id){
+    abort_if_not_exists(user_id);
+    return users[user_id];
 }
 
-function deleteOneUser(){
-
+function deleteOneUser(user_id){
+    abort_if_not_exists()
+    users = users.filter(function(user){
+        return user != user_id;
+    });
 }
 
 // Chat-Rooms
