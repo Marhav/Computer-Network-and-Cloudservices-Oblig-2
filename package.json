@@ -11,5 +11,14 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marhav/data2410-oblig-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Marhav/data2410-oblig-2/issues"
+  },
+  "homepage": "https://github.com/Marhav/data2410-oblig-2#readme"
 }
