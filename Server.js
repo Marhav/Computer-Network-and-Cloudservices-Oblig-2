@@ -11,6 +11,10 @@ chat_rooms = [];
 
 messages = [];
 
+app.post('/api', (request, response) => {
+    console.log(request);
+});
+
 // General functions
 
 function abort_if_not_exists(user_id){
