@@ -1,0 +1,15 @@
+{
+  "name": "data2410-oblig-2",
+  "version": "1.0.0",
+  "description": "Oblig 2 Data 2410 datanettverk",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Group 7",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
