@@ -1,4 +1,4 @@
-
+const Joi = require('joi'); // Validation
 const express = require('express');
 const app = express();
 app.listen(2828, () => console.log('Listening for connections....'));
@@ -19,6 +19,7 @@ app.post('/api', (request, response) => {
 // General functions
 
 function abort_if_not_exists(user_id){
+
     if (!users.includes(user_id)){
         express.request.aborted = true; // Litt usikker på denne syntaksen. :')
     }
@@ -33,12 +34,25 @@ function abort_if_exists(user_id){
 
 
 // Users
+
+// /api/users
+
 app.get('/api/users', (req, res) => {
     res.send(users);
 });
 
 app.post('/api/users', (req, res) =>{
-   const user = {
+    const schema = {
+        name: Joi.string().min(2).required()
+    };
+
+    const result = Joi.validate(req.body, schema);
+
+    if (result.error){
+       res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
+       return;
+   }
+    const user = {
        id: users.length + 1,
        name: req.body.name
    };
@@ -47,6 +61,10 @@ app.post('/api/users', (req, res) =>{
 });
 
 // /api/user
+
+app.get('/api/user', (req,res) => {
+
+});
 
 function getAllUsers(){
     return users
