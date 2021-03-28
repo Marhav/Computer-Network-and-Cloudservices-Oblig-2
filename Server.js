@@ -55,7 +55,7 @@ app.post('/api/users', (req,res) => {
        return;
    }
     const user = {
-       id: users.length + 1,
+       user_id: users.length + 1,
        name: req.body.name
    };
    users.push(user);
@@ -66,17 +66,17 @@ app.post('/api/users', (req,res) => {
 
 // get one user by given id
 
-app.get('/api/user/:id', (req,res) => {
+app.get('/api/user/:user_id', (req,res) => {
 
-    const user = users.find(c => c.id === parseInt(req.params.id));
+    const user = users.find(c => c.user_id === parseInt(req.params.user_id));
     if (!user) res.status(404).send('The user with the given id was not found.');
     res.send(user);
 
 });
 
 // Delete user
-app.delete('/api/user/:id', (req, res) =>{
-    const user = users.find(c => c.id === parseInt(req.params.id));
+app.delete('/api/user/:user_id', (req, res) =>{
+    const user = users.find(c => c.user_id === parseInt(req.params.user_id));
     if (!user) res.status(404).send('The user with the given id was not found.');
 
     const index = users.indexOf(user);
@@ -129,13 +129,27 @@ app.post('/api/rooms',(req,res) => {
         return;
     }
     const room = {
-        id: chat_rooms.length + 1,
+        room_id: chat_rooms.length + 1,
         name: req.body.name
     };
     chat_rooms.push(room);
     res.send(chat_rooms);
 });
 
+app.get('/api/room/:room_id', (req,res) => {
+
+    const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
+    if (!room) res.status(404).send('The room with the given id was not found.');
+    res.send(room);
+
+});
+
+
+app.get('/api/room/:room_id/users', (req, res) =>{
+    const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
+    if (!room) res.status(404).send('The room with the given id was not found.');
+
+});
 
 // /api/rooms
 
