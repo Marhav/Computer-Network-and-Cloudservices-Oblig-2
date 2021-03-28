@@ -5,9 +5,7 @@ function selectUser(){
 function joinUser(){
     const name = $("#name").val();  //vil velge fra index.html id, feil?
 
-    const user = $("#user").val();
-
-    const data ={name, user};
+    const data ={name};
 
     const options = {
         method: 'POST',
@@ -16,7 +14,7 @@ function joinUser(){
         },
         body: JSON.stringify(data)
     };
-    fetch('/api', options);
+    fetch('/api/users', options);
 }
 
 function joinRoom(){

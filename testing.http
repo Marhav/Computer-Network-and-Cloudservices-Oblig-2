@@ -1,0 +1,51 @@
+### Add user
+POST http://localhost:2828/api/users
+Content-Type: application/json
+
+{"name": "Siri"}
+
+### Add user
+POST http://localhost:2828/api/users
+Content-Type: application/json
+
+{"name": "Alex"}
+
+### Add user
+POST http://localhost:2828/api/users
+Content-Type: application/json
+
+{"name": "Per"}
+
+### Get all users
+GET http://localhost:2828/api/users
+Accept: application/json
+
+### Get user with userid 1
+GET http://localhost:2828/api/user/1
+Accept: application/json
+
+### Delete user with userid 3
+DELETE http://localhost:2828/api/user/3
+Accept: application/json
+
+### Add chat_room
+POST http://localhost:2828/api/rooms
+Content-Type: application/json
+
+{"name": "shitposting"}
+
+### Add chat_room
+POST http://localhost:2828/api/rooms
+Content-Type: application/json
+
+{"name": "funtalk"}
+
+### Get all chat_rooms
+GET http://localhost:2828/api/rooms
+Accept: application/json
+
+### Get room with room_id 1
+GET http://localhost:2828/api/room/1
+Accept: application/json
+
+
