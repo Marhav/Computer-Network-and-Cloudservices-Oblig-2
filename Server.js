@@ -43,8 +43,7 @@ app.get('/api/users', (req, res) => {
 });
 
 //add user.
-
-app.post('/api/users', (req, res) =>{
+app.post('/api/users', (req,res) => {
     const schema = {
         name: Joi.string().min(2).required()
     };
@@ -60,7 +59,7 @@ app.post('/api/users', (req, res) =>{
        name: req.body.name
    };
    users.push(user);
-   res.send(users)
+   res.send(users);
 });
 
 // /api/user
@@ -75,7 +74,7 @@ app.get('/api/user/:id', (req,res) => {
 
 });
 
-
+// Delete user
 app.delete('/api/user/:id', (req, res) =>{
     const user = users.find(c => c.id === parseInt(req.params.id));
     if (!user) res.status(404).send('The user with the given id was not found.');
@@ -111,6 +110,32 @@ function deleteOneUser(user_id){
 }
 
 // Chat-Rooms
+
+// Get all
+app.get('/api/rooms', (req, res) => {
+    res.send(chat_rooms);
+});
+
+
+app.post('/api/rooms',(req,res) => {
+    const schema = {
+        name: Joi.string().min(2).required()
+    };
+
+    const result = Joi.validate(req.body, schema);
+
+    if (result.error){
+        res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
+        return;
+    }
+    const room = {
+        id: chat_rooms.length + 1,
+        name: req.body.name
+    };
+    chat_rooms.push(room);
+    res.send(chat_rooms);
+});
+
 
 // /api/rooms
 
