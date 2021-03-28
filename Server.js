@@ -5,6 +5,7 @@ app.listen(2828, () => console.log('Listening for connections on port 2828....')
 app.use(express.static('public'));
 app.use(express.json())
 
+
 // Arrays
 users = [];
 
