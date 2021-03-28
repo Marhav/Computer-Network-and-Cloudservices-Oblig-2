@@ -37,9 +37,12 @@ function abort_if_exists(user_id){
 
 // /api/users
 
+//get all. Return users array.
 app.get('/api/users', (req, res) => {
     res.send(users);
 });
+
+//add user.
 
 app.post('/api/users', (req, res) =>{
     const schema = {
@@ -62,9 +65,26 @@ app.post('/api/users', (req, res) =>{
 
 // /api/user
 
-app.get('/api/user', (req,res) => {
+// get one user by given id
+
+app.get('/api/user/:id', (req,res) => {
+
+    const user = users.find(c => c.id === parseInt(req.params.id));
+    if (!user) res.status(404).send('The user with the given id was not found.');
+    res.send(user);
 
 });
+
+
+app.delete('/api/user/:id', (req, res) =>{
+    const user = users.find(c => c.id === parseInt(req.params.id));
+    if (!user) res.status(404).send('The user with the given id was not found.');
+
+    const index = users.indexOf(user);
+    users.splice(index,1);
+
+    res.send(user);
+} );
 
 function getAllUsers(){
     return users
@@ -75,6 +95,7 @@ function addOneUser(){
 }
 
 // /api/user/<user-id>
+
 // Restrictions:<user-id> is already registered.
 
 function getOneUser(user_id){
