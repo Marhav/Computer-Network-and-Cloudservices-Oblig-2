@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 app.listen(2828, () => console.log('Listening for connections....'));
 app.use(express.static('public'));
+//> node server.js
+// http://127.0.0.1:2828/ in web browser
+
 
 // Arrays
 users = [];
