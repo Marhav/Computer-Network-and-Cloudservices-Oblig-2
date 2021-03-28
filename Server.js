@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 app.listen(2828, () => console.log('Listening for connections....'));
 app.use(express.static('public'));
+app.use(express.json())
 
 // Arrays
 users = [];
@@ -32,6 +33,18 @@ function abort_if_exists(user_id){
 
 
 // Users
+app.get('/api/users', (req, res) => {
+    res.send(users);
+});
+
+app.post('/api/users', (req, res) =>{
+   const user = {
+       id: users.length + 1,
+       name: req.body.name
+   };
+   users.push(user);
+   res.send(users)
+});
 
 // /api/user
 
