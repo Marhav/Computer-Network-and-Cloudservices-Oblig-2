@@ -1,7 +1,7 @@
 const Joi = require('joi'); // Validation
 const express = require('express');
 const app = express();
-app.listen(2828, () => console.log('Listening for connections....'));
+app.listen(2828, () => console.log('Listening for connections on port 2828....'));
 app.use(express.static('public'));
 app.use(express.json())
 
@@ -117,7 +117,7 @@ app.get('/api/rooms', (req, res) => {
 });
 
 
-app.post('/api/rooms',(req,res) => {
+app.post('/api/rooms',(req, res) => {
     const schema = {
         name: Joi.string().min(2).required()
     };
@@ -186,8 +186,9 @@ function addOneRoomUser(){
 // Restrictions:Only users in the room can get messages.
 
 function getAllMessages(){
-
 }
+app.get('/api/room/:room_id/messages', (req, res) => {
+});
 
 // /api/room/<room-id>/<user-id>/messages
 // Restrictions:
@@ -195,12 +196,15 @@ function getAllMessages(){
 //      ●Only registered user-id's should be permitted as <user-id>
 
 function getAllUserMessages(){
-
 }
+app.get('/api/room/:room_id/:user_id/messages', (req, res) => {
+    const user_id = req.params.user_id;
+});
 
 function addOneMessage(){
-
 }
-
+app.post('/api/room/:room_id/:user_id/messages', (req, res) => {
+    const user_id = req.params.user_id;
+});
 
 

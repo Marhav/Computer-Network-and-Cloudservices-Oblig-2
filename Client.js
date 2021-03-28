@@ -20,3 +20,5 @@ function joinUser(){
 function joinRoom(){
 
 }
+function messages() {
+}
