@@ -54,8 +54,25 @@ GET http://localhost:2828/api/room/1/users
 Accept: application/json
 
 
-### Get users with room_id 1
+### Add user to room_id 1
 POST http://localhost:2828/api/room/1/users
 Content-Type: application/json
 
-{"name": "user"}
+{
+  "user_id": "1",
+  "name": "Alex"
+
+}
+
+### Add user to room_id 1
+POST http://localhost:2828/api/room/1/users
+Content-Type: application/json
+
+{
+  "user_id": "2",
+  "name": "Per"
+
+}
+### Get all messages
+POST http://localhost:2828/api/room/:room_id/:user_id/messages
+
