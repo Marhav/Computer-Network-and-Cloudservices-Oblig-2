@@ -27,7 +27,7 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/users', (req,res) => {
     const schema = {
-        name: Joi.string().min(2).required()
+        name: Joi.string().min(2).max(50).required()
     };
 
     const result = Joi.validate(req.body, schema);
@@ -81,7 +81,7 @@ app.get('/api/rooms', (req, res) => {
 app.post('/api/rooms',(req, res) => {
 
     const schema = {
-        name: Joi.string().min(2).required()
+        name: Joi.string().min(2).max(50).required()
     };
 
     const result = Joi.validate(req.body, schema);
