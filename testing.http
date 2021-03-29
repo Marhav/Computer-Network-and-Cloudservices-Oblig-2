@@ -49,3 +49,13 @@ GET http://localhost:2828/api/room/1
 Accept: application/json
 
 
+### Get users with room_id 1
+GET http://localhost:2828/api/room/1/users
+Accept: application/json
+
+
+### Get users with room_id 1
+POST http://localhost:2828/api/room/1/users
+Content-Type: application/json
+
+{"name": "user"}
