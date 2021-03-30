@@ -9,6 +9,8 @@ let users = [];
 
 let chat_rooms = [];
 
+let id_couter = 1;
+
 app.post('/api', (request, response) => {
     console.log(request);
 });
@@ -35,13 +37,14 @@ app.post('/api/users', (req,res) => {
     if (result.error){
        res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
        return;
-   }
+    }
     const user = {
-       user_id: users.length + 1,
+       user_id: id_couter,
        name: req.body.name
-   };
-   users.push(user);
-   res.send(users);
+    };
+    id_couter ++;
+    users.push(user);
+    res.send(users);
 });
 
 
