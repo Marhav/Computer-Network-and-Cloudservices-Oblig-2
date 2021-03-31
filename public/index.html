@@ -8,37 +8,64 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Welcome to chatserver data2410</h1>
+<header>
 
-<p>
-    <label for="name">Name</label>
-    <input type="text" id="name"/>
-    <label for="user">Register as: </label>
-    <select name="user" onchange="selectUser()" id="user">
-        <option value="user">user</option>
-        <option value="bot1">bot1 (bot)</option>
-        <option value="bot2">bot2 (bot)</option>
-        <option value="bot3">bot3 (bot)</option>
-        <option value="bot4">bot4 (bot)</option>
-    </select>
-    <button class="btn btn-primary" onclick="joinUser()">Join</button>
-</p>
-
-<p>
-    <label for="roomid">Enter room: </label>
-    <input type="text" id="roomid"/>
-    <button class="btn btn-primary" onclick="joinRoom()">Join</button>
-</p>
+</header>
 
 
-<p>
-<h2>Currently joined rooms: </h2>
-<div id="joinedRooms"></div>
-</p>
+<main>
+    <div class="container">
+        <div class="row">
+            <h1>Welcome to chatserver data2410</h1>
+            <div class="col-md-4">
+                <form class="row g-4">
+                    <div class="form-group">
+                        <label for="name">Name: </label>
+                        <input type="text" id="name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="user">Register as: </label>
+                        <select name="user" onchange="selectUser()" id="user">
+                            <option value="user">user</option>
+                            <option value="bot1">bot1 (bot)</option>
+                            <option value="bot2">bot2 (bot)</option>
+                            <option value="bot3">bot3 (bot)</option>
+                            <option value="bot4">bot4 (bot)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" onclick="joinUser()">Register</button>
+                    </div>
 
-<p>
-    <button class="btn btn-danger" onclick="dangerTest()">dangerTest</button>
-</p>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form class="row g-4">
+                    <div class="form-group">
+                        <label for="roomid">Enter room: </label>
+                        <input type="text" id="roomid"/>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" onclick="joinRoom()">Join</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <h2>Currently joined rooms: </h2>
+            <div class="col-md-12">
+                <form class="row g-4">
+                    <div class="form-group">
+                        <div id="joinedRooms"></div>
+                    </div>
+                </form>
+                <form class="row g-4">
+                    <button class="btn btn-danger" onclick="dangerTest()">dangerTest</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
 </body>
 </html>
