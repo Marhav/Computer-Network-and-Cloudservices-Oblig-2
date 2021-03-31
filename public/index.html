@@ -5,7 +5,7 @@
     <title>Oblig2</title>
     <script src="Client.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
 <header>
@@ -16,16 +16,16 @@
 <main>
     <div class="container">
         <div class="row">
-            <h1>Welcome to chatserver data2410</h1>
+            <h1 style="margin-top: 20px">Welcome to chatserver data2410</h1>
             <div class="col-md-4">
                 <form class="row g-4">
                     <div class="form-group">
                         <label for="name">Name: </label>
-                        <input type="text" id="name"/>
+                        <input class="form-control" type="text" id="name"/>
                     </div>
                     <div class="form-group">
                         <label for="user">Register as: </label>
-                        <select name="user" onchange="selectUser()" id="user">
+                        <select class="form-control" name="user" onchange="selectUser()" id="user">
                             <option value="user">user</option>
                             <option value="bot1">bot1 (bot)</option>
                             <option value="bot2">bot2 (bot)</option>
@@ -43,7 +43,7 @@
                 <form class="row g-4">
                     <div class="form-group">
                         <label for="roomid">Enter room: </label>
-                        <input type="text" id="roomid"/>
+                        <input class="form-control" type="text" id="roomid"/>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary" onclick="joinRoom()">Join</button>
@@ -52,17 +52,14 @@
             </div>
         </div>
         <div class="row">
-            <h2>Currently joined rooms: </h2>
+            <h2 style="margin-top: 20px">Currently joined rooms: </h2>
             <div class="col-md-12">
                 <form class="row g-4">
                     <div class="form-group">
                         <div id="joinedRooms"></div>
+                        <button class="btn btn-danger" style="margin-top: 10px" onclick="dangerTest()">dangerTest</button>
                     </div>
                 </form>
-                <form class="row g-4">
-                    <button class="btn btn-danger" onclick="dangerTest()">dangerTest</button>
-                </form>
-            </div>
         </div>
     </div>
 </main>
