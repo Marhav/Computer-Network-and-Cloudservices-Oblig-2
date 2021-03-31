@@ -1,3 +1,20 @@
+// input check
+
+if(process.argv.length === 4){
+    var name = process.argv[2];
+    var room = process.argv[3];
+    console.log('Name: '+ name);
+    console.log('Room: ' + room);
+    // f.eks: node client.js bob lobby
+}
+const chatbots = ["bob", "alice", "dora", "chuck"];
+let chatbot = false;
+if (chatbots.includes(name)){
+    chatbot = true;
+}
+
+
+
 function selectUser(){
 
 }
