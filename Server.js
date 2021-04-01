@@ -1,9 +1,19 @@
 const Joi = require('joi'); // Validation
 const express = require('express');
+const StringBuilder = require("string-builder");
 const app = express();
-app.listen(2828, () => console.log('Listening for connections on port 2828....'));
+const PORT = 2828;
+
+app.listen(PORT, () => console.log(`Listening for connections on port ${PORT}`));
+
 app.use(express.static('public'));
 app.use(express.json())
+const bodyParser = require('body-parser')
+
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true}));
 
 let users = [];
 
@@ -15,21 +25,27 @@ app.post('/api', (request, response) => {
     console.log(request);
 });
 
-// General functions
-
                                         // -------------- Users -------------------- //
 
 //get all. Return users array.
 
 app.get('/api/users', (req, res) => {
-    res.send(users);
+
+
+    const out = new StringBuilder();
+    users.forEach(user => {
+        out.append(user.name);
+    });
+
+    res.send(out.toString())
 });
 
-//add user. Return users array.
-
+//add user.
 app.post('/api/users', (req,res) => {
+
     const schema = {
-        name: Joi.string().min(2).max(50).required()
+        name: Joi.string().min(2).max(50).required(),
+        password: Joi.string().min(2).max(50).required()
     };
 
     const result = Joi.validate(req.body, schema);
@@ -40,11 +56,12 @@ app.post('/api/users', (req,res) => {
     }
     const user = {
        user_id: id_couter,
+       password:req.body.password,
        name: req.body.name
     };
     id_couter ++;
     users.push(user);
-    res.send(users);
+    res.send(`Hello, ${user.name}!\nYour user ID is ${user.user_id}`);
 });
 
 
@@ -67,7 +84,7 @@ app.delete('/api/user/:user_id', (req, res) =>{
     const index = users.indexOf(user);
     users.splice(index,1);
 
-    res.send(user);
+    res.send(`User ${user.name} with ${user.user_id} is deleted!`);
 } );
 
 
@@ -170,7 +187,6 @@ app.get('/api/room/:room_id/messages', (req, res) => {
 //      ●Only users who have joined the room can get or add messages.
 //      ●Only registered user-id's should be permitted as <user-id>
 
-
 app.get('/api/room/:room_id/:user_id/messages', (req, res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
@@ -254,13 +270,11 @@ function abort_if_not_exists(user_id){
         express.request.aborted = true; // Litt usikker på denne syntaksen. :')
     }
 }
-
 function abort_if_exists(user_id){
     if(users.includes(user_id)){
         express.request.aborted = true; // Litt usikker på denne syntaksen. :')
     }
 }
-
  */
 
 

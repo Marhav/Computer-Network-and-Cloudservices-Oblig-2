@@ -4,11 +4,44 @@
     <meta charset="UTF-8">
     <title>Oblig2</title>
     <script src="Client.js"></script>
+    <script src="Server.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <h1>Welcome to chatserver data2410</h1>
+
+<form action="http://localhost:2828/api/users" method="POST">
+    <div class="form-col">
+        <input class="col" type="text" name="name" placeholder="username">
+        <input class="col" type="password" name="password" placeholder="password">
+        <button class="btn primary col" type="submit">Sign up</button>
+    </div>
+</form>
+
+<form action="http://localhost:2828/api/users" method="GET">
+    <button class="btn primary col"  type="submit">USERS</button>
+</form>
+
+
+<form action="http://localhost:2828/api/rooms" method="POST">
+    <div class="form-col">
+        <input class="col" type="text" name="name" placeholder="Room name">
+        <button class="btn primary col" type="submit">Sign up</button>
+    </div>
+</form>
+
+<form action="http://localhost:2828/api/room/:room_id/users" method="POST">
+    <div class="form-col">
+        <input class="col" type="text" name="name" placeholder="username">
+        <input class="col" type="password" name="password" placeholder="password">
+        <button class="btn primary col" type="submit">Sign up</button>
+    </div>
+</form>
+
+
+<!--
+
 
 <p>
     <label for="name">Name</label>
@@ -39,6 +72,7 @@
 <p>
     <button class="btn btn-danger" onclick="dangerTest()">dangerTest</button>
 </p>
+-->
 
 </body>
 </html>

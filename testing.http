@@ -25,7 +25,7 @@ GET http://localhost:2828/api/user/1
 Accept: application/json
 
 ### Delete user with userid 3
-DELETE http://localhost:2828/api/user/3
+DELETE http://localhost:2828/api/user/2
 Accept: application/json
 
 ### Add chat_room
