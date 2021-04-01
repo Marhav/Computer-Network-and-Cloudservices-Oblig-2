@@ -1,4 +1,4 @@
-// input check
+// input check for CLI
 
 if(process.argv.length === 4){
     var name = process.argv[2];
