@@ -1,6 +1,7 @@
-const Joi = require('joi'); // Validation
+const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
+
 const app = express();
 const PORT = 2828;
 
@@ -11,94 +12,89 @@ app.use(express.json())
 const bodyParser = require('body-parser')
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
-
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true}));
 
+
 let users = [];
-
 let chat_rooms = [];
+let id_counter = 1;
 
-let id_couter = 1;
 
-app.post('/api', (request, response) => {
-    console.log(request);
+/*
+app.get('/api/login/:user_id', (req, res,next) => {
+
+    const user = users.find(c => c.user_id === parseInt(req.params.user_id));
+    if (!user) res.status(404).send('Incorrect username.');
+    next(app.get('/api/rooms'));
 });
-
-                                        // -------------- Users -------------------- //
-
-//get all. Return users array.
-
-app.get('/api/users', (req, res) => {
+ */
 
 
-    const out = new StringBuilder();
-    users.forEach(user => {
-        out.append(user.name);
+app.route('/api/user/:user_id')
+    // get one user by given id
+    .get((req,res) => {
+        const user = users.find(c => c.user_id === parseInt(req.params.user_id));
+        if (!user) res.status(404).send('The user with the given id was not found.');
+        res.send(user);
+    })
+    // Delete user by given id
+    .delete((req, res) =>{
+        const user = users.find(c => c.user_id === parseInt(req.params.user_id));
+        if (!user) res.status(404).send('The user with the given id was not found.');
+
+        const index = users.indexOf(user);
+        users.splice(index,1);
+
+        res.send(`User ${user.name} with ${user.user_id} is deleted!`);
     });
 
-    res.send(out.toString())
-});
 
-//add user.
-app.post('/api/users', (req,res) => {
+                    // ------------------ Users --------------------- //
 
-    const schema = {
-        name: Joi.string().min(2).max(50).required(),
-        password: Joi.string().min(2).max(50).required()
-    };
+app.route('/api/users')
 
-    const result = Joi.validate(req.body, schema);
+    //get all
+    .get((req, res) => {
 
-    if (result.error){
-       res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
-       return;
-    }
-    const user = {
-       user_id: id_couter,
-       password:req.body.password,
-       name: req.body.name
-    };
-    id_couter ++;
-    users.push(user);
-    res.send(`Hello, ${user.name}!\nYour user ID is ${user.user_id}`);
-});
+        const out = new StringBuilder();
+        users.forEach(user => {
+            out.append(user.username);
+        });
 
+        res.send(out.toString())
+    })
+    //add user
+    .post((req,res) => {
 
-// get one user by given id
+        const schema = {
+            name: Joi.string().min(2).max(50).required()
+        };
 
-app.get('/api/user/:user_id', (req,res) => {
+        const result = Joi.validate(req.body, schema);
 
-    const user = users.find(c => c.user_id === parseInt(req.params.user_id));
-    if (!user) res.status(404).send('The user with the given id was not found.');
-    res.send(user);
+        if (result.error){
+            res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
+            return;
+        }
+        const user = {
+            user_id: id_counter,
+            name: req.body.name
+        };
+        id_counter ++;
+        users.push(user);
+        res.send(`Welcome , ${user.name}! ${user.user_id}`);
+    });
 
-});
+                   // -------------- Chat-Rooms -------------------- //
 
-// Delete user by given id
-
-app.delete('/api/user/:user_id', (req, res) =>{
-    const user = users.find(c => c.user_id === parseInt(req.params.user_id));
-    if (!user) res.status(404).send('The user with the given id was not found.');
-
-    const index = users.indexOf(user);
-    users.splice(index,1);
-
-    res.send(`User ${user.name} with ${user.user_id} is deleted!`);
-} );
-
-
-                                            //  -- Chat-Rooms -- //
-
-// Get all
-
-app.get('/api/rooms', (req, res) => {
+app.route('/api/rooms')
+    // Get all
+    .get((req, res) => {
     res.send(chat_rooms);
-});
-
-//add one
-
-app.post('/api/rooms',(req, res) => {
+    })
+    //add room
+    .post((req,res) => {
 
     const schema = {
         name: Joi.string().min(2).max(50).required()
@@ -121,6 +117,7 @@ app.post('/api/rooms',(req, res) => {
     res.send(chat_rooms);
 });
 
+//Get room with room id
 app.get('/api/room/:room_id', (req,res) => {
 
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
@@ -129,19 +126,16 @@ app.get('/api/room/:room_id', (req,res) => {
 
 });
 
-//Get all users in the room
-app.get('/api/room/:room_id/users', (req, res) =>{
-
+app.route('/api/room/:room_id/users')
+    //Get all users in the room
+    .get((req, res) =>{
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
-
     res.send(room.roomUsers);
-});
-
-// ● Restrictions:Only registered users can join
-
-app.post('/api/room/:room_id/users',(req,res) => {
-
+    })
+    //Add/join user
+    //Restrictions:Only registered users can join
+    .post((req,res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
@@ -160,10 +154,9 @@ app.post('/api/room/:room_id/users',(req,res) => {
 
 });
 
-                                            // -- Messages -- //
+                                            // ------- Messages ------- //
 
 // Restrictions:Only users in the room can get messages.
-
 app.get('/api/room/:room_id/messages', (req, res) => {
 
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
@@ -187,7 +180,9 @@ app.get('/api/room/:room_id/messages', (req, res) => {
 //      ●Only users who have joined the room can get or add messages.
 //      ●Only registered user-id's should be permitted as <user-id>
 
-app.get('/api/room/:room_id/:user_id/messages', (req, res) => {
+app.route('/api/room/:room_id/:user_id/messages')
+    //Get all messages
+    .get((req, res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
@@ -195,10 +190,9 @@ app.get('/api/room/:room_id/:user_id/messages', (req, res) => {
     if (!user) res.status(404).send('The user with the given id was not found.');
 
     res.send(room.messages);
-});
-
-
-app.post('/api/room/:room_id/:user_id/messages', (req, res) => {
+    })
+    //Add message
+    .post((req, res) => {
 
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
@@ -211,74 +205,3 @@ app.post('/api/room/:room_id/:user_id/messages', (req, res) => {
     room.messages.push(message);
     req.send(room.messages);
 });
-
-
-/*
-
-// Restrictions:<user-id> is already registered.
-
-/*
-function getOneUser(user_id){
-    abort_if_not_exists(user_id);
-    return users[user_id];
-}
-
-function deleteOneUser(user_id){
-    abort_if_not_exists()
-    users = users.filter(function(user){
-        return user != user_id;
-    });
-}
-function getAllUsers(){
-    return users
-}
-
-function addOneUser(){
-
-}
-
-function getAllRooms(){
-
-}
-
-function addOneRoom(){
-
-}
-
-// /api/room/<room-id>
-
-function getOneRoom(){
-
-}
-
-function addOneMessage(){
-}
-
-function getAllMessages(){
-}
-function getAllRoomUsers(){
-
-}
-
-function addOneRoomUser(){
-
-}
-
-function abort_if_not_exists(user_id){
-
-    if (!users.includes(user_id)){
-        express.request.aborted = true; // Litt usikker på denne syntaksen. :')
-    }
-}
-function abort_if_exists(user_id){
-    if(users.includes(user_id)){
-        express.request.aborted = true; // Litt usikker på denne syntaksen. :')
-    }
-}
- */
-
-
-
-
-
-

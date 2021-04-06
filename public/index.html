@@ -7,10 +7,56 @@
     <script src="Server.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div class="mainLogIn">
+    <form class="form-signin" action="http://localhost:2828/api/login/:user_id" method="get">
+        <div class="text-center mb-4">
+            <img class="mb-4" src="logo.png" alt="" width="150" height="150">
+            <h4>Chat with strangers at ChatMet.com</h4>
+        </div>
+
+        <div class="form-label-group">
+            <input type="text" class="form-control" placeholder="Username" name="username" required="" autofocus="">
+            <label>Username</label>
+        </div>
+
+
+<!--
+        <div class="form-label-group">
+            <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required="">
+            <label for="inputPassword">Password</label>
+        </div>
+        -->
+
+        <div>
+            <a type="button" href="signup.html">New member? Register here.</a>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted text-center">© ChatMet 2021</p>
+    </form>
+</div>
+
+<!--
 <h1>Welcome to chatserver data2410</h1>
 
+<form>
+    <button type="submit">Log in</button>
+</form>
+
+<form>
+    <a type="button" class="btn primary col" href="signup.html">Register</a>
+</form>
+
+<h3>Register user</h3>
 <form action="http://localhost:2828/api/users" method="POST">
     <div class="form-col">
         <input class="col" type="text" name="name" placeholder="username">
@@ -22,7 +68,6 @@
 <form action="http://localhost:2828/api/users" method="GET">
     <button class="btn primary col"  type="submit">USERS</button>
 </form>
-
 
 <form action="http://localhost:2828/api/rooms" method="POST">
     <div class="form-col">
@@ -38,9 +83,6 @@
         <button class="btn primary col" type="submit">Sign up</button>
     </div>
 </form>
-
-
-<!--
 
 
 <p>
