@@ -5,7 +5,6 @@ const StringBuilder = require("string-builder");
 const app = express();
 const PORT = 2828;
 
-
 app.use(express.static('public'));
 app.use(express.json())
 const bodyParser = require('body-parser')
@@ -17,47 +16,38 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 let users = [];
 let chat_rooms = [];
-let id_counter = 1;
 
 
-app.get('/api/login', (req, res) => {
+app.post('/api/login', (req,res) => {
 
     const user_login = {
-        user_id: parseInt(req.body.user_id),
         username: req.body.username
     };
 
-    let found = false;
+    const user = users.find(c => c.username === user_login.username);
 
-    users.forEach(user => {
-        if (user == user_login)
-            found = true;
-    });
+    if (!user) res.status(404).send('Innvalid username');
 
-    if (!found) res.status(404).send(`The user with the given id was not found. ${users[0].username} ${users[0].user_id} `);
-
-    res.send(user_login.user_id);
-
+    res.send(`Welcome back, ${user_login.username}!` );
 });
 
 
-
-app.route('/api/user/:user_id')
+app.route('/api/user/:username')
     // get one user by given id
     .get((req,res) => {
-        const user = users.find(c => c.user_id === parseInt(req.params.user_id));
+        const user = users.find(c => c.username === req.params.username);
         if (!user) res.status(404).send('The user with the given id was not found.');
         res.send(user);
     })
     // Delete user by given id
     .delete((req, res) =>{
-        const user = users.find(c => c.user_id === parseInt(req.params.user_id));
+        const user = users.find(c => c.username === req.params.username);
         if (!user) res.status(404).send('The user with the given id was not found.');
 
         const index = users.indexOf(user);
         users.splice(index,1);
 
-        res.send(`User ${user.name} with ${user.user_id} is deleted!`);
+        res.send(`User ${user.username} is deleted!`);
     });
 
 
@@ -88,13 +78,18 @@ app.route('/api/users')
             res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
             return;
         }
+
         const user = {
-            user_id: id_counter,
             username: req.body.username
         };
-        id_counter ++;
+
+        const user_check = users.find(c => c.username === user.username);
+
+        if (user_check)
+            res.status(400).send("The username is taken.");
+
         users.push(user);
-        res.send(`Welcome , ${user.username}! ${user.user_id}`);
+        res.send(`Welcome , ${user.username}!`);
     });
 
                    // -------------- Chat-Rooms -------------------- //
@@ -151,13 +146,12 @@ app.route('/api/room/:room_id/users')
     if (!room) res.status(404).send('The room with the given id was not found.');
 
     const joinUser = {
-        user_id: req.body.user_id,
         username: req.body.username
     };
 
     const user = users.indexOf(joinUser);
 
-    if (!user) res.status(404).send("No user with user ID " + joinUser.user_id + " is found");
+    if (!user) res.status(404).send("No user with user ID " + joinUser.username + " is found");
 
     room.roomUsers.push(joinUser);
 
@@ -175,13 +169,12 @@ app.get('/api/room/:room_id/messages', (req, res) => {
     if (!room) res.status(404).send('The room with the given id was not found.');
 
     const joinUser = {
-        user_id: req.body.user_id,
         username: req.body.username
     };
 
     const user = room.roomUsers.indexOf(joinUser);
 
-    if (!user) res.status(404).send("No user with user ID " + joinUser.user_id + " is found.");
+    if (!user) res.status(404).send("No user with user ID " + joinUser.username + " is found.");
 
     res.send(room.messages);
 
@@ -191,13 +184,13 @@ app.get('/api/room/:room_id/messages', (req, res) => {
 //      ●Only users who have joined the room can get or add messages.
 //      ●Only registered user-id's should be permitted as <user-id>
 
-app.route('/api/room/:room_id/:user_id/messages')
+app.route('/api/room/:room_id/:username/messages')
     //Get all messages
     .get((req, res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
-    const user = chat_rooms.find(c => c.user_id === parseInt(req.params.user_id));
+    const user = chat_rooms.find(c => c.username === req.params.username);
     if (!user) res.status(404).send('The user with the given id was not found.');
 
     res.send(room.messages);
@@ -208,7 +201,7 @@ app.route('/api/room/:room_id/:user_id/messages')
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
-    const user = chat_rooms.find(c => c.user_id === parseInt(req.params.user_id));
+    const user = chat_rooms.find(c => c.username === req.params.username);
     if (!user) res.status(404).send('The user with the given id was not found.');
 
     const message = req.body.name;

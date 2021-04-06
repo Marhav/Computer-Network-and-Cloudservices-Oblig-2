@@ -12,44 +12,33 @@
 <body>
 
 <div class="mainLogIn">
-    <form class="form-signin" action="http://localhost:2828/api/login" method="get">
+    <form class="form-signin" action="http://localhost:2828/api/login" method="post">
         <div class="text-center mb-4">
             <img class="mb-4" src="logo.png" alt="" width="200" height="200">
             <h4>Chat with strangers at ChatMet.com</h4>
         </div>
 
         <div class="form-label-group">
-            <input type="text" class="form-control" placeholder="user id" name="user_id" required="" autofocus="">
-            <label>user id</label>
+            <input type="text" class="form-control" placeholder="username" name="username" required="" autofocus="">
+            <label>Name</label>
         </div>
-
-        <div class="form-label-group">
-                <input type="text" class="form-control" placeholder="Username" name="username" required="" autofocus="">
-            <label>Username</label>
-        </div>
-
-
-
-
-<!--
-        <div class="form-label-group">
-            <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required="">
-            <label for="inputPassword">Password</label>
-        </div>
-        -->
 
         <div>
             <a type="button" href="signup.html">New member? Register here.</a>
         </div>
 
+        <!--
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
+        -->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
         <p class="mt-5 mb-3 text-muted text-center">© ChatMet 2021</p>
     </form>
+
 </div>
 
 <!--
