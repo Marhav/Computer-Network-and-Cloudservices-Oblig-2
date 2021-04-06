@@ -5,7 +5,6 @@ const StringBuilder = require("string-builder");
 const app = express();
 const PORT = 2828;
 
-app.listen(PORT, () => console.log(`Listening for connections on port ${PORT}`));
 
 app.use(express.static('public'));
 app.use(express.json())
@@ -21,14 +20,26 @@ let chat_rooms = [];
 let id_counter = 1;
 
 
-/*
-app.get('/api/login/:user_id', (req, res,next) => {
+app.get('/api/login', (req, res) => {
 
-    const user = users.find(c => c.user_id === parseInt(req.params.user_id));
-    if (!user) res.status(404).send('Incorrect username.');
-    next(app.get('/api/rooms'));
+    const user_login = {
+        user_id: parseInt(req.body.user_id),
+        username: req.body.username
+    };
+
+    let found = false;
+
+    users.forEach(user => {
+        if (user == user_login)
+            found = true;
+    });
+
+    if (!found) res.status(404).send(`The user with the given id was not found. ${users[0].username} ${users[0].user_id} `);
+
+    res.send(user_login.user_id);
+
 });
- */
+
 
 
 app.route('/api/user/:user_id')
@@ -68,7 +79,7 @@ app.route('/api/users')
     .post((req,res) => {
 
         const schema = {
-            name: Joi.string().min(2).max(50).required()
+            username: Joi.string().min(2).max(50).required()
         };
 
         const result = Joi.validate(req.body, schema);
@@ -79,11 +90,11 @@ app.route('/api/users')
         }
         const user = {
             user_id: id_counter,
-            name: req.body.name
+            username: req.body.username
         };
         id_counter ++;
         users.push(user);
-        res.send(`Welcome , ${user.name}! ${user.user_id}`);
+        res.send(`Welcome , ${user.username}! ${user.user_id}`);
     });
 
                    // -------------- Chat-Rooms -------------------- //
@@ -141,7 +152,7 @@ app.route('/api/room/:room_id/users')
 
     const joinUser = {
         user_id: req.body.user_id,
-        name: req.body.name
+        username: req.body.username
     };
 
     const user = users.indexOf(joinUser);
@@ -165,7 +176,7 @@ app.get('/api/room/:room_id/messages', (req, res) => {
 
     const joinUser = {
         user_id: req.body.user_id,
-        name: req.body.name
+        username: req.body.username
     };
 
     const user = room.roomUsers.indexOf(joinUser);
@@ -205,3 +216,6 @@ app.route('/api/room/:room_id/:user_id/messages')
     room.messages.push(message);
     req.send(room.messages);
 });
+
+
+app.listen(PORT, () => console.log(`Listening for connections on port ${PORT}`));
