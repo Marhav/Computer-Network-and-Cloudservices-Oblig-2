@@ -99,7 +99,7 @@ app.route('/api/users')
         const result = Joi.validate(req.body, schema);
 
         if (result.error){
-            return res.send(result.error.details[0].message).status(400); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
+            return res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
         }
 
         const user = {
@@ -109,7 +109,7 @@ app.route('/api/users')
         const user_check = users.find(c => c.username === user.username);
 
         if (user_check)
-            return res.send("The username is taken.").status(400);
+            return res.status(409).send("The username is taken.");
         else users.push(user);
 
         res.send(`Welcome , ${user.username}!`);
