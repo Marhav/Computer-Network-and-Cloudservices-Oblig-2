@@ -22,6 +22,7 @@ function login(){
         success: function(data) {
             console.log(data);
             $("#danger_feedback").hide();
+            window.location.assign('home.html');
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log(errorThrown + " " + textStatus + " " + xhr);
