@@ -1,15 +1,15 @@
 // init
 $(function () {
-    $("#success_feedback").hide()
+    //Skjuler alle feedbacks.
     $("#danger_feedback").hide()
+    $("#success_feedback").hide()
+    $("#warning_feedback").hide()
 })
 
 // index.html
 function login(){
 
     const input_login_username = $("#login_username").val();
-
-    const error_feedback = document.getElementById("danger_feedback");
 
     let user = {
         username: input_login_username
@@ -21,11 +21,11 @@ function login(){
         data: user,
         success: function(data) {
             console.log(data);
-            $("#danger_feedback").hide()
+            $("#danger_feedback").hide();
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log(errorThrown + " " + textStatus + " " + xhr);
-            $("#danger_feedback").show()
+            $("#danger_feedback").show();
         }});
 }
 
@@ -48,20 +48,18 @@ function create_user(){
         success: function(data, textStatus, xhr) {
             console.log(data);
             console.log(xhr.getResponseHeader("Content-Length"));
-            success_feedback.classList.remove("invisible");
-            $("#success_feedback").html('<strong>Success!</strong> ' + input_Register_user + ' registered!')
-            error_feedback.classList.add("invisible");
+            $("#success_feedback").show().html('<strong>Success!</strong> ' + input_Register_user + ' registered!')
+            $("#warning_feedback").hide();
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log(errorThrown + " " + textStatus + " " + xhr.status);
-            success_feedback.classList.add("invisible");
-            error_feedback.classList.remove("invisible")
+            $("#success_feedback").hide();
             if(xhr.status == 400) {
-                $("#warning_feedback").html('<strong>Warning!</strong> The username must be at least 2 characters long!');
+                $("#warning_feedback").show().html('<strong>Warning!</strong> The username must be at least 2 characters long!');
             } else if (xhr.status == 409) {
-                $("#warning_feedback").html('<strong>Warning!</strong> ' + input_Register_user + ' already exists, pick another name!');
+                $("#warning_feedback").show().html('<strong>Warning!</strong> ' + input_Register_user + ' already exists, pick another name!');
             } else {
-                $("#warning_feedback").html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status);
+                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status);
             }
         }});
 }
