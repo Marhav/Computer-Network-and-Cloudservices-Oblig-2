@@ -16,11 +16,11 @@ function login(){
         data: user,
         success: function(data) {
             console.log(data);
-            error_feedback.classList.add("hidden");
+            error_feedback.classList.add("invisible");
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log(errorThrown + " " + textStatus + " " + xhr);
-            error_feedback.classList.remove("hidden");
+            error_feedback.classList.remove("invisible");
         }});
 }
 
@@ -43,14 +43,14 @@ function create_user(){
         success: function(data, textStatus, xhr) {
             console.log(data);
             console.log(xhr.getResponseHeader("Content-Length"));
-            success_feedback.classList.remove("hidden");
+            success_feedback.classList.remove("invisible");
             $("#success_feedback").html('<strong>Success!</strong> ' + input_Register_user + ' registered!')
-            error_feedback.classList.add("hidden");
+            error_feedback.classList.add("invisible");
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log(errorThrown + " " + textStatus + " " + xhr.status);
-            success_feedback.classList.add("hidden");
-            error_feedback.classList.remove("hidden")
+            success_feedback.classList.add("invisible");
+            error_feedback.classList.remove("invisible")
             if(xhr.status == 400) {
                 $("#warning_feedback").html('<strong>Warning!</strong> The username must be at least 2 characters long!');
             } else if (xhr.status == 409) {
