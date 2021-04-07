@@ -1,3 +1,8 @@
+// init
+$(function () {
+    $("#success_feedback").hide()
+    $("#danger_feedback").hide()
+})
 
 // index.html
 function login(){
@@ -16,11 +21,11 @@ function login(){
         data: user,
         success: function(data) {
             console.log(data);
-            error_feedback.classList.add("invisible");
+            $("#danger_feedback").hide()
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log(errorThrown + " " + textStatus + " " + xhr);
-            error_feedback.classList.remove("invisible");
+            $("#danger_feedback").show()
         }});
 }
 
