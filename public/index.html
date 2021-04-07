@@ -11,14 +11,14 @@
 <body>
 
 <div class="mainLogIn">
-    <form class="form-signin" action="http://localhost:2828/api/login" method="post">
+    <form class="form-signin">
         <div class="text-center mb-4">
             <img class="mb-4" src="logo.png" alt="" width="200" height="200">
             <h4>Chat with strangers at ChatMet.com</h4>
         </div>
 
         <div class="form-label-group">
-            <input type="text" class="form-control" placeholder="username" name="username" required="" autofocus="">
+            <input type="text" class="form-control" placeholder="username" id="login_username" name="login_username" required="" autofocus="">
             <label>Name</label>
         </div>
 
@@ -33,7 +33,7 @@
             </label>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" onclick="login()">Sign in</button>
 
         <p class="mt-5 mb-3 text-muted text-center">© ChatMet 2021</p>
     </form>

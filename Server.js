@@ -25,7 +25,7 @@ app.post('/api/login', (req,res) => {
 
     const user = users.find(c => c.username === user_login.username);
 
-    if (!user) res.status(404).send('Innvalid username');
+    if (!user) return res.status(404).send('Innvalid username');
 
     //res.send(`Welcome back, ${user_login.username}!`);
 
@@ -50,7 +50,7 @@ app.post('/api/login', (req,res) => {
     });
 
     if (!out.toString()){
-        res.send(`Welcome back, ${user_login.username}\nNo messages yet`)
+        return res.send(`Welcome back, ${user_login.username}\nNo messages yet`)
     }
     else res.send("Recent " + out.toString());
 });
@@ -60,13 +60,13 @@ app.route('/api/user/:username')
     // get one user by given id
     .get((req,res) => {
         const user = users.find(c => c.username === req.params.username);
-        if (!user) res.status(404).send('The user with the given id was not found.');
+        if (!user) return res.status(404).send('The user with the given id was not found.');
         res.send(user);
     })
     // Delete user by given id
     .delete((req, res) =>{
         const user = users.find(c => c.username === req.params.username);
-        if (!user) res.status(404).send('The user with the given id was not found.');
+        if (!user) return res.status(404).send('The user with the given id was not found.');
 
         const index = users.indexOf(user);
         users.splice(index,1);
@@ -99,8 +99,7 @@ app.route('/api/users')
         const result = Joi.validate(req.body, schema);
 
         if (result.error){
-            res.send(result.error.details[0].message).status(400); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
-            return;
+            return res.send(result.error.details[0].message).status(400); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
         }
 
         const user = {
@@ -110,7 +109,7 @@ app.route('/api/users')
         const user_check = users.find(c => c.username === user.username);
 
         if (user_check)
-            res.send("The username is taken.").status(400);
+            return res.send("The username is taken.").status(400);
         else users.push(user);
 
         res.send(`Welcome , ${user.username}!`);

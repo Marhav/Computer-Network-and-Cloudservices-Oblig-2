@@ -1,18 +1,33 @@
 
-function create_user(){
+// index.html
+function login(){
 
-    const input_user = $("#username").val();
+    const input_login_username = $("#login_username").val();
 
     let user = {
-        username: input_user
+        username: input_login_username
     }
 
-    /*
-    $.post("/api/users", user, function (data){
-        alert("Data from server: " + data);
-    })
-     */
+    $.ajax({
+        type: "post",
+        url: "/api/login",
+        data: user,
+        success: function(data) {
+            alert(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert(errorThrown + " " + textStatus + " " + xhr);
+        }});
+}
 
+// Signup.html
+function create_user(){
+
+    const input_Register_user = $("#register_username").val();
+
+    let user = {
+        username: input_Register_user
+    }
 
     $.ajax({
         type: "post",
@@ -26,6 +41,7 @@ function create_user(){
             alert(errorThrown + " " + textStatus + " " + xhr);
         }});
 }
+
 
 function selectUser(){
 
