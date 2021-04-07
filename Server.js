@@ -13,7 +13,6 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true}));
 
-
 let users = [];
 let chat_rooms = [];
 
@@ -28,7 +27,32 @@ app.post('/api/login', (req,res) => {
 
     if (!user) res.status(404).send('Innvalid username');
 
-    res.send(`Welcome back, ${user_login.username}!` );
+    //res.send(`Welcome back, ${user_login.username}!`);
+
+    let out = new StringBuilder()
+
+    chat_rooms.forEach(room => {
+        room.roomUsers.forEach(room_users => {
+            if (room_users.username == user_login.username){
+                let link = `http://localhost:2828/api/room/${room.room_id}`
+
+                let div = `<div class="card" style="width: 18rem;">
+                          <img class="card-img-top" src="..." alt="Card image cap">
+                          <div class="card-body">
+                            <h5 class="card-title">${room.name}</h5>
+                            <a href="${link}" class="btn btn-primary">Go to the room</a>
+                          </div>
+                        </div>`
+
+                out.append(div);
+            }
+        })
+    });
+
+    if (!out.toString()){
+        res.send(`Welcome back, ${user_login.username}\nNo messages yet`)
+    }
+    else res.send("Recent " + out.toString());
 });
 
 
@@ -87,8 +111,8 @@ app.route('/api/users')
 
         if (user_check)
             res.status(400).send("The username is taken.");
+        else users.push(user);
 
-        users.push(user);
         res.send(`Welcome , ${user.username}!`);
     });
 
@@ -209,6 +233,5 @@ app.route('/api/room/:room_id/:username/messages')
     room.messages.push(message);
     req.send(room.messages);
 });
-
 
 app.listen(PORT, () => console.log(`Listening for connections on port ${PORT}`));

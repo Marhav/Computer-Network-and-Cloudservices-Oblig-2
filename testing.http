@@ -2,19 +2,19 @@
 POST http://localhost:2828/api/users
 Content-Type: application/json
 
-{"name": "Siri"}
+{"username": "Siri"}
 
 ### Add user
 POST http://localhost:2828/api/users
 Content-Type: application/json
 
-{"name": "Alex"}
+{"username": "Alex"}
 
 ### Add user
 POST http://localhost:2828/api/users
 Content-Type: application/json
 
-{"name": "Per"}
+{"username": "Per"}
 
 ### Get all users
 GET http://localhost:2828/api/users
@@ -59,8 +59,7 @@ POST http://localhost:2828/api/room/1/users
 Content-Type: application/json
 
 {
-  "user_id": "1",
-  "name": "Alex"
+  "username": "Alex"
 
 }
 
@@ -69,8 +68,7 @@ POST http://localhost:2828/api/room/1/users
 Content-Type: application/json
 
 {
-  "user_id": "2",
-  "name": "Per"
+  "username": "Per"
 
 }
 ### Get all messages
