@@ -13,10 +13,10 @@
 
 <div class="mainLogIn">
     <h1>Register new member</h1>
-    <form class="form-signin" action="http://localhost:2828/api/users" method="POST">
+    <form class="form-signin">
 
         <div class="form-label-group">
-            <input type="text" class="form-control" placeholder="username" name="username" required="" autofocus="">
+            <input type="text" class="form-control" placeholder="Username" id="username" name="username" required="" autofocus="">
             <label>Name</label>
         </div>
 
@@ -37,7 +37,7 @@
         </div>
 
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <button class="btn btn-lg btn-primary btn-block" onclick="create_user()">Sign up</button>
         <p class="mt-5 mb-3 text-muted text-center">© ChatMet 2021</p>
     </form>
 </div>

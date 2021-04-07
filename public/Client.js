@@ -1,5 +1,16 @@
 
+function create_user(){
 
+    const input_user = $("#username").val();
+
+    let user = {
+        username: input_user
+    }
+
+    $.post("/api/users", user, function (data){
+        alert("Data from server: " + data);
+    })
+}
 
 function selectUser(){
 
