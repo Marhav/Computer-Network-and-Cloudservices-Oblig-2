@@ -43,6 +43,8 @@ function create_user(){
 }
 
 
+
+/*
 function selectUser(){
 
 }
@@ -67,3 +69,4 @@ function joinRoom(){
 }
 function messages() {
 }
+ */
