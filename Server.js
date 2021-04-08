@@ -50,9 +50,9 @@ app.post('/api/login', (req,res) => {
     });
 
     if (!out.toString()){
-        return res.send(`Welcome back, ${user_login.username}\nNo messages yet`)
+        return res.status(200).send(`Welcome back, ${user_login.username}\nNo messages yet`)
     }
-    else res.send("Recent " + out.toString());
+    else res.status(200).send("Recent " + out.toString());
 });
 
 
@@ -109,10 +109,10 @@ app.route('/api/users')
         const user_check = users.find(c => c.username === user.username);
 
         if (user_check)
-            return res.status(409).send("The username is taken.");
+            return res.status(409).send(req.body.username + ' already exists, pick another name!');
         else users.push(user);
 
-        res.send(`Welcome , ${user.username}!`);
+        res.status(200).send(req.body.username + ' registered!');
     });
 
                    // -------------- Chat-Rooms -------------------- //
