@@ -9,8 +9,7 @@ let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", 
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
 let known_verbs = ["work", "play", "eat", "sing", "study", "cook"];
 
-let input;
-let verb;
+let input; // en tenkt input-variabel, endrer etter html
 let string;
 
 // find known verbs in input from user
@@ -78,7 +77,7 @@ function alice(input) {
     if (alice_list.includes(input)){
         return 'Alice: You have already said {} ...'.format(action);
     }
-
+    alice_list.push(input);
 }
 function bob() {
 }
