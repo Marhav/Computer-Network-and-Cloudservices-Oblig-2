@@ -259,4 +259,20 @@ app.route('/api/room/:room_id/:username/messages')
     req.send(room.messages);
 });
 
+                                 // ------- Bots ------- //
+let bots = [];
+
+app.post('/api/bots', (req,res) => {
+        const bot_join = {
+            botname: req.body.botname
+        };
+
+
+        const bot = bots.find(c => c.botname === bot_join.botname);
+        if (!bot) return res.status(404).send(req.body.botname + " does not exist.");
+        res.status(200).send("You will now be joined by " + req.body.botname);
+    });
+
+                              // ------- Listening ------- //
+
 app.listen(port, () => console.log(`Listening for connections on port ${port}`));

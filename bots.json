@@ -1,0 +1,82 @@
+{
+  "child_msg" : ["Do you want to suggest an action","Do you want to hear a joke?","Do you want a compliment?","End chat"],
+  "children" : [
+    {
+      "child_msg" : ["Sing","Talk", "Code","Play"],
+      "children" : [
+        {
+          "message" : "Oh yes! I love to sing",
+          "type" : "normal"
+        },
+        {
+          "message" : "I would love to do some talking",
+          "type" : "normal"
+        },
+        {
+          "message" : "Uuu coding sounds fun",
+          "type" : "normal"
+        },
+        {
+          "message" : "Yes! But I think you're going to lose",
+          "type" : "normal"
+        }
+      ]
+    },
+    {
+      "child_msg" : ["Chuck norris joke","Dad joke","Programmer joke","End chat"],
+      "children" : [
+        {
+          "message" : "getJoke()",
+          "type" : "function"
+        },
+        {
+          "message" : "What do you call a can opener that doesn't work? A can't opener",
+          "type" : "normal"
+        },
+        {
+          "message" : "How do you comfort a JavaScript bug? You console it.",
+          "type" : "normal"
+        }
+      ]
+    },
+    {
+      "message" : "You're doing great!"
+    }
+  ],
+  "Alice": {
+    "greeting": [
+      "Hey there!", "Hey", "Sup",
+      "Nice to meet you!", "Hello", "Hi",
+      "Heyyyy", "Good to finally meet you",
+      "Nice to see you here"
+    ],
+    "bye": [
+      "Bye", "Sad to see you go", "Goodbye",
+      "Thank you! Come again!", "Byebye", "See you soon"
+    ]
+  },
+  "Bob": {
+    "greeting": [
+
+    ],
+    "bye": [
+
+    ]
+  },
+  "Dora": {
+    "greeting": [
+
+    ],
+    "bye": [
+
+    ]
+  },
+  "Chuck": {
+    "greeting": [
+
+    ],
+    "bye": [
+
+    ]
+  }
+}

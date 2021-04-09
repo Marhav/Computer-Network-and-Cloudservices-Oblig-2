@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Oblig2 - Chatroom</title>
+    <script src="bots.js"></script>
     <script src="Client.js"></script>
     <script src="Server.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -30,20 +31,61 @@
 
         </div>
         <div class="col-md-8">
-            <div id="wrapper">
-                <div id="menu">
-                    <p class="welcome">Chat with strangers at ChatMet.com<b></b></p>
-                    <p class="logout"><a id="exit" href="#">Exit chat</a></p>
+            <div class="chat">
+                <div class="chat-header clearfix">
+                    <img src="logo.png" height="45" alt="avatar" />
+
+                    <div class="chat-about">
+                        <div class="chat-with">Chat with strangers at ChatMet.com</div>
+                    </div>
                 </div>
 
-                <div id="chatbox"></div>
+                <div class="chat-history">
+                    <ul style="list-style-type:none">
+                    </ul>
 
-                <form name="message" action="">
-                    <input name="usermsg" type="text" id="usermsg" />
-                    <input name="submitmsg" type="submit" id="submitmsg" value="Send" />
-                </form>
+                </div>
+
+                <div class="chat-message clearfix">
+                    <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+
+                    <button>Send</button>
+
+                </div>
+
             </div>
+
+        </div>
+        <script id="message-template" type="text/x-handlebars-template">
+            <li class="clearfix">
+                <div class="message-data align-right">
+                    <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
+                    <span class="message-data-name" >Me</span> <i class="fa fa-circle me"></i>
                 </div>
+                <div class="message other-message float-right">
+                    {{messageOutput}}
+                </div>
+            </li>
+        </script>
+
+        <script id="message-response-template" type="text/x-handlebars-template">
+            <li>
+                <div class="message-data">
+                    <span class="message-data-name"><i class="fa fa-circle online"></i>chatBot</span>
+                    <span class="message-data-time">{{time}}, Today</span>
+                </div>
+                <div class="message my-message">
+                    {{{response}}}
+                </div>
+            </li>
+        </script>
+
+    </div>
+    <div id="chatdiv2">
+            <span style="width: 100%; text-align: center; font-size: x-large; padding: 40px">
+                hjelp til chat?
+            </span>
+
             </div>
         </div>
     </div>
