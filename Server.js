@@ -1,7 +1,6 @@
 const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
-var session = require('express-session');
 const app = express();
 const port = process.env.PORT || 2828;
 
@@ -12,28 +11,12 @@ const bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true}));
-app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}));
+
 let users = [];
 let chat_rooms = [];
 
 
                         // ------------------ Functions --------------------- //
-
-function checkSignIn(req, res){
-
-    if(req.session.user){
-        next();     //If session exists, proceed to page
-    } else {
-        var err = new Error("Not logged in!");
-        console.log(req.session.user);
-        next(err);  //Error, trying to access unauthorized page!
-    }
-}
 
 
 function formater(arr){
@@ -45,12 +28,12 @@ function formater(arr){
 
         link = `http://localhost:2828/api/room/${room.room_id}`
         let div = `<div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="..." alt="Card image cap">
-                                    <div class="card-body">
-                                    <h5 class="card-title">${room.name}</h5>
-                                    <a href="${link}" class="btn btn-primary">Go to the room</a>
-                                </div>
-                           </div>`
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                             <div class="card-body">
+                                 <h5 class="card-title">${room.name}</h5>
+                                  <a href="${link}" class="btn btn-primary">Go to the room</a>
+                             </div>
+                   </div>`
         out.append(div);
     });
 
@@ -68,19 +51,12 @@ app.post('/api/login', (req,res) => {
     const user = users.find(c => c.username === user_login.username);
 
     if (!user) return res.status(404).send('Innvalid username');
-    else {
-        req.session.user = user;
-        res.status(200).send('suc');
-    }
-
-});
-
-app.get('/home.html', checkSignIn, function(req, res){
-    res.render('/home.html', {username: req.session.user.username})
+    res.status(200).send('suc');
 });
 
 
-app.get('/api/get_conv',checkSignIn, function (req,res){
+
+app.get('/get_rooms', function (req,res){
 
     const user = users.find(c => c.username === req.params.username);
 
@@ -139,7 +115,6 @@ app.route('/api/users')
             return res.status(409).send("The username is taken.");
         else {
             users.push(user);
-            req.session.user = user;
         }
 
         res.send(`Welcome , ${user.username}!`);
