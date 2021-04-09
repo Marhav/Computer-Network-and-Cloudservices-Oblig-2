@@ -6,12 +6,12 @@ $(function () {
     $("#warning_feedback").hide()
 })
 
-
+let current_user
 
 // index.html
 function login(){
 
-    const current_user = $("#login_username").val();
+    current_user = $("#login_username").val();
 
     let user = {
         username: current_user
@@ -22,7 +22,6 @@ function login(){
         url: "/api/login",
         data: user,
         success: function(xhr, textStatus) {
-            window.location.assign('home.html');
             console.log(xhr);
             $("#danger_feedback").hide();
         },
@@ -68,17 +67,17 @@ function create_user(){
 
 function get_user_rooms() {
 
-    console.log(current_user)
     $.ajax({
         type: "get",
-        url: "/api/get_conv/" + current_user.toString(),
+        url: "/api/get_conv/" + current_user,
         success: function(data) {
             console.log(data);
             $("#out").html('Tekst fra server: ' + data);
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
-        }});
+        }
+    });
 }
 
 function get_all_rooms() {
