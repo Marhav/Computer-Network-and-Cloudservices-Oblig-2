@@ -21,11 +21,11 @@ GET http://localhost:2828/api/users
 Accept: application/json
 
 ### Get user with userid 1
-GET http://localhost:2828/api/user/1
+GET http://localhost:2828/api/user/Alex
 Accept: application/json
 
 ### Delete user with userid 3
-DELETE http://localhost:2828/api/user/2
+DELETE http://localhost:2828/api/user/Per
 Accept: application/json
 
 ### Add chat_room
@@ -55,7 +55,7 @@ Accept: application/json
 
 
 ### Add user to room_id 1
-POST http://localhost:2828/api/room/1/users
+POST http://localhost:2828/api/room/Alex/users
 Content-Type: application/json
 
 {
@@ -64,7 +64,7 @@ Content-Type: application/json
 }
 
 ### Add user to room_id 1
-POST http://localhost:2828/api/room/1/users
+POST http://localhost:2828/api/room/Per/users
 Content-Type: application/json
 
 {
@@ -72,5 +72,5 @@ Content-Type: application/json
 
 }
 ### Get all messages
-POST http://localhost:2828/api/room/:room_id/:user_id/messages
+POST http://localhost:2828/api/room/:room_id/username/messages
 

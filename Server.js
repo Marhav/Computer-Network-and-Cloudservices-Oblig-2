@@ -5,8 +5,8 @@ const StringBuilder = require("string-builder");
 const app = express();
 const PORT = 2828;
 
-app.use(express.static('public'));
-app.use(express.json())
+app.use( express.static('public') );
+app.use(express.json() )
 const bodyParser = require('body-parser')
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -27,33 +27,59 @@ app.post('/api/login', (req,res) => {
 
     if (!user) return res.status(404).send('Innvalid username');
 
-    //res.send(`Welcome back, ${user_login.username}!`);
+    let user_in_rooms = [];
 
-    let out = new StringBuilder()
+    let out = formater(arr);
 
     chat_rooms.forEach(room => {
         room.roomUsers.forEach(room_users => {
             if (room_users.username == user_login.username){
+                user_in_rooms.push(room);
+                /*
                 let link = `http://localhost:2828/api/room/${room.room_id}`
 
                 let div = `<div class="card" style="width: 18rem;">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-body">
-                            <h5 class="card-title">${room.name}</h5>
-                            <a href="${link}" class="btn btn-primary">Go to the room</a>
-                          </div>
-                        </div>`
-
+                                <img class="card-img-top" src="..." alt="Card image cap">
+                                    <div class="card-body">
+                                    <h5 class="card-title">${room.name}</h5>
+                                    <a href="${link}" class="btn btn-primary">Go to the room</a>
+                                </div>
+                           </div>`
                 out.append(div);
+
+
+                 */
             }
         })
     });
+
 
     if (!out.toString()){
         return res.send(`Welcome back, ${user_login.username}\nNo messages yet`)
     }
     else res.send("Recent " + out.toString());
 });
+
+function formater(arr){
+
+    let link;
+    let out = new StringBuilder()
+
+    arr.forEach(room => {
+
+        link = `http://localhost:2828/api/room/${room.room_id}`
+        let div = `<div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="..." alt="Card image cap">
+                                    <div class="card-body">
+                                    <h5 class="card-title">${room.name}</h5>
+                                    <a href="${link}" class="btn btn-primary">Go to the room</a>
+                                </div>
+                           </div>`
+        out.append(div);
+    });
+
+    return out;
+}
 
 
 app.route('/api/user/:username')
@@ -99,7 +125,8 @@ app.route('/api/users')
         const result = Joi.validate(req.body, schema);
 
         if (result.error){
-            return res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
+            return res.status(400).send(result.error.details[0].message); // If the name is "Null" or less than 2
+            // characters, the user will get an error with the details.
         }
 
         const user = {
@@ -132,7 +159,8 @@ app.route('/api/rooms')
     const result = Joi.validate(req.body, schema);
 
     if (result.error){
-        res.status(404).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters, the user will get an error with the details.
+        res.status(404).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters,
+        // the user will get an error with the details.
         return;
     }
     const room = {
