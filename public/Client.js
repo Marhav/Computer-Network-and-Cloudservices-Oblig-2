@@ -6,13 +6,15 @@ $(function () {
     $("#warning_feedback").hide()
 })
 
+let current_user;
+
 // index.html
 function login(){
 
-    const input_login_username = $("#login_username").val();
+    current_user = $("#login_username").val();
 
     let user = {
-        username: input_login_username
+        username: current_user
     }
 
     $.ajax({
@@ -20,12 +22,14 @@ function login(){
         url: "/api/login",
         data: user,
         success: function(data) {
-            console.log(data);
-            $("#danger_feedback").hide();
             window.location.assign('home.html');
+            console.log(data);
+            $("#test_home").html('Tekst fra server: ' + data)
+            $("#danger_feedback").hide();
+
         },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log(errorThrown + " " + textStatus + " " + xhr);
+        error: function (xhr, textStatus) {
+            console.log(textStatus + " " + xhr.responseText);
             $("#danger_feedback").show();
         }});
 }
@@ -56,10 +60,26 @@ function create_user(){
             } else if (xhr.status == 409) {
                 $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
             } else {
-                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status);
+                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status + " " + xhr.responseText);
             }
         }});
 }
+
+// home.html
+
+function get_user_rooms() {
+    
+}
+
+function get_all_rooms() {
+    
+}
+
+function get_all_messages() {
+    
+}
+
+
 
 /*
 function selectUser(){

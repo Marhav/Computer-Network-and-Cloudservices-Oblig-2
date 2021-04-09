@@ -74,25 +74,6 @@ function formater(arr){
 }
 
 
-app.route('/api/user/:username')
-    // get one user by given id
-    .get((req,res) => {
-        const user = users.find(c => c.username === req.params.username);
-        if (!user) return res.status(404).send('The user with the given id was not found.');
-        res.send(user);
-    })
-    // Delete user by given id
-    .delete((req, res) =>{
-        const user = users.find(c => c.username === req.params.username);
-        if (!user) return res.status(404).send('The user with the given id was not found.');
-
-        const index = users.indexOf(user);
-        users.splice(index,1);
-
-        res.send(`User ${user.username} is deleted!`);
-    });
-
-
                     // ------------------ Users --------------------- //
 
 app.route('/api/users')
@@ -133,6 +114,26 @@ app.route('/api/users')
 
         res.send(`Welcome , ${user.username}!`);
     });
+
+app.route('/api/user/:username')
+// get one user by given id
+    .get((req,res) => {
+        const user = users.find(c => c.username === req.params.username);
+        if (!user) return res.status(404).send('The user with the given id was not found.');
+        res.send(user);
+    })
+    // Delete user by given id
+    .delete((req, res) =>{
+        const user = users.find(c => c.username === req.params.username);
+        if (!user) return res.status(404).send('The user with the given id was not found.');
+
+        const index = users.indexOf(user);
+        users.splice(index,1);
+
+        res.send(`User ${user.username} is deleted!`);
+    });
+
+
 
                    // -------------- Chat-Rooms -------------------- //
 
