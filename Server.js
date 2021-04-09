@@ -1,9 +1,9 @@
 const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
-
+var session = require('express-session');
 const app = express();
-const PORT = 2828;
+const port = process.env.PORT || 2828;
 
 app.use( express.static('public') );
 app.use(express.json() )
@@ -12,12 +12,29 @@ const bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true}));
-
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
 let users = [];
 let chat_rooms = [];
 
 
                         // ------------------ Functions --------------------- //
+
+function checkSignIn(req, res){
+
+    if(req.session.user){
+        next();     //If session exists, proceed to page
+    } else {
+        var err = new Error("Not logged in!");
+        console.log(req.session.user);
+        next(err);  //Error, trying to access unauthorized page!
+    }
+}
+
 
 function formater(arr){
 
@@ -40,10 +57,7 @@ function formater(arr){
     return out;
 }
 
-
-
                     // ------------------ Users --------------------- //
-
 
 app.post('/api/login', (req,res) => {
 
@@ -54,11 +68,19 @@ app.post('/api/login', (req,res) => {
     const user = users.find(c => c.username === user_login.username);
 
     if (!user) return res.status(404).send('Innvalid username');
+    else {
+        req.session.user = user;
+        res.status(200).send('suc');
+    }
 
-    return res.status(200);
 });
 
-app.get('/api/get_conv/:username', (req,res) => {
+app.get('/home.html', checkSignIn, function(req, res){
+    res.render('/home.html', {username: req.session.user.username})
+});
+
+
+app.get('/api/get_conv',checkSignIn, function (req,res){
 
     const user = users.find(c => c.username === req.params.username);
 
@@ -115,7 +137,10 @@ app.route('/api/users')
 
         if (user_check)
             return res.status(409).send("The username is taken.");
-        else users.push(user);
+        else {
+            users.push(user);
+            req.session.user = user;
+        }
 
         res.send(`Welcome , ${user.username}!`);
     });
@@ -259,4 +284,4 @@ app.route('/api/room/:room_id/:username/messages')
     req.send(room.messages);
 });
 
-app.listen(PORT, () => console.log(`Listening for connections on port ${PORT}`));
+app.listen(port, () => console.log(`Listening for connections on port ${port}`));
