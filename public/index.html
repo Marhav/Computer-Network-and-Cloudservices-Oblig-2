@@ -9,43 +9,49 @@
     <script src="Client.js"></script>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mainLogIn">
+                <div class="form-signin">
+                    <div class="text-center mb-4">
+                        <img class="mb-4" src="logo.png" alt="" width="200" height="200">
+                        <h4>Chat with strangers at ChatMet.com</h4>
+                    </div><br>
 
-<div class="mainLogIn">
-    <div class="form-signin">
-        <div class="text-center mb-4">
-            <img class="mb-4" src="logo.png" alt="" width="200" height="200">
-            <h4>Chat with strangers at ChatMet.com</h4>
-        </div><br>
+                    <div class="form-label-group">
+                        <input type="text" class="form-control" placeholder="Username" id="login_username" name="login_username" required="" autofocus="">
+                    </div><br>
 
-        <div class="form-label-group">
-            <input type="text" class="form-control" placeholder="Username" id="login_username" name="login_username" required="" autofocus="">
-        </div><br>
+                    <div class="alert alert-danger" id="danger_feedback">
+                        <strong>Danger!</strong> Username does not exist.
+                    </div>
 
-        <div class="alert alert-danger" id="danger_feedback">
-            <strong>Danger!</strong> Username does not exist.
+                    <div>
+                        <a type="button" href="signup.html">New member? Register here.</a>
+                    </div>
+
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
+                    </div>
+
+                    <button class="btn btn-lg btn-primary btn-block" onclick="login()">Sign in</button>
+
+                    <p class="mt-5 mb-3 text-muted text-center">© ChatMet 2021</p>
+                </div>
+            </div>
         </div>
-
-        <div>
-            <a type="button" href="signup.html">New member? Register here.</a>
-        </div>
-
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
-
-        <button class="btn btn-lg btn-primary btn-block" onclick="login()">Sign in</button>
+    </div>
+    <div class="row">
 
     </div>
+    <div class="row">
 
+    </div>
 </div>
-
-
-
-<p class="mt-5 mb-3 text-muted text-center">© ChatMet 2021</p>
-
 <!--
 <h1>Welcome to chatserver data2410</h1>
 
