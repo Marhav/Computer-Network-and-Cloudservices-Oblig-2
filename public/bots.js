@@ -68,8 +68,7 @@ function analyze_input() {
     string = bots(greetingString, action, byeString)
 }
 
-const geir = window.getElementById("join_geir");
-geir.onclick = geir();{
+function geir(){
     console.log("geir");
         let bot = {
             botname: "Geir"
@@ -84,7 +83,7 @@ geir.onclick = geir();{
                 $("#success_feedback").show().html('<strong>Geir joins the chat now!</strong>' + xhr.responseText);
                 window.location.assign('index.html')
             }
-        });
+        })
         /*
         let action = input + "ing";
         if (!alice_list.includes(input)) {
