@@ -56,7 +56,7 @@ app.post('/api/login', (req,res) => {
 
 
 
-app.get('/get_rooms', function (req,res){
+app.get('/get_rooms/:username', function (req,res){
 
     const user = users.find(c => c.username === req.params.username);
 
