@@ -17,40 +17,7 @@ let users = [];
 let chat_rooms = [];
 
 
-app.post('/api/login', (req,res) => {
-
-    const user_login = {
-        username: req.body.username
-    };
-
-    const user = users.find(c => c.username === user_login.username);
-
-    if (!user) return res.status(404).send('Innvalid username');
-
-    return res.status(200);
-});
-
-app.get('/api/get_conv/:username', (req,res) => {
-
-    const user = users.find(c => c.username === req.params.username);
-
-    let user_in_rooms = [];
-
-    chat_rooms.forEach(room => {
-        room.roomUsers.forEach(room_users => {
-            if (room_users.username == user_login.username){
-                user_in_rooms.push(room);
-            }
-        })
-    });
-
-    let out = formater(user_in_rooms);
-
-    if (!out.toString()){
-        return res.send(`Welcome back, ${user_login.username}!\nNo messages yet`)
-    }
-    else res.send("Recent " + out.toString());
-});
+                        // ------------------ Functions --------------------- //
 
 function formater(arr){
 
@@ -74,7 +41,45 @@ function formater(arr){
 }
 
 
+
                     // ------------------ Users --------------------- //
+
+
+app.post('/api/login', (req,res) => {
+
+    const user_login = {
+        username: req.body.username
+    };
+
+    const user = users.find(c => c.username === user_login.username);
+
+    if (!user) return res.status(404).send('Innvalid username');
+
+    return res.status(200);
+});
+
+app.get('/api/get_conv/:username', (req,res) => {
+
+    const user = users.find(c => c.username === req.params.username);
+
+    let user_in_rooms = [];
+
+    chat_rooms.forEach(room => {
+        room.roomUsers.forEach(room_users => {
+            if (room_users.username == user.username){
+                user_in_rooms.push(room);
+            }
+        })
+    });
+
+    let out = formater(user_in_rooms);
+
+    if (!out.toString()){
+        return res.send(`Welcome back, ${user.username}!\nNo messages yet`)
+    }
+    else res.send("Recent " + out.toString());
+});
+
 
 app.route('/api/users')
 
