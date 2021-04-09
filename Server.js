@@ -50,8 +50,8 @@ app.post('/api/login', (req,res) => {
 
     const user = users.find(c => c.username === user_login.username);
 
-    if (!user) return res.status(404).send('Innvalid username');
-    res.status(200).send('suc');
+    if (!user) return res.status(404).send(req.body.username + " does not exist.");
+    res.status(200).send("Welcome back, " + req.body.username);
 });
 
 

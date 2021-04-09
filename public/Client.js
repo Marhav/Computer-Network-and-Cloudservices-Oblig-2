@@ -24,12 +24,12 @@ function login(){
         success: function(xhr, textStatus) {
             console.log(xhr);
             current_user = input_login_user;
-            $("#success_feedback").show().html("<strong>Success!</strong> Welcome back, " + current_user);
+            $("#success_feedback").show().html("<strong>Success!</strong> " + xhr);
             $("#danger_feedback").hide();
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
-            $("#danger_feedback").show().html("<strong>Danger!</strong> " + input_login_user + " does not exist.");
+            $("#danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
             $("#success_feedback").hide();
         }});
 }
