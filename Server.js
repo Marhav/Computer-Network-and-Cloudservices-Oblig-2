@@ -27,35 +27,27 @@ app.post('/api/login', (req,res) => {
 
     if (!user) return res.status(404).send('Innvalid username');
 
-    let user_in_rooms = [];
+    return res.status(200);
+});
 
-    let out = formater(arr);
+app.get('/api/get_conv/:username', (req,res) => {
+
+    const user = users.find(c => c.username === req.params.username);
+
+    let user_in_rooms = [];
 
     chat_rooms.forEach(room => {
         room.roomUsers.forEach(room_users => {
             if (room_users.username == user_login.username){
                 user_in_rooms.push(room);
-                /*
-                let link = `http://localhost:2828/api/room/${room.room_id}`
-
-                let div = `<div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="..." alt="Card image cap">
-                                    <div class="card-body">
-                                    <h5 class="card-title">${room.name}</h5>
-                                    <a href="${link}" class="btn btn-primary">Go to the room</a>
-                                </div>
-                           </div>`
-                out.append(div);
-
-
-                 */
             }
         })
     });
 
+    let out = formater(user_in_rooms);
 
     if (!out.toString()){
-        return res.send(`Welcome back, ${user_login.username}\nNo messages yet`)
+        return res.send(`Welcome back, ${user_login.username}!\nNo messages yet`)
     }
     else res.send("Recent " + out.toString());
 });

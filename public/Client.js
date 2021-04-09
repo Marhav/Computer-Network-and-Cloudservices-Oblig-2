@@ -65,8 +65,6 @@ function create_user(){
         }});
 }
 
-
-
 /*
 function selectUser(){
 
