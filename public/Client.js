@@ -21,11 +21,10 @@ function login(){
         type: "post",
         url: "/api/login",
         data: user,
-        success: function(data) {
-            console.log(data);
-            $("#test_home").html('Tekst fra server: ' + data)
+        success: function(xhr, textStatus) {
+            window.location.assign('home.html');
+            console.log(xhr);
             $("#danger_feedback").hide();
-            //window.location.assign('home.html');
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
@@ -55,9 +54,9 @@ function create_user(){
         error: function (xhr) {
             console.log(xhr.responseText);
             $("#success_feedback").hide();
-            if(xhr.status == 400) {
+            if(xhr.status === 400) {
                 $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
-            } else if (xhr.status == 409) {
+            } else if (xhr.status === 409) {
                 $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
             } else {
                 $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status + " " + xhr.responseText);
