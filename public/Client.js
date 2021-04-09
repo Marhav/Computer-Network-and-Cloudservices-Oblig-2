@@ -11,10 +11,10 @@ let current_user
 // index.html
 function login(){
 
-    current_user = $("#login_username").val();
+    const input_login_user = $("#login_username").val();
 
     let user = {
-        username: current_user
+        username: input_login_user
     }
 
     $.ajax({
@@ -23,11 +23,14 @@ function login(){
         data: user,
         success: function(xhr, textStatus) {
             console.log(xhr);
+            current_user = input_login_user;
+            $("#success_feedback").show().html("<strong>Success!</strong> Welcome back, " + current_user);
             $("#danger_feedback").hide();
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
-            $("#danger_feedback").show();
+            $("#danger_feedback").show().html("<strong>Danger!</strong> " + input_login_user + " does not exist.");
+            $("#success_feedback").hide();
         }});
 }
 
