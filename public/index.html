@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <script src="Client.js"></script>
     <script src="bots.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -57,6 +59,18 @@
         </div>
         <div class="col-md-6">
             Chat her?
+            <div class="container">
+                <div class="chat">
+                    <h1 class="display-8">Chat</h1>
+                    <textarea id="message" class="form-control" placeholder="Your message here"></textarea>
+                    <div class="typing"></div>
+                    <button id="send" class="btn btn-success">Send</button>
+                    <br>
+                    <div id="messages"></div>
+                    </br>
+                </div>
+            </div>
+
         </div>
 
 
@@ -66,13 +80,13 @@
         <button class="chat-box-participant text-center" onclick="geir()" id="join_geir" style="background: #eee; border-radius: 4px;">
             <h3 style="padding: 12px">Geir</h3>
         </button>
-        <button class="chat-box-participant text-center" onclick="bob()" id="join_bob" name="join_bob" style="background: #eee; border-radius: 4px;">
+        <button class="chat-box-participant text-center" onclick="bob()" id="join_bob" style="background: #eee; border-radius: 4px;">
             <h3 style="padding: 12px">Bob</h3>
         </button>
-        <button class="chat-box-participant text-center" onclick="knut()" id="join_knut" name="join_knut" style="background: #eee; border-radius: 4px;">
+        <button class="chat-box-participant text-center" onclick="knut()" id="join_knut" style="background: #eee; border-radius: 4px;">
             <h3 style="padding: 12px">Knut</h3>
         </button>
-        <button class="chat-box-participant text-center" onclick="arne()" id="join_arne" name="join_arne" style="background: #eee; border-radius: 4px;">
+        <button class="chat-box-participant text-center" onclick="arne()" id="join_arne" style="background: #eee; border-radius: 4px;">
             <h3 style="padding: 12px">Arne</h3>
         </button>
     </div>

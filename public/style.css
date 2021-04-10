@@ -183,4 +183,8 @@ body {
     display: flex;
     margin: 0 auto;
 }
+#messages {
+    width: 500px;
+    word-wrap: break-word;
+}
 
