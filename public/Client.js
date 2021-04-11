@@ -68,6 +68,8 @@ function create_user(){
 
 // home.html
 
+//rooms
+
 function get_user_rooms() {
 
     $.ajax({
@@ -84,9 +86,10 @@ function get_user_rooms() {
 }
 
 function get_all_rooms() {
-    
 }
+
 // messages
+
 function get_all_messages() {
     
 }
