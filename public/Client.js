@@ -103,6 +103,9 @@ function get_all_rooms() {
     });
     
 }
+function create_room() {
+    
+}
 
 //messages
 
