@@ -196,14 +196,17 @@ function sendMSG() {
         data: msg,
         success: function (data){
             $("#join_success_feedback").hide();
-            enter_room(roomid)
             $("#join_danger_feedback").hide();
+            enter_room(roomid);
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
             $("#join_success_feedback").hide();
         }
     })
+
+
+    $("#msgInput").placeholder("Type a message");
 
 }
 

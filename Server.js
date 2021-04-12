@@ -313,7 +313,6 @@ app.get('/api/room/:room_id/messages', (req, res) => {
     if (!user) res.status(404).send("No user with user ID " + joinUser.username + " is found.");
 
     res.status(200).send(foramterMsgs(room.messages));
-
 });
 
 // Restrictions:
