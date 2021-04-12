@@ -64,7 +64,7 @@ function formater_rooms(arr) {
                     <div class="chat_people">
                         <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
                            <div class="chat_ib">
-                               <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" onclick="join_room(${room.room_id})">Join</button></span></h5>
+                               <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" onclick="">Join</button></span></h5>
                                
                             </div>
                         </div>
@@ -267,7 +267,7 @@ app.route('/api/room/:room_id/users')
     if (!room) res.status(404).send('The room with the given id was not found.');
     res.status(200).send(room.roomUsers);
     })
-    //Add/join user to room
+    //Add/join user
     //Restrictions:Only registered users can join
     .post((req,res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
