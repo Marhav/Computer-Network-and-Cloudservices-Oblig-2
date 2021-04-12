@@ -3,6 +3,8 @@ $(function () {
     //Skjuler alle feedbacks.
     $("#danger_feedback").hide()
     $("#success_feedback").hide()
+    $("#new_room_danger_feedback").hide()
+    $("#new_room_success_feedback").hide()
     $("#warning_feedback").hide()
     $(".hidden_before_login").hide()
 })
@@ -44,7 +46,7 @@ function create_user(){
 
     const input_Register_user = $("#register_username").val();
 
-    let user = {
+    const user = {
         username: input_Register_user
     }
 
@@ -103,24 +105,28 @@ function get_all_rooms() {
     });
     
 }
+
 function create_room() {
-    const room_name = $('#input_New_Room').val();
-    let new_room = {
-        room: room_name
+
+    const new_room_name = $("#input_New_Room").val();
+
+    const room_name = {
+        name: new_room_name
     }
+
     $.ajax({
         type: "post",
         url: "/api/rooms",
-        data: new_room,
-        success: function (data) {
-            console.log(data);
-            $("#room").html(data);
-            get_all_rooms();
+        data: room_name,
+        success: function (data){
+            $("#new_room_success_feedback").show().html("<strong>Success!</strong> " + data);
+            $("#new_room_danger_feedback").hide();
+        },
+        error: function (xhr){
+            $("#new_room_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#new_room_success_feedback").hide();
         }
     })
-
-}
-function enter_room() {
 
 }
 
