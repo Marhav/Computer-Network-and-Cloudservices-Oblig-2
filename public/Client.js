@@ -152,6 +152,12 @@ function join_room(room_id){
     })
 }
 
+function logout(){
+    current_user = null;
+    $("#login_div").show();
+    $(".hidden_before_login").hide()
+}
+
 //messages
 
 function get_all_messages() {
@@ -187,11 +193,7 @@ $(function () {
     }
 });
 
-function logout(){
-    current_user = null;
-    $("#login_div").show();
-    $(".hidden_before_login").hide()
-}
+
 
  */
 
