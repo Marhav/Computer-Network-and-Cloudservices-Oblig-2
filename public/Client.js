@@ -204,15 +204,11 @@ function sendMSG() {
             $("#join_success_feedback").hide();
         }
     })
+
+
+    $("#msgInput").placeholder("Type a message");
+
 }
-
-// Keylistener for chat. (Press Enter to send message!)
-addEventListener("keypress", function (e){
-    if(e.keyCode === 13){
-        document.getElementById("msg_btn").click();
-    }
-});
-
 
 /*
 $(function () {
