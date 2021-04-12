@@ -112,6 +112,7 @@ function arne(input) {
             else{
                 output = "Yes! {} is awesome.".format(input)+"ing"
             }
+            arne_list.push(input);
         }
         output = "Hmmm. I'm not sure. I suggest that we"+getRandomFromArray(known_verbs);
     }
