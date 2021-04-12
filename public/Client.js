@@ -153,12 +153,6 @@ function join_room(room_id){
 }
 
 
-function logout(){
-    current_user = null;
-    roomid = null;
-    $("#login_div").show();
-    $(".hidden_before_login").hide()
-}
 
 //messages
 
@@ -172,6 +166,49 @@ function enter_room(room_id){
             roomid = room_id;
             $("#join_danger_feedback").hide();
             $("#msgs_boxes").html(data)
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
+}
+
+const botArray = ['geir','alice','arne','ulf'];
+function addBot(bot){
+
+    const findBot = botArray.find(c => c === bot);
+    const user = {
+        username: findBot
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/users",
+        data: user,
+        success: function(data, status_text, xhr) {
+            console.log(data);
+            $("#warning_feedback").hide();
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            if(xhr.status === 400) {
+                $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+            } else if (xhr.status === 409) {
+                $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+            } else {
+                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status + " " + xhr.responseText);
+            }
+        }});
+
+    $.ajax({
+        type: "post",
+        url: "/api/room/"+ roomid + "/users",
+        data: user,
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
+            $("#join_danger_feedback").hide();
+            get_user_rooms()
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
@@ -209,6 +246,15 @@ function sendMSG() {
     })
 
 }
+
+
+function logout(){
+    current_user = null;
+    roomid = null;
+    $("#login_div").show();
+    $(".hidden_before_login").hide()
+}
+
 
 // Keylistener for chat. (Press Enter to send message!)
 addEventListener("keypress", function (e){
