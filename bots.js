@@ -1,16 +1,11 @@
 // lists for memory
 let alice_list = [];
-let bob_list = [];
-let dora_list = [];
-let chuck_list = [];
 let input_list = [];
 
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you", "Nice to see you here"];
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
 let known_verbs = ["work", "play", "eat", "sing", "study", "cook"];
 let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO", "look at memes"];
-bad_verbs = ["fighting", "yelling", "stealing", "drinking", "leaving", "crying", "loitering"];
-let action = input + "ing";
 
 let input; // en tenkt input-variabel, endrer etter html
 let string;
@@ -43,18 +38,18 @@ String.prototype.format = function () {
 };
 
 
-function bots(bot, verb) {
+function bots(bot, input) {
     if (bot === "alice"){
-        return alice(verb)
+        return alice(input)
     }
     if (bot === "arne"){
-        return  arne(verb)
+        return  arne(input)
     }
     if (bot === "geir"){
-        return  geir(verb)
+        return  geir(input)
     }
     if (bot === "ulf"){
-        return  ulf(verb)
+        return  ulf(input)
     }
     return "Invalid bot";
 }
@@ -74,23 +69,23 @@ function analyze_input() {
 }
 
 function alice(input) {
-    if (input_list.length < 1){
+    if (input === ""){
         output = getRandomFromArray(greeting)
     }
     else if (!alice_list.includes(input)){
-        return 'Alice: I think {} sounds great'.format(action);
+        return 'I think {} sounds great'.format(input)+"ing";
     }
     else if (alice_list.includes(input)){
-        return 'Alice: You have already said {} ...'.format(action);
+        return 'You have already said {} ...'.format(input)+"ing";
     }
     alice_list.push(input);
 
 }
-function geir(verb) {
-    if (input_list.length < 1){
+function geir(input) {
+    if (input === ""){
         output = getRandomFromArray(greeting)
     }
-    else if (input_list.length > 0){
+    else {
         let responses;
         responses = {
             "work": "Nah. Working is boring",
@@ -98,16 +93,34 @@ function geir(verb) {
             "eat": "I love to eat. But i'm not a very good cook...",
             "sing": "Singing is fun! I love opera",
             "study": "We can study if you do my homework:)",
-            "cook": "You can do the cooking and I eat the food;)"
+            "cook": "You can do the cooking and I eat the food;)",
         };
-        if (verb in responses){
-            output = responses[verb];
+        if (input in responses){
+            output = responses[input];
+        }
+        else if (input === "bye"){
+            output = getRandomFromArray(bye)
+            //avslutte chatten?
         }
         output = "I'm not sure what that is. But i would love to "+getRandomFromArray(geir_likes);
     }
 }
-
-function arne() {
+arne_list = [];
+function arne(input) {
+    if (input === "") {
+        output = getRandomFromArray(greeting)
+    }
+    else {
+        if (known_verbs.includes(input)){
+            if (arne_list.length % 2 === 0){
+                output = "{} sounds fun!".format(input)+"ing";
+            }
+            else{
+                output = "Yes! {} is awesome.".format(input)+"ing"
+            }
+        }
+        output = "Hmmm. I'm not sure. I suggest that we"+getRandomFromArray(known_verbs);
+    }
 }
 function ulf() {
 }
