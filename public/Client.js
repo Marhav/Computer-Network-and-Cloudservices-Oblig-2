@@ -104,7 +104,24 @@ function get_all_rooms() {
     
 }
 function create_room() {
-    
+    const room_name = $('#input_New_Room').val();
+    let new_room = {
+        room: room_name
+    }
+    $.ajax({
+        type: "post",
+        url: "/api/rooms",
+        data: new_room,
+        success: function (data) {
+            console.log(data);
+            $("#room").html(data);
+            get_all_rooms();
+        }
+    })
+
+}
+function enter_room() {
+
 }
 
 //messages
