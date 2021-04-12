@@ -3,6 +3,8 @@ $(function () {
     //Skjuler alle feedbacks.
     $("#danger_feedback").hide()
     $("#success_feedback").hide()
+    $("#new_room_danger_feedback").hide()
+    $("#new_room_success_feedback").hide()
     $("#warning_feedback").hide()
     $(".hidden_before_login").hide()
 })
@@ -103,8 +105,25 @@ function get_all_rooms() {
     });
     
 }
+
 function create_room() {
-    
+
+    const new_room_name = $("#input_New_Room").val();
+
+    $.ajax({
+        type: "post",
+        url: "/api/rooms",
+        data: new_room_name,
+        success: function (data){
+            $("#new_room_success_feedback").show().html(data);
+            $("#new_room_danger_feedback").hide();
+        },
+        error: function (xhr){
+            $("#new_room_danger_feedback").show().html(xhr.responseText);
+            $("#new_room_success_feedback").hide();
+        }
+    })
+
 }
 
 //messages
