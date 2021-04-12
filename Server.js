@@ -199,7 +199,6 @@ app.route('/api/user/:username')
         res.status(200).send(`User ${user.username} is deleted!`);
     });
 
-
                    // -------------- Chat-Rooms -------------------- //
 
 app.route('/api/rooms')
