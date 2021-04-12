@@ -154,6 +154,7 @@ function join_room(room_id){
 
 function logout(){
     current_user = null;
+    roomid = null;
     $("#login_div").show();
     $(".hidden_before_login").hide()
 }
