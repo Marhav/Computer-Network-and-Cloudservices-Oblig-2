@@ -69,7 +69,6 @@ function analyze_input() {
 }
 
 function alice(input) {
-    current_user = "alice";
     if (input === ""){
         output = getRandomFromArray(greeting)
     }
@@ -126,11 +125,11 @@ function ulf() {
     // personality: tells jokes
     let jokes = [
         "Why do Java developers wear glasses? ...Because they can not C#.",
-        "How do you co,fort a JavaScript bug? ...You console it.",
+        "How do you comfort a JavaScript bug? ...You console it.",
         "What is the object-oriented way to become wealthy? ...Inheritance",
-        "An SQL query enters a bar, approaches two tables and aks: May i join you?",
+        "A SQL query enters a bar, approaches two tables and aks: May i join you?",
         "Why was the JavaScript developer sad? ...Because he didn't Node how to Express himself.",
-        "How many programmers does it take to change a light bulb? ...None. Thats a hardware problem.",
+        "How many programmers does it take to change a light bulb? ...None, thats a hardware problem.",
         "How do functions break up? ...They stop calling each other.",
         "You can continue whenever you want. But you can only take a break once in a while.",
     ];
