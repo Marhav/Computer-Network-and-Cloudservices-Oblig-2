@@ -24,7 +24,7 @@ function formater_my_rooms(arr){
 
         let div = `<div class="chat_list">
                     <div class="chat_people">
-                        <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
+                        <div class="chat_img"><span class="material-icons md-dark">forum</span></div>
                            <div class="chat_ib">${room.name}<span class="chat_date">
                                     <button class="btn btn-lg btn-primary btn-block" onclick="enter_room(${room.room_id})">Enter</button></span>
                                                            
@@ -48,7 +48,7 @@ function formater_rooms(arr) {
         let div = `
                 <div class="chat_list">
                     <div class="chat_people">
-                        <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
+                        <div class="chat_img"><span class="material-icons md-dark">forum</span></div>
                            <div class="chat_ib">
                                <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" 
                                onclick="join_room(${room.room_id})">Join</button></span></h5>
