@@ -5,6 +5,8 @@ $(function () {
     $("#success_feedback").hide()
     $("#new_room_danger_feedback").hide()
     $("#new_room_success_feedback").hide()
+    $("#join_danger_feedback").hide()
+    $("#join_success_feedback").hide()
     $("#warning_feedback").hide()
     $(".hidden_before_login").hide()
 })
@@ -102,7 +104,6 @@ function get_all_rooms() {
             console.log(textStatus + " " + xhr.responseText);
         }
     });
-    
 }
 
 function create_room() {
@@ -127,7 +128,28 @@ function create_room() {
             $("#new_room_success_feedback").hide();
         }
     })
+}
 
+function join_room(room_id){
+
+    const user = {
+        username: current_user
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/room/"+ room_id + "/users",
+        data: user,
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
+            $("#join_danger_feedback").hide();
+            get_user_rooms()
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
 }
 
 //messages
@@ -135,6 +157,7 @@ function create_room() {
 function get_all_messages() {
     
 }
+/*
 $(function () {
     $("#send").click(function () {
         sendMessage({
@@ -169,6 +192,8 @@ function logout(){
     $("#login_div").show();
     $(".hidden_before_login").hide()
 }
+
+ */
 
 /*
 function selectUser(){
