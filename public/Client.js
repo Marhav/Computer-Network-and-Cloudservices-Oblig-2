@@ -46,7 +46,7 @@ function create_user(){
 
     const input_Register_user = $("#register_username").val();
 
-    let user = {
+    const user = {
         username: input_Register_user
     }
 
@@ -110,16 +110,20 @@ function create_room() {
 
     const new_room_name = $("#input_New_Room").val();
 
+    const room_name = {
+        name: new_room_name
+    }
+
     $.ajax({
         type: "post",
         url: "/api/rooms",
-        data: new_room_name,
+        data: room_name,
         success: function (data){
-            $("#new_room_success_feedback").show().html(data);
+            $("#new_room_success_feedback").show().html("<strong>Success!</strong> " + data);
             $("#new_room_danger_feedback").hide();
         },
         error: function (xhr){
-            $("#new_room_danger_feedback").show().html(xhr.responseText);
+            $("#new_room_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
             $("#new_room_success_feedback").hide();
         }
     })
