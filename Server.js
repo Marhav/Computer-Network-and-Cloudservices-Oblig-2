@@ -64,7 +64,7 @@ function formater_rooms(arr) {
                     <div class="chat_people">
                         <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
                            <div class="chat_ib">
-                               <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" onclick="">Join</button></span></h5>
+                               <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" onclick="join_room(${room.room_id})">Join</button></span></h5>
                                
                             </div>
                         </div>
