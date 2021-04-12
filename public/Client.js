@@ -136,6 +136,7 @@ function create_room() {
 function get_all_messages() {
     
 }
+
 $(function () {
     $("#send").click(function () {
         sendMessage({
