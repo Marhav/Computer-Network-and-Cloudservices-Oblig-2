@@ -1,15 +1,13 @@
 // lists for memory
 let alice_list = [];
-let input_list = [];
 
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you",
     "Nice to see you here"];
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
-let known_verbs = ["work", "play", "eat", "sing", "study", "cook"];
+let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke"];
 let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO", "look at memes"];
 
-let input; // en tenkt input-variabel, endrer etter html
-let string;
+let input; // en tenkt input-variabel, endrer etter html, toLowerCase?
 let output;
 
 // find known verbs in input from user
@@ -54,18 +52,15 @@ function bots(bot, input) {
     return "Invalid bot";
 }
 
+
 function analyze_input() {
-    let byeString = "";
-    let greetingString = "";
-    let action = "";
-    if (input.includes("bye")){
-        byeString = getRandomFromArray(bye)
-        // exit
+    let input_lowercase = input.toLowerCase();
+    let words_in_input = input_lowercase.split("");
+    for (let words in words_in_input){
+        if (words in known_verbs){
+            return words;
+        }
     }
-    if (input_list.length < 1){
-        greetingString = getRandomFromArray(greeting)
-    }
-    string = bots(greetingString, action, byeString)
 }
 
 function alice(input) {
@@ -78,7 +73,7 @@ function alice(input) {
     else if (alice_list.includes(input)){
         return 'You have already said {} ...'.format(input)+"ing";
     }
-    alice_list.push(input);
+    alice_list.push(input); //adds to list
 
 }
 function geir(input) {
