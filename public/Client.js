@@ -167,7 +167,7 @@ function enter_room(room_id){
         type: "get",
         url: "/api/room/"+ room_id +"/messages",
         success: function (data){
-            $("#join_success_feedback").show().html("<strong>Success!</strong> Room entered!");
+            $("#join_success_feedback").hide();
             roomid = room_id;
             $("#join_danger_feedback").hide();
             $("#msgs_boxes").html(data)
@@ -195,7 +195,7 @@ function sendMSG() {
         url: "/api/room/"+roomid+"/"+current_user+"/messages",
         data: msg,
         success: function (data){
-            $("#join_success_feedback").show().html("<strong>Success!</strong> Msg sendt!");
+            $("#join_success_feedback").hide();
             enter_room(roomid)
             $("#join_danger_feedback").hide();
         },
