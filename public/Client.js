@@ -136,7 +136,7 @@ $(function () {
     function sendMessage(message) {
         $.post('/api/room/:room_id/messages', message)
     }
-})
+});
 
 
 /*
