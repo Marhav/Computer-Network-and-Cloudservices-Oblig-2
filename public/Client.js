@@ -72,6 +72,7 @@ function create_user(){
 }
 
 // home.html
+// rooms
 
 function get_user_rooms() {
 
@@ -102,11 +103,43 @@ function get_all_rooms() {
     });
     
 }
+function create_room() {
+    
+}
+
+//messages
 
 function get_all_messages() {
     
 }
-
+$(function () {
+    $("#send").click(function () {
+        sendMessage({
+            name: $("#login_username").val(),
+            message: $("#message").val()
+        });
+        getMessages();
+    })
+    $.ajax({
+        type:"post",
+        url:"/api/room/:room_id/messages",
+        success: function (data) {
+            console.log(data);
+        }
+    })
+    function addMessages(message) {
+        $("#message").append('<h4> ${message.login_username} </hh4> <p> ${message.message} </p>')
+    }
+    function getMessages() {
+        $.get('/api/room/:room_id/messages',(data)=> {
+            console.log(data)
+            data.forEach(addMessages);
+        })
+    }
+    function sendMessage(message) {
+        $.post('/api/room/:room_id/messages', message)
+    }
+});
 
 
 /*
