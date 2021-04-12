@@ -11,7 +11,7 @@ $(function () {
 
 let current_user
 
-// index.html
+// index.html/login
 function login(){
 
     const input_login_user = $("#login_username").val();
@@ -73,7 +73,7 @@ function create_user(){
         }});
 }
 
-// home.html
+// index.html/home
 // rooms
 
 function get_user_rooms() {
