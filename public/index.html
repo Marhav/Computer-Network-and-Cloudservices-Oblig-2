@@ -72,15 +72,12 @@
                 </div>
                 <div class="mesgs">
                     <div class="msg_history">
-                        <div id="msgs_boxes" class="incoming_msg">
-
-                        </div>
-
+                        <div id="msgs_boxes" class="incoming_msg"></div>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input type="text" class="write_msg" placeholder="Type a message" />
-                            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                            <input id="msgInput" type="text" class="write_msg" placeholder="Type a message" name="msg"/>
+                            <button class="msg_send_btn" onclick="sendMSG()" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>

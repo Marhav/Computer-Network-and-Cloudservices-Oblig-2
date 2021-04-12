@@ -160,13 +160,14 @@ function logout(){
 
 //messages
 
+let roomid;
 function enter_room(room_id){
-
     $.ajax({
         type: "get",
         url: "/api/room/"+ room_id +"/messages",
         success: function (data){
             $("#join_success_feedback").show().html("<strong>Success!</strong> Room entered!");
+            roomid = room_id;
             $("#join_danger_feedback").hide();
             $("#msgs_boxes").html(data)
         },
@@ -177,12 +178,32 @@ function enter_room(room_id){
     })
 }
 
-function sendMSG(){
 
-}
 
-function get_all_messages() {
-    
+function sendMSG() {
+
+    const msgInput = $("#msgInput").val();
+
+    const msg = {
+        user: current_user,
+        msg: msgInput
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/room/"+roomid+"/"+current_user+"/messages",
+        data: msg,
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Msg sendt!");
+            enter_room(roomid)
+            $("#join_danger_feedback").hide();
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
+
 }
 
 /*
