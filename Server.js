@@ -139,9 +139,9 @@ app.get('/api/get_rooms/:username', function (req,res){
     let out = formater_rooms(user_in_rooms);
 
     if (!out.toString()){
-        return res.send(`Welcome back, ${user.username}!\nNo messages yet`)
+        return res.status(200).send(`Welcome back, ${user.username}!\nNo messages yet`)
     }
-    else res.send(out.toString());
+    else res.status(200).send(out.toString());
 });
 
 
@@ -155,7 +155,7 @@ app.route('/api/users')
             out.append(user.username);
         });
 
-        res.send(out.toString())
+        res.status(200).send(out.toString())
     })
     //add user
     .post((req,res) => {
@@ -183,7 +183,7 @@ app.route('/api/users')
             users.push(user);
         }
 
-        res.send(`Welcome , ${user.username}!`);
+        res.status(200).send(`Welcome , ${user.username}!`);
     });
 
 app.route('/api/user/:username')
@@ -191,7 +191,7 @@ app.route('/api/user/:username')
     .get((req,res) => {
         const user = users.find(c => c.username === req.params.username);
         if (!user) return res.status(404).send('The user with the given id was not found.');
-        res.send(user);
+        res.status(200).send(user);
     })
     // Delete user by given id
     .delete((req, res) =>{
@@ -201,7 +201,7 @@ app.route('/api/user/:username')
         const index = users.indexOf(user);
         users.splice(index,1);
 
-        res.send(`User ${user.username} is deleted!`);
+        res.status(200).send(`User ${user.username} is deleted!`);
     });
 
 
@@ -213,9 +213,9 @@ app.route('/api/rooms')
         let out = formater_rooms(chat_rooms);
 
         if (!out.toString()){
-            return res.send(`No rooms created!`);
+            return res.status(200).send(`No rooms created!`);
         }
-        else res.send(out.toString());
+        else res.status(200).send(out.toString());
     })
     //add room
     .post((req,res) => {
@@ -256,7 +256,7 @@ app.get('/api/room/:room_id', (req,res) => {
 
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
-    res.send(room);
+    res.status(200).send(room);
 
 });
 
@@ -265,7 +265,7 @@ app.route('/api/room/:room_id/users')
     .get((req, res) =>{
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
-    res.send(room.roomUsers);
+    res.status(200).send(room.roomUsers);
     })
     //Add/join user
     //Restrictions:Only registered users can join
@@ -283,7 +283,7 @@ app.route('/api/room/:room_id/users')
 
     room.roomUsers.push(joinUser);
 
-    res.send(room.roomUsers);
+    res.status(200).send(room.roomUsers);
 
 });
 
@@ -304,7 +304,7 @@ app.get('/api/room/:room_id/messages', (req, res) => {
 
     if (!user) res.status(404).send("No user with user ID " + joinUser.username + " is found.");
 
-    res.send(foramterMsgs(room.messages));
+    res.status(200).send(foramterMsgs(room.messages));
 
 });
 
@@ -321,7 +321,7 @@ app.route('/api/room/:room_id/:username/messages')
     const user = users.find(c => c.username === req.params.username);
     if (!user) res.status(404).send('The user with the given username was not found.');
 
-        res.send(foramterMsgs(room.messages));
+        res.status(200).send(foramterMsgs(room.messages));
     })
     //Add message
     .post((req, res) => {
@@ -341,7 +341,7 @@ app.route('/api/room/:room_id/:username/messages')
 
     room.messages.push(message);
 
-        res.send(foramterMsgs(room.messages));
+        res.status(200).send(foramterMsgs(room.messages));
 });
 
 app.listen(port, () => console.log(`Listening for connections on port ${port}`));
