@@ -4,8 +4,7 @@ $(function () {
     $("#danger_feedback").hide()
     $("#success_feedback").hide()
     $("#warning_feedback").hide()
-    $("#msgs").hide()
-    $("#out_all_rooms").hide()
+    $(".hidden_before_login").hide()
 })
 
 let current_user
@@ -28,8 +27,7 @@ function login(){
             current_user = input_login_user;
             $("#success_feedback").show().html("<strong>Success!</strong> " + xhr);
             $("#login_div").hide();
-            $("#msgs").show();
-            $("#out_all_rooms").show()
+            $(".hidden_before_login").show()
             get_all_rooms()
             get_user_rooms()
             $("#danger_feedback").hide();
