@@ -20,7 +20,6 @@ function findKnownVerbs(input) {
         }
 
     }
-
 }
 
 // get a random value from an array

@@ -122,6 +122,8 @@ function create_room() {
             $("#new_room_success_feedback").show().html("<strong>Success!</strong> " + data);
             $("#new_room_danger_feedback").hide();
             get_all_rooms()
+            document.getElementById('input_New_Room').value = '';
+
         },
         error: function (xhr){
             $("#new_room_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
@@ -195,6 +197,7 @@ function sendMSG() {
             $("#join_success_feedback").hide();
             enter_room(roomid)
             $("#join_danger_feedback").hide();
+            document.getElementById('msgInput').value = '';
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);

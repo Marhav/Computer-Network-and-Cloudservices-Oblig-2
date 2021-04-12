@@ -197,6 +197,13 @@ img{ max-width:100%;}
     font-size: 12px;
     margin: 8px 0 0;
 }
+.write_msg{
+    width: 80%;
+    text-align: left;
+    margin-top: 10px;
+    border-width: 20px;
+    outline: none;
+}
 .received_withd_msg { width: 57%;}
 .mesgs {
     float: left;
@@ -228,17 +235,10 @@ img{ max-width:100%;}
 
 .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
 .msg_send_btn {
-    background: #05728f none repeat scroll 0 0;
-    border: medium none;
-    border-radius: 50%;
-    color: #fff;
     cursor: pointer;
-    font-size: 17px;
-    height: 33px;
+    margin-top: 20px;
     position: absolute;
-    right: 0;
-    top: 11px;
-    width: 33px;
+    right: 20px;
 }
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
