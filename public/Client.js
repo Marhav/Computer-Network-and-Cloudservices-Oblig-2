@@ -131,7 +131,6 @@ function create_room() {
 }
 
 function join_room(room_id){
-
     const user = {
         username: current_user
     }
@@ -152,6 +151,7 @@ function join_room(room_id){
     })
 }
 
+
 function logout(){
     current_user = null;
     $("#login_div").show();
@@ -160,9 +160,31 @@ function logout(){
 
 //messages
 
+function enter_room(room_id){
+
+    $.ajax({
+        type: "get",
+        url: "/api/room/"+ room_id +"/messages",
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Room entered!");
+            $("#join_danger_feedback").hide();
+            $("#msgs_boxes").html(data)
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
+}
+
+function sendMSG(){
+
+}
+
 function get_all_messages() {
     
 }
+
 /*
 $(function () {
     $("#send").click(function () {
