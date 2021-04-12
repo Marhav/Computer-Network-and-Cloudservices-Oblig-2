@@ -134,7 +134,6 @@ function join_room(room_id){
     const user = {
         username: current_user
     }
-
     $.ajax({
         type: "post",
         url: "/api/room/"+ room_id + "/users",
@@ -179,8 +178,6 @@ function enter_room(room_id){
     })
 }
 
-
-
 function sendMSG() {
 
     const msgInput = $("#msgInput").val();
@@ -204,8 +201,50 @@ function sendMSG() {
             $("#join_success_feedback").hide();
         }
     })
+}
+
+//// Bots
+
+const bot_array = ['geir','alice','arne','ulf'];
+
+function addBot(bot){
+
+    const findBot = bot_array.find(c => c === bot);
+
+    if (findBot){
+        console.log(findBot.toString())
+        const new_user = {
+            username: findBot
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/api/users",
+            data: new_user,
+            success: function(data, status_text, xhr) {
+                console.log(data);
+                $("#success_feedback").show().html('<strong>Success!</strong> ' + xhr.responseText)
+                $("#warning_feedback").hide();
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                $("#success_feedback").hide();
+                if(xhr.status === 400) {
+                    $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+                } else if (xhr.status === 409) {
+                    $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+                } else {
+                    $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: '
+                        + xhr.status + " " + xhr.responseText);
+                }
+            }});
+        join_room(roomid);
+        enter_room(roomid);
+
+    }
 
 }
+
 
 /*
 $(function () {
