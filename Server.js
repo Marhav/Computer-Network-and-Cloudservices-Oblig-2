@@ -264,18 +264,25 @@ app.route('/api/room/:room_id/users')
     //Get all users in the room
     .get((req, res) =>{
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
-    if (!room) res.status(404).send('The room with the given id was not found.');
+    if (!room) return res.status(404).send('The room with the given id was not found.');
     res.status(200).send(room.roomUsers);
     })
     //Add/join user
     //Restrictions:Only registered users can join
     .post((req,res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
-    if (!room) res.status(404).send('The room with the given id was not found.');
+    if (!room) return res.status(404).send('The room with the given id was not found.');
+
+
+
 
     const joinUser = {
         username: req.body.username
     };
+
+    const check_users_in_room = room.roomUsers.find(c => c.username === joinUser.username);
+
+    if(check_users_in_room) return res.status(400).send("You have already joined " + room.name);
 
     const user = users.indexOf(joinUser);
 
