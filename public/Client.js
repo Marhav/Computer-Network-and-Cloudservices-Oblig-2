@@ -27,7 +27,6 @@ function login(){
         success: function(xhr, textStatus) {
             console.log(xhr);
             current_user = input_login_user;
-            $("#success_feedback").show().html("<strong>Success!</strong> " + xhr);
             $("#login_div").hide();
             $(".hidden_before_login").show()
             get_all_rooms()
@@ -165,6 +164,11 @@ $(function () {
     }
 });
 
+function logout(){
+    current_user = null;
+    $("#login_div").show();
+    $(".hidden_before_login").hide()
+}
 
 /*
 function selectUser(){
