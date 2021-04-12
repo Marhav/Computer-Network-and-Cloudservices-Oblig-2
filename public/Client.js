@@ -3,9 +3,10 @@ $(function () {
     //Skjuler alle feedbacks.
     $("#danger_feedback").hide()
     $("#success_feedback").hide()
+    $("#new_room_danger_feedback").hide()
+    $("#new_room_success_feedback").hide()
     $("#warning_feedback").hide()
-    $("#msgs").hide()
-    $("#out_all_rooms").hide()
+    $(".hidden_before_login").hide()
 })
 
 let current_user
@@ -28,8 +29,7 @@ function login(){
             current_user = input_login_user;
             $("#success_feedback").show().html("<strong>Success!</strong> " + xhr);
             $("#login_div").hide();
-            $("#msgs").show();
-            $("#out_all_rooms").show()
+            $(".hidden_before_login").show()
             get_all_rooms()
             get_user_rooms()
             $("#danger_feedback").hide();
@@ -46,7 +46,7 @@ function create_user(){
 
     const input_Register_user = $("#register_username").val();
 
-    let user = {
+    const user = {
         username: input_Register_user
     }
 
@@ -74,6 +74,7 @@ function create_user(){
 }
 
 // home.html
+// rooms
 
 function get_user_rooms() {
 
@@ -105,10 +106,63 @@ function get_all_rooms() {
     
 }
 
+function create_room() {
+
+    const new_room_name = $("#input_New_Room").val();
+
+    const room_name = {
+        name: new_room_name
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/rooms",
+        data: room_name,
+        success: function (data){
+            $("#new_room_success_feedback").show().html("<strong>Success!</strong> " + data);
+            $("#new_room_danger_feedback").hide();
+        },
+        error: function (xhr){
+            $("#new_room_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#new_room_success_feedback").hide();
+        }
+    })
+
+}
+
+//messages
+
 function get_all_messages() {
     
 }
-
+$(function () {
+    $("#send").click(function () {
+        sendMessage({
+            name: $("#login_username").val(),
+            message: $("#message").val()
+        });
+        getMessages();
+    })
+    $.ajax({
+        type:"post",
+        url:"/api/room/:room_id/messages",
+        success: function (data) {
+            console.log(data);
+        }
+    })
+    function addMessages(message) {
+        $("#message").append('<h4> ${message.login_username} </hh4> <p> ${message.message} </p>')
+    }
+    function getMessages() {
+        $.get('/api/room/:room_id/messages',(data)=> {
+            console.log(data)
+            data.forEach(addMessages);
+        })
+    }
+    function sendMessage(message) {
+        $.post('/api/room/:room_id/messages', message)
+    }
+});
 
 
 /*

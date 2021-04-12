@@ -241,7 +241,7 @@ app.route('/api/rooms')
     };
 
     chat_rooms.push(room);
-    res.send(chat_rooms);
+    res.status(200).send(req.body.name +" was created!");
 });
 
 //Get room with room id

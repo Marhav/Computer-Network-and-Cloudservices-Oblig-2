@@ -43,14 +43,14 @@ function bots(bot) {
     if (bot === "alice"){
         return alice(greeting, action, bye)
     }
-    if (bot === "dora"){
-        return  dora(greeting, action, bye)
+    if (bot === "arne"){
+        return  arne(greeting, action, bye)
     }
-    if (bot === "bob"){
-        return  bob(greeting, action, bye)
+    if (bot === "geir"){
+        return  geir(greeting, action, bye)
     }
-    if (bot === "chuck"){
-        return  chuck(greeting, action, bye)
+    if (bot === "ulf"){
+        return  ulf(greeting, action, bye)
     }
     return "Invalid bot";
 }
@@ -79,10 +79,10 @@ function alice(input) {
     }
     alice_list.push(input);
 }
-function bob() {
+function geir() {
 }
-function dora() {
+function arne() {
 }
-function chuck() {
+function ulf() {
 }
 
