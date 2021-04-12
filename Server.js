@@ -88,6 +88,25 @@ function formater_rooms(arr) {
     return out;
 }
 
+function foramterMsgs(arr){
+
+    let out = new StringBuilder();
+
+    arr.forEach(msg =>{
+        let div = `<div class="incoming_msg">
+                     <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                        <div class="received_msg">
+                           <div class="received_withd_msg">
+                              <p>From ${msg.sender}<br>${msg.message}</p>
+                                   <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                           </div>
+                   </div>`
+
+        out.append(div);
+    });
+    return out.toString();
+}
+
                     // ------------------ Users --------------------- //
 
 app.post('/api/login', (req,res) => {
@@ -217,6 +236,8 @@ app.route('/api/rooms')
         name: req.body.name,
         roomUsers: [],
         messages: []
+
+        // [[user1,melding1,melding2,melding3],[user2,melding1,melding2,melding3]]
     };
 
     chat_rooms.push(room);
@@ -276,7 +297,7 @@ app.get('/api/room/:room_id/messages', (req, res) => {
 
     if (!user) res.status(404).send("No user with user ID " + joinUser.username + " is found.");
 
-    res.send(room.messages);
+    res.send(foramterMsgs(room.messages));
 
 });
 
@@ -290,10 +311,10 @@ app.route('/api/room/:room_id/:username/messages')
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
-    const user = chat_rooms.find(c => c.username === req.params.username);
+    const user = users.find(c => c.username === req.params.username);
     if (!user) res.status(404).send('The user with the given username was not found.');
 
-    res.send(room.messages);
+        res.send(foramterMsgs(room.messages));
     })
     //Add message
     .post((req, res) => {
@@ -301,13 +322,19 @@ app.route('/api/room/:room_id/:username/messages')
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
-    const user = chat_rooms.find(c => c.username === req.params.username);
+    const user = users.find(c => c.username === req.params.username);
     if (!user) res.status(404).send('The user with the given username was not found.');
 
-    const message = req.body.name;
+
+
+    const message = {
+        sender: user.username,
+        message: req.body.msg
+    }
 
     room.messages.push(message);
-    req.send(room.messages);
+
+        res.send(foramterMsgs(room.messages));
 });
 
 app.listen(port, () => console.log(`Listening for connections on port ${port}`));
