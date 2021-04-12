@@ -2,9 +2,9 @@ const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
 const app = express();
-const port = process.env.PORT || 2828;
+let port = process.env.PORT || 2828;
 const date = require('date-and-time');
-app.use( express.static('public') );
+app.use( express.static(__dirname + '/public') );
 app.use(express.json() )
 const bodyParser = require('body-parser')
 
