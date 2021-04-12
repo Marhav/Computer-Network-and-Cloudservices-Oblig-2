@@ -121,6 +121,7 @@ function create_room() {
         success: function (data){
             $("#new_room_success_feedback").show().html("<strong>Success!</strong> " + data);
             $("#new_room_danger_feedback").hide();
+            get_all_rooms()
         },
         error: function (xhr){
             $("#new_room_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);

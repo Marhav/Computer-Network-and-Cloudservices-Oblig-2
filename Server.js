@@ -227,10 +227,17 @@ app.route('/api/rooms')
     const result = Joi.validate(req.body, schema);
 
     if (result.error){
-        res.status(404).send(result.error.details[0].message); // If the name is "Null" or less than 2 characters,
+        // If the name is "Null" or less than 2 characters,
         // the user will get an error with the details.
-        return;
+        return res.status(404).send(result.error.details[0].message);
+
     }
+
+    const check_room = chat_rooms.find(c => c.name === req.body.name);
+
+    if (check_room) return res.status(404).send(req.body.name + " already exist.");
+
+
     const room = {
         room_id: chat_rooms.length + 1,
         name: req.body.name,
