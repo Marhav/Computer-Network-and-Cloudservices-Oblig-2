@@ -4,6 +4,8 @@ $(function () {
     $("#danger_feedback").hide()
     $("#success_feedback").hide()
     $("#warning_feedback").hide()
+    $("#msgs").hide()
+    $("#out_all_rooms").hide()
 })
 
 let current_user
@@ -25,6 +27,11 @@ function login(){
             console.log(xhr);
             current_user = input_login_user;
             $("#success_feedback").show().html("<strong>Success!</strong> " + xhr);
+            $("#login_div").hide();
+            $("#msgs").show();
+            $("#out_all_rooms").show()
+            get_all_rooms()
+            get_user_rooms()
             $("#danger_feedback").hide();
         },
         error: function (xhr, textStatus) {
@@ -72,10 +79,10 @@ function get_user_rooms() {
 
     $.ajax({
         type: "get",
-        url: "/api/get_conv/" + current_user,
+        url: "/api/get_rooms/" + current_user,
         success: function(data) {
             console.log(data);
-            $("#out").html('Tekst fra server: ' + data);
+            $("#user_rooms").html(data);
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
@@ -84,6 +91,17 @@ function get_user_rooms() {
 }
 
 function get_all_rooms() {
+    $.ajax({
+        type: "get",
+        url: "/api/rooms",
+        success: function(data) {
+            console.log(data);
+            $("#room").html(data);
+        },
+        error: function (xhr, textStatus) {
+            console.log(textStatus + " " + xhr.responseText);
+        }
+    });
     
 }
 

@@ -15,30 +15,44 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 let users = [];
 let chat_rooms = [];
 
-
                         // ------------------ Functions --------------------- //
 
-
-function formater(arr){
+function formater_rooms(arr){
 
     let link;
     let out = new StringBuilder()
 
     arr.forEach(room => {
 
+        let div = `
+                <div class="chat_list">
+                    <div class="chat_people">
+                        <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
+                           <div class="chat_ib">
+                               <h5>${room.name}<span class="chat_date">Dec 25</span></h5>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+
         link = `http://localhost:2828/api/room/${room.room_id}`
-        let div = `<div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+        /*
+        let div = `<div class="card" style="width: 7rem; margin: 2rem 2rem">
+                        <img class="card-img-top" src="group-icon.png" alt="Card image cap">
                              <div class="card-body">
                                  <h5 class="card-title">${room.name}</h5>
                                   <a href="${link}" class="btn btn-primary">Go to the room</a>
                              </div>
                    </div>`
+
+         */
         out.append(div);
     });
 
     return out;
 }
+
 
                     // ------------------ Users --------------------- //
 
@@ -55,8 +69,7 @@ app.post('/api/login', (req,res) => {
 });
 
 
-
-app.get('/get_rooms/:username', function (req,res){
+app.get('/api/get_rooms/:username', function (req,res){
 
     const user = users.find(c => c.username === req.params.username);
 
@@ -70,12 +83,12 @@ app.get('/get_rooms/:username', function (req,res){
         })
     });
 
-    let out = formater(user_in_rooms);
+    let out = formater_rooms(user_in_rooms);
 
     if (!out.toString()){
         return res.send(`Welcome back, ${user.username}!\nNo messages yet`)
     }
-    else res.send("Recent " + out.toString());
+    else res.send(out.toString());
 });
 
 
@@ -139,13 +152,17 @@ app.route('/api/user/:username')
     });
 
 
-
                    // -------------- Chat-Rooms -------------------- //
 
 app.route('/api/rooms')
     // Get all
     .get((req, res) => {
-    res.send(chat_rooms);
+        let out = formater_rooms(chat_rooms);
+
+        if (!out.toString()){
+            return res.send(`No rooms created!`);
+        }
+        else res.send(out.toString());
     })
     //add room
     .post((req,res) => {
@@ -240,7 +257,7 @@ app.route('/api/room/:room_id/:username/messages')
     if (!room) res.status(404).send('The room with the given id was not found.');
 
     const user = chat_rooms.find(c => c.username === req.params.username);
-    if (!user) res.status(404).send('The user with the given id was not found.');
+    if (!user) res.status(404).send('The user with the given username was not found.');
 
     res.send(room.messages);
     })
@@ -251,7 +268,7 @@ app.route('/api/room/:room_id/:username/messages')
     if (!room) res.status(404).send('The room with the given id was not found.');
 
     const user = chat_rooms.find(c => c.username === req.params.username);
-    if (!user) res.status(404).send('The user with the given id was not found.');
+    if (!user) res.status(404).send('The user with the given username was not found.');
 
     const message = req.body.name;
 
