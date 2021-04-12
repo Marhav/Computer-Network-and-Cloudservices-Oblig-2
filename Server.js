@@ -3,7 +3,7 @@ const express = require('express');
 const StringBuilder = require("string-builder");
 const app = express();
 const port = process.env.PORT || 2828;
-
+const date = require('date-and-time');
 app.use( express.static('public') );
 app.use(express.json() )
 const bodyParser = require('body-parser')
@@ -17,36 +17,22 @@ let chat_rooms = [];
 
                         // ------------------ Functions --------------------- //
 
-function formater_rooms(arr){
+function formater_my_rooms(arr){
 
-    let link;
     let out = new StringBuilder()
-
     arr.forEach(room => {
 
-        let div = `
-                <div class="chat_list">
+        let div = `<div class="chat_list">
                     <div class="chat_people">
                         <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
-                           <div class="chat_ib">
-                               <h5>${room.name}<span class="chat_date"><button class="btn" onclick="">Join</button></span></h5>
-                               
+                           <div class="chat_ib">${room.name}<span class="chat_date">
+                                    <button class="btn btn-lg btn-primary btn-block" onclick="enter_room(${room.room_id})">Enter</button></span>
+                                                           
                             </div>
                         </div>
                     </div>
                 </div>`
 
-        link = `http://localhost:2828/api/room/${room.room_id}`
-        /*
-        let div = `<div class="card" style="width: 7rem; margin: 2rem 2rem">
-                        <img class="card-img-top" src="group-icon.png" alt="Card image cap">
-                             <div class="card-body">
-                                 <h5 class="card-title">${room.name}</h5>
-                                  <a href="${link}" class="btn btn-primary">Go to the room</a>
-                             </div>
-                   </div>`
-
-         */
         out.append(div);
     });
 
@@ -64,7 +50,8 @@ function formater_rooms(arr) {
                     <div class="chat_people">
                         <div class="chat_img"> <img src="group-icon.png" alt="sunil"> </div>
                            <div class="chat_ib">
-                               <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" onclick="">Join</button></span></h5>
+                               <h5>${room.name}<span class="chat_date"><button class="btn btn-lg btn-primary btn-block" 
+                               onclick="join_room(${room.room_id})">Join</button></span></h5>
                                
                             </div>
                         </div>
@@ -96,15 +83,29 @@ function foramterMsgs(arr){
         let div = `<div class="incoming_msg">
                      <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                         <div class="received_msg">
+                            <span>From ${msg.sender}</span>
                            <div class="received_withd_msg">
-                              <p>From ${msg.sender}<br>${msg.message}</p>
-                                   <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                              <p>${msg.message}</p>
+                                   <span class="time_date">${msg.time}</span></div>
                            </div>
                    </div>`
 
         out.append(div);
     });
     return out.toString();
+}
+
+function getTimeAndDate(){
+
+    const now = new Date();
+    date.format(now, 'YYYY/MM/DD HH:mm:ss');    // => '2015/01/02 23:14:05'
+    date.format(now, 'ddd, MMM DD YYYY');       // => 'Fri, Jan 02 2015'
+    date.format(now, 'hh:mm A [GMT]Z');         // => '11:14 PM GMT-0800'
+    date.format(now, 'hh:mm A [GMT]Z', true);   // => '07:14 AM GMT+0000'
+
+    const pattern = date.compile('ddd, MMM DD YYYY, HH:mm:ss');
+
+    return date.format(now, pattern);
 }
 
                     // ------------------ Users --------------------- //
@@ -136,7 +137,7 @@ app.get('/api/get_rooms/:username', function (req,res){
         })
     });
 
-    let out = formater_rooms(user_in_rooms);
+    let out = formater_my_rooms(user_in_rooms);
 
     if (!out.toString()){
         return res.status(200).send(`Welcome back, ${user.username}!\nNo messages yet`)
@@ -264,18 +265,25 @@ app.route('/api/room/:room_id/users')
     //Get all users in the room
     .get((req, res) =>{
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
-    if (!room) res.status(404).send('The room with the given id was not found.');
+    if (!room) return res.status(404).send('The room with the given id was not found.');
     res.status(200).send(room.roomUsers);
     })
     //Add/join user
     //Restrictions:Only registered users can join
     .post((req,res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
-    if (!room) res.status(404).send('The room with the given id was not found.');
+    if (!room) return res.status(404).send('The room with the given id was not found.');
+
+
+
 
     const joinUser = {
         username: req.body.username
     };
+
+    const check_users_in_room = room.roomUsers.find(c => c.username === joinUser.username);
+
+    if(check_users_in_room) return res.status(400).send("You have already joined " + room.name);
 
     const user = users.indexOf(joinUser);
 
@@ -336,7 +344,8 @@ app.route('/api/room/:room_id/:username/messages')
 
     const message = {
         sender: user.username,
-        message: req.body.msg
+        message: req.body.msg,
+        time: getTimeAndDate()
     }
 
     room.messages.push(message);

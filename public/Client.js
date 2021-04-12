@@ -5,6 +5,8 @@ $(function () {
     $("#success_feedback").hide()
     $("#new_room_danger_feedback").hide()
     $("#new_room_success_feedback").hide()
+    $("#join_danger_feedback").hide()
+    $("#join_success_feedback").hide()
     $("#warning_feedback").hide()
     $(".hidden_before_login").hide()
 })
@@ -27,7 +29,6 @@ function login(){
         success: function(xhr, textStatus) {
             console.log(xhr);
             current_user = input_login_user;
-            $("#success_feedback").show().html("<strong>Success!</strong> " + xhr);
             $("#login_div").hide();
             $(".hidden_before_login").show()
             get_all_rooms()
@@ -103,7 +104,6 @@ function get_all_rooms() {
             console.log(textStatus + " " + xhr.responseText);
         }
     });
-    
 }
 
 function create_room() {
@@ -128,14 +128,86 @@ function create_room() {
             $("#new_room_success_feedback").hide();
         }
     })
+}
 
+function join_room(room_id){
+    const user = {
+        username: current_user
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/room/"+ room_id + "/users",
+        data: user,
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
+            $("#join_danger_feedback").hide();
+            get_user_rooms()
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
+}
+
+
+function logout(){
+    current_user = null;
+    roomid = null;
+    $("#login_div").show();
+    $(".hidden_before_login").hide()
 }
 
 //messages
 
-function get_all_messages() {
-    
+let roomid;
+function enter_room(room_id){
+    $.ajax({
+        type: "get",
+        url: "/api/room/"+ room_id +"/messages",
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Room entered!");
+            roomid = room_id;
+            $("#join_danger_feedback").hide();
+            $("#msgs_boxes").html(data)
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
 }
+
+
+
+function sendMSG() {
+
+    const msgInput = $("#msgInput").val();
+
+    const msg = {
+        user: current_user,
+        msg: msgInput
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/room/"+roomid+"/"+current_user+"/messages",
+        data: msg,
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> Msg sendt!");
+            enter_room(roomid)
+            $("#join_danger_feedback").hide();
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
+
+}
+
+/*
 $(function () {
     $("#send").click(function () {
         sendMessage({
@@ -165,6 +237,9 @@ $(function () {
     }
 });
 
+
+
+ */
 
 /*
 function selectUser(){
