@@ -65,18 +65,20 @@ function analyze_input() {
 }
 
 function botman(input) {
+    let action = input+"ing";
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
     if (known_verbs.includes(input)) {
         if (!botman_list.includes(input)) {
-            output = 'I think {} sounds great'.format(input);
+            output = 'I think {} sounds great'.format(action);
         }
         else if (botman_list.includes(input)) {
-            output = 'You have already said {} ...'.format(input);
+            output = 'You have already said {} ...'.format(action);
         }
-        botman_list.push(input); //adds to list
+
     }
+    botman_list.push(input); //adds to list
     send_bot_MSG(output, 'Botman')
 }
 let responses;
