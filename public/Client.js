@@ -301,6 +301,7 @@ function send_bot_MSG(input, bot) {
         }
     })
 }
+setTimeout(send_bot_MSG,2000);
 
 // Push Notifications
 /*
