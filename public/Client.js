@@ -27,8 +27,8 @@ function login(){
         type: "post",
         url: "/api/login",
         data: user,
-        success: function(xhr, textStatus) {
-            console.log(xhr);
+        success: function(data) {
+            console.log(data);
             current_user = input_login_user;
             $("#login_div").hide();
             $(".hidden_before_login").show()
@@ -142,7 +142,7 @@ function join_room(room_id){
         type: "post",
         url: "/api/room/"+ room_id + "/users",
         data: user,
-        success: function (data){
+        success: function (){
             $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
             $("#join_danger_feedback").hide();
             get_user_rooms()
@@ -179,7 +179,6 @@ function enter_room(room_id){
 function sendMSG() {
 
     const msg_input = $("#msgInput").val();
-    let users = []
 
     const msg = {
         user: current_user,
@@ -190,7 +189,7 @@ function sendMSG() {
         type: "post",
         url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
         data: msg,
-        success: function (data){
+        success: function (){
             $("#join_success_feedback").hide();
             $("#join_danger_feedback").hide();
             enter_room(current_room_id);
@@ -227,7 +226,7 @@ function addBot(bot){
             type: "post",
             url: "/api/users",
             data: user,
-            success: function(data, status_text, xhr) {
+            success: function(data) {
                 console.log(data);
                 $("#warning_feedback").hide();
             },
@@ -246,7 +245,7 @@ function addBot(bot){
             type: "post",
             url: "/api/room/"+ current_room_id + "/users",
             data: user,
-            success: function (data){
+            success: function (){
                 $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
                 $("#join_danger_feedback").hide();
                 get_user_rooms()
@@ -294,6 +293,7 @@ function send_bot_MSG(input, bot) {
         url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
         data: msg,
         success: function (data){
+            enter_room(current_room_id)
             console.log("Success i send_bot_MSG: " + data)
         },
         error: function (xhr){
@@ -302,13 +302,6 @@ function send_bot_MSG(input, bot) {
     })
 }
 
-// Push Notifications
-/*
-addEventListener('load', async () => {
-    let sw = await navigator.serviceWorker.register('./sw.js')
-    console.log("sw: " + sw)
-})
- */
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').then(function(reg) {
@@ -335,7 +328,7 @@ function subscribe() {
 
             reg.pushManager.subscribe({
                 userVisibleOnly: true,
-                applicationServerKey: 'BKF59gmG_aPkrcoF9LU0k_IFAwEuBeG3OyLfbvQut7NxuassHIYXIqXNiTkifeA0YrcnogYdDLCAwzS1hEz6B9o'
+                applicationServerKey: 'BMfFUGhN3UEzor02WglMbeyjpI_g_VsId4wWIdrIZ2UWKDbI3beC25pkcr3qkbGQzLAX_W3NjJpOX5FJbes-8fA'
             }).then(function(sub) {
                 // **********VIKTIG!**********
                 // Her skal push sendes til server og legges til
@@ -356,9 +349,7 @@ function subscribe() {
 
 function add_sub(input){
 
-
     console.log(input)
-
     $.ajax({
         type: "post",
         url: "/api/sub",
@@ -371,19 +362,6 @@ function add_sub(input){
         }
     })
 }
-/*
-async function subscribe(){
-    let sw = navigator.serviceWorker.ready
-    let push = await sw.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: 'BKF59gmG_aPkrcoF9LU0k_IFAwEuBeG3OyLfbvQut7NxuassHIYXIqXNiTkifeA0YrcnogYdDLCAwzS1hEz6B9o'
-    })
-
-    console.log(JSON.stringify(push))
-}
-
- */
-
 
 // Additional functions
 
@@ -402,63 +380,3 @@ addEventListener("keypress", function (e){
     }
 });
 
-/*
-$(function () {
-    $("#send").click(function () {
-        sendMessage({
-            name: $("#login_username").val(),
-            message: $("#message").val()
-        });
-        getMessages();
-    })
-    $.ajax({
-        type:"post",
-        url:"/api/room/:room_id/messages",
-        success: function (data) {
-            console.log(data);
-        }
-    })
-    function addMessages(message) {
-        $("#message").append('<h4> ${message.login_username} </hh4> <p> ${message.message} </p>')
-    }
-    function getMessages() {
-        $.get('/api/room/:room_id/messages',(data)=> {
-            console.log(data)
-            data.forEach(addMessages);
-        })
-    }
-    function sendMessage(message) {
-        $.post('/api/room/:room_id/messages', message)
-    }
-});
-
-
-
- */
-
-/*
-function selectUser(){
-
-}
-
-function joinUser(){
-    const name = $("#name").val();  //vil velge fra index.html id, feil?
-
-    const data ={name};
-
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-    fetch('/api/users', options);
-}
-
-function joinRoom(){
-
-}
-function messages() {
-}
- */

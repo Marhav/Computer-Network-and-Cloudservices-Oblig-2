@@ -1,6 +1,5 @@
 require('dotenv').config({ path: 'variables.env' });
 const push = require('web-push');
-const path = require('path');
 const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
@@ -16,9 +15,8 @@ app.use( express.static(__dirname + '/public') );
 app.use(express.json() )
 
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: true}));
+app.use( bodyParser.json() );
+app.use(bodyParser.urlencoded({extended: true}));
 
 let users = [];
 let chat_rooms = [];
@@ -66,17 +64,7 @@ function formater_rooms(arr) {
                     </div>
                 </div>`
 
-        link = `http://localhost:2828/api/room/${room.room_id}`
-        /*
-        let div = `<div class="card" style="width: 7rem; margin: 2rem 2rem">
-                        <img class="card-img-top" src="group-icon.png" alt="Card image cap">
-                             <div class="card-body">
-                                 <h5 class="card-title">${room.name}</h5>
-                                  <a href="${link}" class="btn btn-primary">Go to the room</a>
-                             </div>
-                   </div>`
 
-         */
         out.append(div);
     });
 
@@ -106,11 +94,10 @@ function foramterMsgs(arr){
 function getTimeAndDate(){
 
     const now = new Date();
-    date.format(now, 'YYYY/MM/DD HH:mm:ss');    // => '2015/01/02 23:14:05'
-    date.format(now, 'ddd, MMM DD YYYY');       // => 'Fri, Jan 02 2015'
-    date.format(now, 'hh:mm A [GMT]Z');         // => '11:14 PM GMT-0800'
-    date.format(now, 'hh:mm A [GMT]Z', true);   // => '07:14 AM GMT+0000'
-
+    date.format(now, 'YYYY/MM/DD HH:mm:ss');
+    date.format(now, 'ddd, MMM DD YYYY');
+    date.format(now, 'hh:mm A [GMT]Z');
+    date.format(now, 'hh:mm A [GMT]Z', true);
     const pattern = date.compile('ddd, MMM DD YYYY, HH:mm:ss');
 
     return date.format(now, pattern);
@@ -118,19 +105,14 @@ function getTimeAndDate(){
 
 // ------------ Push Notifications ------------- //
 
-let vapidKeys = {
-    publicKey: 'BKF59gmG_aPkrcoF9LU0k_IFAwEuBeG3OyLfbvQut7NxuassHIYXIqXNiTkifeA0YrcnogYdDLCAwzS1hEz6B9o',
-    privateKey: '6mhS2svihf3WYaRw47bKtle4YwBA6K0uFBZpovINcxo'
-}
 
-push.setVapidDetails('mailto:test@code.no', vapidKeys.publicKey, vapidKeys.privateKey)
+const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
+const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
+
+
+push.setVapidDetails('mailto:test@code.no', publicVapidKey, privateVapidKey)
 
 let subscribers = [];
-
-for (let i = 0; i < subscribers.length; i++){
-    push.sendNotification(subscribers[i], 'test message')
-}
-
 
 app.post('/api/sub', (req, res) => {
 
@@ -166,7 +148,7 @@ app.get('/api/get_rooms/:username', function (req,res){
 
     chat_rooms.forEach(room => {
         room.roomUsers.forEach(room_users => {
-            if (room_users.username == user.username){
+            if (room_users.username === user.username){
                 user_in_rooms.push(room);
             }
         })
@@ -350,10 +332,6 @@ app.get('/api/room/:room_id/messages', (req, res) => {
     res.status(200).send(foramterMsgs(room.messages));
 });
 
-// Restrictions:
-//      ●Only users who have joined the room can get or add messages.
-//      ●Only registered user-id's should be permitted as <user-id>
-
 app.route('/api/room/:room_id/:username/messages')
     //Get all messages
     .get((req, res) => {
@@ -382,10 +360,12 @@ app.route('/api/room/:room_id/:username/messages')
         time: getTimeAndDate()
     }
 
-    for (let i = 0; i < subscribers.length; i++){
-        push.sendNotification(subscribers[i], 'Message from ' + user.username)
-    }
 
+    for (let i = 0; i < subscribers.length; i++){
+        if(subscribers[i] !== req.body) {
+            push.sendNotification(subscribers[i], 'Message from ')
+        }
+    }
 
     room.messages.push(message);
 
