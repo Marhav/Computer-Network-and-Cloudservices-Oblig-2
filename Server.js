@@ -1,7 +1,12 @@
+require('dotenv').config({ path: 'variables.env' });
+const webPush = require('web-push');
+const path = require('path');
 const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
 const app = express();
+app.set('port', process.env.PORT || 2828);
+
 let port = process.env.PORT || 2828;
 const date = require('date-and-time');
 app.use( express.static(__dirname + '/public') );
@@ -11,6 +16,12 @@ const bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true}));
+
+const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
+const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
+
+webPush.setVapidDetails('mailto:test@example.com', publicVapidKey, privateVapidKey);
+
 
 let users = [];
 let chat_rooms = [];
@@ -349,7 +360,10 @@ app.route('/api/room/:room_id/:username/messages')
 
     room.messages.push(message);
 
-        res.status(200).send(foramterMsgs(room.messages));
+    res.status(200).send(foramterMsgs(room.messages));
 });
 
-app.listen(port, () => console.log(`Listening for connections on port ${port}`));
+
+const server = app.listen(app.get('port'), () => {
+    console.log(`Listening for connections on port ${server.address().port}`);
+});
