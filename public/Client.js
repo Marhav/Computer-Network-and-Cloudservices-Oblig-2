@@ -179,6 +179,7 @@ function enter_room(room_id){
 function sendMSG() {
 
     const msg_input = $("#msgInput").val();
+    let users = []
 
     const msg = {
         user: current_user,
@@ -196,6 +197,7 @@ function sendMSG() {
             document.getElementById("msgInput").value = '';
             //Sjekke hvilke bots some er i rommet(current_room_id).
                 //Funksjon som henter alle users i rommet.
+            get_room_bots(msg_input)
                 //for loop som går igennom arrayet og ser etter bot-navn.
                 //if statement som, når true, kaller funksjonen bots(bot, input)
         },
@@ -207,26 +209,7 @@ function sendMSG() {
 
 }
 
-// Users
 
-function get_room_users(){
-
-    user_array = [];
-
-    $.ajax({
-        type: "get",
-        url: "/api/room/"+ current_room_id +"/users",
-        success: function (data){
-            for(let user in data){
-                user_array.append(user);
-            }
-            return user_array;
-        },
-        error: function (xhr){
-            console.log("Error i get_room_users(): " + xhr.responseText);
-        }
-    })
-}
 
 
 // bots
@@ -276,6 +259,27 @@ function addBot(bot){
     } else {
         $("#join_danger_feedback").show().html('<strong>Warning!</strong> Join a room before adding a bot!');
     }
+}
+
+
+function get_room_bots(msg_input){
+
+    $.ajax({
+        type: "get",
+        url: "/api/room/"+ current_room_id +"/users",
+        success: function (data){
+            console.log(data[0].username)
+            for (let i = 0; i < data.length; i++) {
+                if (botArray.includes(data[i].username)) {
+                    console.log("Dette er data[].username: " + data[i].username)
+                    bots(data[i].username, msg_input)
+                }
+            }
+        },
+        error: function (xhr){
+            console.log("Error i get_room_users(): " + xhr.responseText);
+        }
+    })
 }
 
 function send_bot_MSG(input, bot) {

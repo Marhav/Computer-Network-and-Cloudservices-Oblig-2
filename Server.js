@@ -136,7 +136,6 @@ app.post('/api/sub', (req, res) => {
 
     if(req.body){
         subscribers.push(req.body)
-        console.log("Fra api/sub, req.body: " + req.body)
         return res.status(200).send("Sub registered!");
     } else {
         res.status(404).send("Couldn't add sub!");
@@ -364,7 +363,7 @@ app.route('/api/room/:room_id/:username/messages')
     const user = users.find(c => c.username === req.params.username);
     if (!user) res.status(404).send('The user with the given username was not found.');
 
-        res.status(200).send(foramterMsgs(room.messages));
+        res.status(200).send(foramterMsgs(room.messages)); // NB! MÅ IKKE RETURNERE ALLE MELDINGER I ROMMET!
     })
     //Add message
     .post((req, res) => {
@@ -372,13 +371,13 @@ app.route('/api/room/:room_id/:username/messages')
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) res.status(404).send('The room with the given id was not found.');
 
-    const user = users.find(c => c.username === req.params.username);
+    const user = users.find(c => c.username === req.body.user);
     if (!user) res.status(404).send('The user with the given username was not found.');
 
 
 
     const message = {
-        sender: user.username,
+        sender: req.body.user,
         message: req.body.msg,
         time: getTimeAndDate()
     }

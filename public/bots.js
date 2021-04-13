@@ -1,5 +1,5 @@
 // lists for memory
-let alice_list = [];
+let botman_list = [];
 
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you",
     "Nice to see you here"];
@@ -37,17 +37,17 @@ String.prototype.format = function () {
 
 
 function bots(bot, input) {
-    if (bot === "alice"){
-        return alice(input)
+    if (bot === "Botman"){
+        return botman(input)
     }
-    if (bot === "arne"){
-        return  arne(input)
+    if (bot === "DJ ARON"){
+        return  dj_aron(input)
     }
-    if (bot === "geir"){
-        return  geir(input)
+    if (bot === "BlackJack"){
+        return  blackjack(input)
     }
-    if (bot === "ulf"){
-        return  ulf(input)
+    if (bot === "RangerDanger"){
+        return  rangerdanger(input)
     }
     return "Invalid bot";
 }
@@ -63,20 +63,21 @@ function analyze_input() {
     }
 }
 
-function alice(input) {
+function botman(input) {
+    console.log("inne i botman") // debug
     if (input === ""){
         output = getRandomFromArray(greeting)
     }
-    else if (!alice_list.includes(input)){
-        return 'I think {} sounds great'.format(input)+"ing";
+    else if (!botman_list.includes(input)){
+        output = 'I think {} sounds great'.format(input)+"ing";
     }
-    else if (alice_list.includes(input)){
-        return 'You have already said {} ...'.format(input)+"ing";
+    else if (botman_list.includes(input)){
+        output = 'You have already said {} ...'.format(input)+"ing";
     }
-    alice_list.push(input); //adds to list
-
+    botman_list.push(input); //adds to list
+    send_bot_MSG(output, 'Botman')
 }
-function geir(input) {
+function blackjack(input) {
     if (input === ""){
         output = getRandomFromArray(greeting)
     }
@@ -100,7 +101,7 @@ function geir(input) {
     }
 }
 arne_list = [];
-function arne(input) {
+function dj_aron(input) {
     if (input === "") {
         output = getRandomFromArray(greeting)
     }
@@ -117,7 +118,7 @@ function arne(input) {
         output = "Hmmm. I'm not sure. I suggest that we"+getRandomFromArray(known_verbs);
     }
 }
-function ulf() {
+function rangerdanger() {
     // personality: tells jokes
     let jokes = [
         "Why do Java developers wear glasses? ...Because they can not C#.",
@@ -138,5 +139,6 @@ function ulf() {
     else {
         output = getRandomFromArray(jokes);
     }
+    send_bot_MSG(output, "RangerDanger")
 }
 
