@@ -338,7 +338,7 @@ function subscribe() {
                 // i gruppen som skal ha push varsler!
                 // ***************************
                 console.log(JSON.stringify(sub));
-                add_sub(sub);
+                add_sub(sub.toJSON());
             }).catch(function(e) {
                 if (Notification.permission === 'denied') {
                     console.warn('Permission for notifications was denied');
@@ -352,12 +352,13 @@ function subscribe() {
 
 function add_sub(input){
 
-    const sub = JSON.stringify(input);
+
+    console.log(input)
 
     $.ajax({
         type: "post",
         url: "/api/sub",
-        data: sub,
+        data: input,
         success: function (data){
             console.log("Success i send_bot_MSG: " + data)
         },
