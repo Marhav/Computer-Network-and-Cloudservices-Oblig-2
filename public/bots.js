@@ -9,15 +9,13 @@ let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO",
 let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup"];
 
 let input;
-let output;
 
 // find known verbs in input from user
-function findKnownVerbs(input) {
+function findKnownVerbs(i) {
     for (let verb in known_verbs){
-        if (verb in input){
+        if (verb in i){
             return verb;
         }
-
     }
 }
 
@@ -65,24 +63,25 @@ function analyze_input() {
 }
 
 function botman(input) {
-    let action = input+"ing";
+    let output;
+    let action = findKnownVerbs(input)+"ing";
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
-    if (known_verbs.includes(input)) {
-        if (!botman_list.includes(input)) {
+    if (known_verbs.includes(action)) {
+        if (!botman_list.includes(action)) {
             output = 'I think {} sounds great'.format(action);
+            botman_list.push(input); //adds to list
         }
         else if (botman_list.includes(input)) {
             output = 'You have already said {} ...'.format(action);
         }
-
     }
-    botman_list.push(input); //adds to list
     send_bot_MSG(output, 'Botman')
 }
 let responses;
 function blackjack(input) {
+    let output;
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
@@ -100,7 +99,8 @@ function blackjack(input) {
             output = responses[input];
         } else if (input === "bye") {
             output = getRandomFromArray(bye)
-        } else {
+        }
+        else {
             output = "I'm not sure what that is. But i would love to " + getRandomFromArray(geir_likes);
         }
     }
@@ -108,6 +108,7 @@ function blackjack(input) {
 }
 arne_list = [];
 function dj_aron(input) {
+    let output;
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
@@ -136,6 +137,7 @@ let jokes = [
     "You can continue whenever you want. But you can only take a break once in a while."
 ];
 function rangerdanger(input) {
+    let output;
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
