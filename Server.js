@@ -358,10 +358,10 @@ app.route('/api/room/:room_id/:username/messages')
     //Get all messages
     .get((req, res) => {
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
-    if (!room) res.status(404).send('The room with the given id was not found.');
+    if (!room) return  res.status(404).send('The room with the given id was not found.');
 
     const user = users.find(c => c.username === req.params.username);
-    if (!user) res.status(404).send('The user with the given username was not found.');
+    if (!user) return  res.status(404).send('The user with the given username was not found.');
 
         res.status(200).send(foramterMsgs(room.messages)); // NB! MÅ IKKE RETURNERE ALLE MELDINGER I ROMMET!
     })
@@ -369,10 +369,10 @@ app.route('/api/room/:room_id/:username/messages')
     .post((req, res) => {
 
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
-    if (!room) res.status(404).send('The room with the given id was not found.');
+    if (!room) return  res.status(404).send('The room with the given id was not found.');
 
     const user = users.find(c => c.username === req.body.user);
-    if (!user) res.status(404).send('The user with the given username was not found.');
+    if (!user) return res.status(404).send('The user with the given username was not found.');
 
 
 
