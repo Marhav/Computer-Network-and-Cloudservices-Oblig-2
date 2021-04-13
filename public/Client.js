@@ -155,17 +155,15 @@ function join_room(room_id){
 }
 
 function enter_room(room_id){
+
     $.ajax({
         type: "get",
         url: "/api/room/"+ room_id +"/messages",
         success: function (data){
             $("#join_success_feedback").hide();
-            $("#enter_room_" + current_room_id).classList.remove("btn-success").add("btn-primary")
             current_room_id = room_id;
             $("#join_danger_feedback").hide();
             $("#msgs_boxes").html(data)
-            $("#enter_room_" + current_room_id).classList.remove("btn-primary").add("btn-success")
-
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
@@ -236,44 +234,48 @@ function get_room_users(){
 const botArray = ['BlackJack','Botman','DJ ARON','RangerDanger'];
 function addBot(bot){
 
-    const findBot = botArray.find(c => c === bot);
-    const user = {
-        username: findBot
-    }
-
-    $.ajax({
-        type: "post",
-        url: "/api/users",
-        data: user,
-        success: function(data, status_text, xhr) {
-            console.log(data);
-            $("#warning_feedback").hide();
-        },
-        error: function (xhr) {
-            console.log(xhr.responseText);
-            if(xhr.status === 400) {
-                $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
-            } else if (xhr.status === 409) {
-                $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
-            } else {
-                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status + " " + xhr.responseText);
-            }
-        }});
-
-    $.ajax({
-        type: "post",
-        url: "/api/room/"+ roomid + "/users",
-        data: user,
-        success: function (data){
-            $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
-            $("#join_danger_feedback").hide();
-            get_user_rooms()
-        },
-        error: function (xhr){
-            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
-            $("#join_success_feedback").hide();
+    if(current_room_id){
+        const findBot = botArray.find(c => c === bot);
+        const user = {
+            username: findBot
         }
-    })
+
+        $.ajax({
+            type: "post",
+            url: "/api/users",
+            data: user,
+            success: function(data, status_text, xhr) {
+                console.log(data);
+                $("#warning_feedback").hide();
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                if(xhr.status === 400) {
+                    $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+                } else if (xhr.status === 409) {
+                    $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+                } else {
+                    $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status + " " + xhr.responseText);
+                }
+            }});
+
+        $.ajax({
+            type: "post",
+            url: "/api/room/"+ current_room_id + "/users",
+            data: user,
+            success: function (data){
+                $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
+                $("#join_danger_feedback").hide();
+                get_user_rooms()
+            },
+            error: function (xhr){
+                $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+                $("#join_success_feedback").hide();
+            }
+        })
+    } else {
+        $("#join_danger_feedback").show().html('<strong>Warning!</strong> Join a room before adding a bot!');
+    }
 }
 
 function send_bot_MSG(input, bot) {
