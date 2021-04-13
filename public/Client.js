@@ -233,7 +233,7 @@ function get_room_users(){
 
 // bots
 
-const botArray = ['geir','alice','arne','ulf'];
+const botArray = ['BlackJack','Botman','DJ ARON','RangerDanger'];
 function addBot(bot){
 
     const findBot = botArray.find(c => c === bot);
