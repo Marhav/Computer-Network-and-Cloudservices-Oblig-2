@@ -4,23 +4,11 @@ let botman_list = [];
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you",
     "Nice to see you here", "Yo"];
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
-let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke", "code", "read", "talk", "jog", "run"];
+let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke", "code", "read", "talk",
+    "jog", "run", "paint", "speak", "fly", "game", "walk", "climb", "help", "sleep"];
 let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO", "look at memes"];
 let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup", "yo", "hei"];
 
-
-
-let input;
-
-
-// find known verbs in input from user
-function findKnownVerbs(i) {
-    for (let verb in known_verbs){
-        if (verb in i){
-            return verb;
-        }
-    }
-}
 
 // get a random value from an array
 function getRandomFromArray(arr) {
