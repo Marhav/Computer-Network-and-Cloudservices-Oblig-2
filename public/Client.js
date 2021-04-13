@@ -298,6 +298,88 @@ function send_bot_MSG(input, bot) {
     })
 }
 
+// Push Notifications
+/*
+addEventListener('load', async () => {
+    let sw = await navigator.serviceWorker.register('./sw.js')
+    console.log("sw: " + sw)
+})
+ */
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(function(reg) {
+        console.log('Service Worker Registered!', reg);
+
+        reg.pushManager.getSubscription().then(function(sub) {
+            if (sub === null) {
+                // Update UI to ask user to register for Push
+                console.log('Not subscribed to push service!');
+            } else {
+                // We have a subscription, update the database
+                console.log('Subscription object: ', sub);
+            }
+        });
+    })
+        .catch(function(err) {
+            console.log('Service Worker registration failed: ', err);
+        });
+}
+
+function subscribe() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(function(reg) {
+
+            reg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: 'BKF59gmG_aPkrcoF9LU0k_IFAwEuBeG3OyLfbvQut7NxuassHIYXIqXNiTkifeA0YrcnogYdDLCAwzS1hEz6B9o'
+            }).then(function(sub) {
+                // **********VIKTIG!**********
+                // Her skal push sendes til server og legges til
+                // i gruppen som skal ha push varsler!
+                // ***************************
+                console.log(JSON.stringify(sub));
+                add_sub(sub);
+            }).catch(function(e) {
+                if (Notification.permission === 'denied') {
+                    console.warn('Permission for notifications was denied');
+                } else {
+                    console.error('Unable to subscribe to push', e);
+                }
+            });
+        })
+    }
+}
+
+function add_sub(input){
+
+    const sub = JSON.stringify(input);
+
+    $.ajax({
+        type: "post",
+        url: "/api/sub",
+        data: sub,
+        success: function (data){
+            console.log("Success i send_bot_MSG: " + data)
+        },
+        error: function (xhr){
+            console.log("Error i send_bot_MSG: " + xhr.responseText)
+        }
+    })
+}
+/*
+async function subscribe(){
+    let sw = navigator.serviceWorker.ready
+    let push = await sw.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: 'BKF59gmG_aPkrcoF9LU0k_IFAwEuBeG3OyLfbvQut7NxuassHIYXIqXNiTkifeA0YrcnogYdDLCAwzS1hEz6B9o'
+    })
+
+    console.log(JSON.stringify(push))
+}
+
+ */
+
+
 // Additional functions
 
 function logout(){

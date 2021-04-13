@@ -1,27 +1,24 @@
 require('dotenv').config({ path: 'variables.env' });
-const webPush = require('web-push');
+const push = require('web-push');
 const path = require('path');
 const Joi = require('joi'); // Validation of user input
 const express = require('express');
 const StringBuilder = require("string-builder");
+const date = require('date-and-time');
+const bodyParser = require('body-parser')
+
+
 const app = express();
 app.set('port', process.env.PORT || 2828);
 
-let port = process.env.PORT || 2828;
-const date = require('date-and-time');
+
 app.use( express.static(__dirname + '/public') );
 app.use(express.json() )
-const bodyParser = require('body-parser')
+
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true}));
-
-const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
-const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
-
-webPush.setVapidDetails('mailto:test@example.com', publicVapidKey, privateVapidKey);
-
 
 let users = [];
 let chat_rooms = [];
@@ -118,6 +115,47 @@ function getTimeAndDate(){
 
     return date.format(now, pattern);
 }
+
+// ------------ Push Notifications ------------- //
+
+let vapidKeys = {
+    publicKey: 'BKF59gmG_aPkrcoF9LU0k_IFAwEuBeG3OyLfbvQut7NxuassHIYXIqXNiTkifeA0YrcnogYdDLCAwzS1hEz6B9o',
+    privateKey: '6mhS2svihf3WYaRw47bKtle4YwBA6K0uFBZpovINcxo'
+}
+
+push.setVapidDetails('mailto:test@code.no', vapidKeys.publicKey, vapidKeys.privateKey)
+
+
+//let sub = {"endpoint":"https://fcm.googleapis.com/fcm/send/fNLC_li-Ons:APA91bHFfnxMGs6WmQt1Yig4UkymNHKPXVBJXduixYJHLlJB1rTAy2actSJQbKJTaXFYgicIuIyamnikcPuSNNiuhip3nEbqATsFYRfP3Db5XgZmhyIqTlnb3HdARUJE24vcRWpe-evR","expirationTime":null,"keys":{"p256dh":"BH2awNJEUII-IZIcWsyiF2cInpujE9ItDkjgghUckHfvSDTr8h922TbzXOi2c68_QO9b1-5jpkSymxMGsJpNfig","auth":"QK2IMHy51jUSV_ODqpyOXg"}}
+
+//push.sendNotification(sub, 'test message')
+
+let subscribers = [];
+
+//subscribers.push({"endpoint":"https://fcm.googleapis.com/fcm/send/eNqmmckQStw:APA91bHEz1YDtay1itGV6oqJmCkJbK_ATKbVjca8YikRBRc6zse4qNHI9lPrI8SrbddpZBMB2BU_Sl86QeJ6xxW6OKu26t1JO4O5mIeRn8lB4N3lEGIgtfo3P_HTXqQSnCp5CprDDfXc","expirationTime":null,"keys":{"p256dh":"BL0daQDCMmRiO6u1neFJ1mR4qQgDuZAIrfS5I7aA-EWei80IbHu7oSyZHwRKyvkO9r8EMPG7QAU20u36aNwkB0w","auth":"U6BaIl6XPrcLuFvQu8oqIQ"}});
+
+for (let i = 0; i < subscribers.length; i++){
+    push.sendNotification(subscribers[i], 'test message')
+}
+
+
+app.post('/api/sub', (req, res) => {
+
+    if(req.body){
+        let sub_key = req.body
+        console.log(sub_key)
+        subscribers.push(sub_key)
+        console.log("This is req: " + req.body);
+        console.log("This is subscribers: " + JSON.stringify(subscribers))
+        return res.status(200).send("Sub registered!");
+    } else {
+        res.status(404).send("Couldn't add sub!");
+        console.error("Couldn't add sub!")
+    }
+})
+
+
+
 
                     // ------------------ Users --------------------- //
 
@@ -357,6 +395,11 @@ app.route('/api/room/:room_id/:username/messages')
         message: req.body.msg,
         time: getTimeAndDate()
     }
+
+    for (let i = 0; i < subscribers.length; i++){
+        push.sendNotification(subscribers[i], 'Message from ' + user.username)
+    }
+
 
     room.messages.push(message);
 
