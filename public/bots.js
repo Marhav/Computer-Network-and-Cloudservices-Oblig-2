@@ -6,8 +6,9 @@ let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", 
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
 let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke"];
 let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO", "look at memes"];
+let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup"];
 
-let input; // en tenkt input-variabel, endrer etter html, toLowerCase?
+let input;
 let output;
 
 // find known verbs in input from user
@@ -41,13 +42,13 @@ function bots(bot, input) {
         return botman(input)
     }
     if (bot === "DJ ARON"){
-        return  dj_aron(input)
+        return dj_aron(input)
     }
     if (bot === "BlackJack"){
-        return  blackjack(input)
+        return blackjack(input)
     }
     if (bot === "RangerDanger"){
-        return  rangerdanger(input)
+        return rangerdanger(input)
     }
     return "Invalid bot";
 }
@@ -64,21 +65,22 @@ function analyze_input() {
 }
 
 function botman(input) {
-    console.log("inne i botman") // debug
-    if (input === ""){
+    if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
-    else if (!botman_list.includes(input)){
-        output = 'I think {} sounds great'.format(input)+"ing";
+    if (known_verbs.includes(input)) {
+        if (!botman_list.includes(input)) {
+            output = 'I think {} sounds great'.format(input);
+        }
+        else if (botman_list.includes(input)) {
+            output = 'You have already said {} ...'.format(input);
+        }
+        botman_list.push(input); //adds to list
     }
-    else if (botman_list.includes(input)){
-        output = 'You have already said {} ...'.format(input)+"ing";
-    }
-    botman_list.push(input); //adds to list
     send_bot_MSG(output, 'Botman')
 }
 function blackjack(input) {
-    if (input === ""){
+    if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
     else {
@@ -99,10 +101,11 @@ function blackjack(input) {
         }
         output = "I'm not sure what that is. But i would love to " + getRandomFromArray(geir_likes);
     }
+    send_bot_MSG(output,'BlackJack')
 }
 arne_list = [];
 function dj_aron(input) {
-    if (input === "") {
+    if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
     else {
@@ -115,8 +118,9 @@ function dj_aron(input) {
             }
             arne_list.push(input);
         }
-        output = "Hmmm. I'm not sure. I suggest that we"+getRandomFromArray(known_verbs);
+        output = "Hmmm. I'm not sure. I suggest that we "+getRandomFromArray(known_verbs);
     }
+    send_bot_MSG(output, 'DJ ARON');
 }
 function rangerdanger() {
     // personality: tells jokes
@@ -128,9 +132,9 @@ function rangerdanger() {
         "Why was the JavaScript developer sad? ...Because he didn't Node how to Express himself.",
         "How many programmers does it take to change a light bulb? ...None, thats a hardware problem.",
         "How do functions break up? ...They stop calling each other.",
-        "You can continue whenever you want. But you can only take a break once in a while.",
+        "You can continue whenever you want. But you can only take a break once in a while."
     ];
-    if (input === "") {
+    if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
     else if (input === "bye") {
@@ -139,6 +143,6 @@ function rangerdanger() {
     else {
         output = getRandomFromArray(jokes);
     }
-    send_bot_MSG(output, "RangerDanger")
+    send_bot_MSG(output, 'RangerDanger');
 }
 
