@@ -79,12 +79,12 @@ function botman(input) {
     }
     send_bot_MSG(output, 'Botman')
 }
+let responses;
 function blackjack(input) {
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
     else {
-        let responses;
         responses = {
             "work": "Nah. Working is boring",
             "play": "Oh yes. Playing is fun!",
@@ -98,8 +98,9 @@ function blackjack(input) {
             output = responses[input];
         } else if (input === "bye") {
             output = getRandomFromArray(bye)
+        } else {
+            output = "I'm not sure what that is. But i would love to " + getRandomFromArray(geir_likes);
         }
-        output = "I'm not sure what that is. But i would love to " + getRandomFromArray(geir_likes);
     }
     send_bot_MSG(output,'BlackJack')
 }
@@ -114,7 +115,7 @@ function dj_aron(input) {
                 output = "{} sounds fun!".format(input)+"ing";
             }
             else{
-                output = "Yes! {} is awesome.".format(input)+"ing"
+                output = "Yes! {} is awesome.".format(input)+"ing";
             }
             arne_list.push(input);
         }
@@ -122,21 +123,21 @@ function dj_aron(input) {
     }
     send_bot_MSG(output, 'DJ ARON');
 }
-function rangerdanger() {
-    // personality: tells jokes
-    let jokes = [
-        "Why do Java developers wear glasses? ...Because they can not C#.",
-        "How do you comfort a JavaScript bug? ...You console it.",
-        "What is the object-oriented way to become wealthy? ...Inheritance",
-        "A SQL query enters a bar, approaches two tables and aks: May i join you?",
-        "Why was the JavaScript developer sad? ...Because he didn't Node how to Express himself.",
-        "How many programmers does it take to change a light bulb? ...None, thats a hardware problem.",
-        "How do functions break up? ...They stop calling each other.",
-        "You can continue whenever you want. But you can only take a break once in a while."
-    ];
+let jokes = [
+    "Why do Java developers wear glasses? ...Because they can not C#.",
+    "How do you comfort a JavaScript bug? ...You console it.",
+    "What is the object-oriented way to become wealthy? ...Inheritance",
+    "A SQL query enters a bar, approaches two tables and aks: May i join you?",
+    "Why was the JavaScript developer sad? ...Because he didn't Node how to Express himself.",
+    "How many programmers does it take to change a light bulb? ...None, thats a hardware problem.",
+    "How do functions break up? ...They stop calling each other.",
+    "You can continue whenever you want. But you can only take a break once in a while."
+];
+function rangerdanger(input) {
     if (hello.includes(input.toLowerCase())){
         output = getRandomFromArray(greeting)
     }
+    // personality: tells jokes
     else if (input === "bye") {
         output = getRandomFromArray(bye);
     }
