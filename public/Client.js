@@ -12,6 +12,7 @@ $(function () {
 })
 
 let current_user
+let current_room_id;
 
 // index.html/login
 function login(){
@@ -75,6 +76,7 @@ function create_user(){
 }
 
 // index.html/home
+
 // rooms
 
 function get_user_rooms() {
@@ -152,20 +154,18 @@ function join_room(room_id){
     })
 }
 
-
-
-//messages
-
-let roomid;
 function enter_room(room_id){
     $.ajax({
         type: "get",
         url: "/api/room/"+ room_id +"/messages",
         success: function (data){
             $("#join_success_feedback").hide();
-            roomid = room_id;
+            $("#enter_room_" + current_room_id).classList.remove("btn-success").add("btn-primary")
+            current_room_id = room_id;
             $("#join_danger_feedback").hide();
             $("#msgs_boxes").html(data)
+            $("#enter_room_" + current_room_id).classList.remove("btn-primary").add("btn-success")
+
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
@@ -173,6 +173,65 @@ function enter_room(room_id){
         }
     })
 }
+
+
+//messages
+
+
+function sendMSG() {
+
+    const msg_input = $("#msgInput").val();
+
+    const msg = {
+        user: current_user,
+        msg: msg_input
+    }
+
+    $.ajax({
+        type: "post",
+        url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
+        data: msg,
+        success: function (data){
+            $("#join_success_feedback").hide();
+            $("#join_danger_feedback").hide();
+            enter_room(current_room_id);
+            document.getElementById("msgInput").value = '';
+            //Sjekke hvilke bots some er i rommet(current_room_id).
+                //Funksjon som henter alle users i rommet.
+                //for loop som går igennom arrayet og ser etter bot-navn.
+                //if statement som, når true, kaller funksjonen bots(bot, input)
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            $("#join_success_feedback").hide();
+        }
+    })
+
+}
+
+// Users
+
+function get_room_users(){
+
+    user_array = [];
+
+    $.ajax({
+        type: "get",
+        url: "/api/room/"+ current_room_id +"/users",
+        success: function (data){
+            for(let user in data){
+                user_array.append(user);
+            }
+            return user_array;
+        },
+        error: function (xhr){
+            console.log("Error i get_room_users(): " + xhr.responseText);
+        }
+    })
+}
+
+
+// bots
 
 const botArray = ['geir','alice','arne','ulf'];
 function addBot(bot){
@@ -217,40 +276,31 @@ function addBot(bot){
     })
 }
 
-
-
-function sendMSG() {
-
-    const msgInput = $("#msgInput").val();
+function send_bot_MSG(input, bot) {
 
     const msg = {
-        user: current_user,
-        msg: msgInput
+        user: bot,
+        msg: input
     }
 
     $.ajax({
         type: "post",
-        url: "/api/room/"+roomid+"/"+current_user+"/messages",
+        url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
         data: msg,
         success: function (data){
-            $("#join_success_feedback").hide();
-            $("#join_danger_feedback").hide();
-            enter_room(roomid);
-            document.getElementById("msgInput").value = '';
-
+            console.log("Success i send_bot_MSG: " + data)
         },
         error: function (xhr){
-            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
-            $("#join_success_feedback").hide();
+            console.log("Error i send_bot_MSG: " + xhr.responseText)
         }
     })
-
 }
 
+// Additional functions
 
 function logout(){
     current_user = null;
-    roomid = null;
+    current_room_id = null;
     $("#login_div").show();
     $(".hidden_before_login").hide()
 }
