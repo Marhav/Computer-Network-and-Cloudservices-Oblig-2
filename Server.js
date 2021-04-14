@@ -161,7 +161,7 @@ app.get('/api/get_rooms/:username', function (req,res){
     let out = formater_my_rooms(user_in_rooms);
 
     if (!out.toString()){
-        return res.status(200).send(`Welcome back, ${user.username}!\nNo messages yet`)
+        return res.status(200).send(`<h4 class="title">Welcome, ${user.username}!</h4>`)
     }
     else res.status(200).send(out.toString());
 });
