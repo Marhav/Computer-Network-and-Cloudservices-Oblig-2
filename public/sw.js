@@ -8,7 +8,7 @@ self.addEventListener('push', function(e) {
             primaryKey: '2'
         },
         actions: [
-            {action: 'close', title: 'View',
+            {action: 'http://localhost:2828/index.html', title: 'View',
                 icon: 'images/checkmark.png'},
             {action: 'close', title: 'Close',
                 icon: 'images/xmark.png'},
