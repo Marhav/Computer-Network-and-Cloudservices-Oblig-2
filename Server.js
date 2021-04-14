@@ -345,7 +345,15 @@ app.route('/api/room/:room_id/:username/messages')
     const user = users.find(c => c.username === req.params.username);
     if (!user) return  res.status(404).send('The user with the given username was not found.');
 
-        res.status(200).send(foramterMsgs(room.messages)); // NB! MÅ IKKE RETURNERE ALLE MELDINGER I ROMMET!
+    const user_messages = [];
+
+    for (let i = 0; i < room.messages.length; i++){
+        if(room.messages[i].sender === user.username){
+            user_messages.push(room.messages[i].message)
+        }
+    }
+
+    res.status(200).send(user_messages); // NB! MÅ IKKE RETURNERE ALLE MELDINGER I ROMMET!
     })
     //Add message
     .post((req, res) => {
