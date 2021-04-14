@@ -198,24 +198,38 @@ function sendMSG() {
         url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
         data: msg,
         success: function (){
-            $("#join_success_feedback").hide();
             $("#join_danger_feedback").hide();
             enter_room(current_room_id);
             document.getElementById("msgInput").value = '';
-            //Sjekke hvilke bots some er i rommet(current_room_id).
-                //Funksjon som henter alle users i rommet.
             get_room_bots(msg_input)
-                //for loop som går igennom arrayet og ser etter bot-navn.
-                //if statement som, når true, kaller funksjonen bots(bot, input)
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+        }
+    })
+
+}
+
+// Users
+
+function delete_user(){
+
+    const user_dlt = $("#input_delete_user").val();
+
+    $.ajax({
+        type: "delete",
+        url: "/api/user/" + user_dlt,
+        success: function (data){
+            $("#join_success_feedback").show().html("<strong>Success!</strong> " + data);
+            $("#join_danger_feedback").hide();
+            document.getElementById("input_delete_user").value = '';
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
             $("#join_success_feedback").hide();
         }
     })
-
 }
-
 
 
 
@@ -325,10 +339,6 @@ function subscribe() {
                 userVisibleOnly: true,
                 applicationServerKey: 'BMfFUGhN3UEzor02WglMbeyjpI_g_VsId4wWIdrIZ2UWKDbI3beC25pkcr3qkbGQzLAX_W3NjJpOX5FJbes-8fA'
             }).then(function(sub) {
-                // **********VIKTIG!**********
-                // Her skal push sendes til server og legges til
-                // i gruppen som skal ha push varsler!
-                // ***************************
                 console.log(JSON.stringify(sub));
                 add_sub(sub.toJSON());
                 subs.push(current_user)

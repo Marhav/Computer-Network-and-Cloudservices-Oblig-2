@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="row hidden_before_login">
+    <div class="row hidden_before_login" style="margin-top: 40px">
         <div id="out_all_rooms" class="col-md-3">
             <div class="inbox_msg">
                 <div class="all_rooms">
@@ -96,7 +96,7 @@
                 <button class="btn btn-lg btn-danger btn-block" onclick="addBot('RangerDanger')">RangerDanger</button>
             </div>
             <input type="text" class="form-control" id="input_New_Room" placeholder="New Room Name" style="margin-top: 40px">
-            <button class="btn btn-lg btn-primary btn-block"  style="margin-top: 7px" onclick="create_room()">Create Room</button><br>
+            <button class="btn btn-lg btn-primary btn-block"  style="margin-top: 7px; margin-bottom: 7px" onclick="create_room()">Create Room</button>
             <div class="alert alert-danger" id="new_room_danger_feedback">
             </div>
             <div class="alert alert-success" id="new_room_success_feedback">
@@ -127,9 +127,14 @@
             <div class="alert alert-danger" id="join_danger_feedback">
             </div>
         </div>
-        <div class="col-md-7">
-
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" id="input_delete_user" placeholder="Delete user" style="margin-top: 5px">
         </div>
+        <div class="col-md-2">
+            <button class="btn btn-lg btn-danger btn-block"  onclick="delete_user()">Delete User</button>
+        </div>
+        <div class="col-md-1"></div>
         <div class="col-md-2 float-right">
             <button class="btn btn-lg btn-danger btn-block"  onclick="logout()">Log out</button>
         </div>
