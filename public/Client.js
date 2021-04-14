@@ -450,8 +450,6 @@ function refresh_everything(){
     get_all_users()
     enter_room(current_room_id)
 }
-
-
 // Keylistener for chat. (Press Enter to send message!)
 addEventListener("keypress", function (e){
     if(e.keyCode === 13){
