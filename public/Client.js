@@ -37,6 +37,7 @@ function login(){
             current_user = input_login_user;
             $("#login_div").hide();
             $(".hidden_before_login").show()
+            $("#current_user").html(current_user)
             get_all_rooms()
             get_user_rooms()
             if (subs.indexOf(current_user) === -1) $("#myModal").modal('show');
@@ -168,6 +169,7 @@ function enter_room(room_id){
         success: function (data){
             $("#join_success_feedback").hide();
             current_room_id = room_id;
+            get_room_users()
             $("#bot_div").show()
             $(".mesgs").show()
             $("#join_danger_feedback").hide();
@@ -212,6 +214,22 @@ function sendMSG() {
 
 // Users
 
+function get_room_users(){
+
+    $.ajax({
+        type: "get",
+        url: "/api/room/"+ current_room_id +"/users",
+        success: function (data){
+            $("#join_danger_feedback").hide();
+            console.log("From get_room_users: " + data)
+            $("#user_rooms").show().html(data)
+        },
+        error: function (xhr){
+            $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+        }
+    })
+}
+
 function delete_user(){
 
     const user_dlt = $("#input_delete_user").val();
@@ -220,12 +238,12 @@ function delete_user(){
         type: "delete",
         url: "/api/user/" + user_dlt,
         success: function (data){
-            if(current_user == user_dlt)
+            if (user_dlt == current_user)
                 window.location.assign('index.html');
-
             $("#join_success_feedback").show().html("<strong>Success!</strong> " + data);
             $("#join_danger_feedback").hide();
             document.getElementById("input_delete_user").value = '';
+            get_room_users()
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
@@ -263,7 +281,7 @@ function addBot(bot){
             success: function (){
                 $("#join_success_feedback").show().html("<strong>Success!</strong> " + bot + " has entered the room!");
                 $("#join_danger_feedback").hide();
-                get_user_rooms()
+                get_room_users()
             },
             error: function (xhr){
                 $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + bot + " has already entered the room");
@@ -278,7 +296,7 @@ function get_room_bots(msg_input){
 
     $.ajax({
         type: "get",
-        url: "/api/room/"+ current_room_id +"/users",
+        url: "/api/room/"+ current_room_id +"/bots",
         success: function (data){
             console.log(data[0].username)
             for (let i = 0; i < data.length; i++) {
