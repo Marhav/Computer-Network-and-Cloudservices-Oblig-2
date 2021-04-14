@@ -37,7 +37,7 @@ function login(){
             current_user = input_login_user;
             $("#login_div").hide();
             $(".hidden_before_login").show()
-            $("#current_user").html(current_user)
+            $("#current_user").html('Hello, ' + current_user + "!")
             get_all_rooms()
             get_user_rooms()
             get_all_users()
