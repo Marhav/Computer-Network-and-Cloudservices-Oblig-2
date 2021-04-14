@@ -6,8 +6,10 @@ const StringBuilder = require("string-builder");
 const date = require('date-and-time');
 const bodyParser = require('body-parser')
 
-
 const app = express();
+
+
+
 app.set('port', process.env.PORT || 2828);
 
 
@@ -22,6 +24,8 @@ let users = [];
 let chat_rooms = [];
 
                         // ------------------ Functions --------------------- //
+
+
 
 function formater_my_rooms(arr){
 

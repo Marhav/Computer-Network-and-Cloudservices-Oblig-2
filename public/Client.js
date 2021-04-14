@@ -9,10 +9,15 @@ $(function () {
     $("#join_success_feedback").hide()
     $("#warning_feedback").hide()
     $(".hidden_before_login").hide()
+    $("#bot_div").hide()
+    $(".mesgs").hide()
+
 })
 
 let current_user
 let current_room_id;
+let subs = [];
+
 
 // index.html/login
 function login(){
@@ -34,6 +39,7 @@ function login(){
             $(".hidden_before_login").show()
             get_all_rooms()
             get_user_rooms()
+            if (subs.indexOf(current_user) === -1) $("#myModal").modal('show');
             $("#danger_feedback").hide();
         },
         error: function (xhr, textStatus) {
@@ -162,6 +168,8 @@ function enter_room(room_id){
         success: function (data){
             $("#join_success_feedback").hide();
             current_room_id = room_id;
+            $("#bot_div").show()
+            $(".mesgs").show()
             $("#join_danger_feedback").hide();
             $("#msgs_boxes").html(data)
         },
@@ -303,7 +311,6 @@ function send_bot_MSG(input, bot) {
 }
 setTimeout(send_bot_MSG,2000);
 
-
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').then(function(reg) {
         console.log('Service Worker Registered!', reg);
@@ -322,7 +329,6 @@ if ('serviceWorker' in navigator) {
             console.log('Service Worker registration failed: ', err);
         });
 }
-
 function subscribe() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(function(reg) {
@@ -337,6 +343,7 @@ function subscribe() {
                 // ***************************
                 console.log(JSON.stringify(sub));
                 add_sub(sub.toJSON());
+                subs.push(current_user)
             }).catch(function(e) {
                 if (Notification.permission === 'denied') {
                     console.warn('Permission for notifications was denied');
@@ -381,3 +388,5 @@ addEventListener("keypress", function (e){
     }
 });
 
+$(document).ready(function() {
+});
