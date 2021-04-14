@@ -443,6 +443,15 @@ function logout(){
     $(".hidden_before_login").hide()
 }
 
+function refresh_everything(){
+
+    get_room_users()
+    get_user_rooms()
+    get_all_rooms()
+    get_all_users()
+    enter_room(current_room_id)
+}
+
 
 // Keylistener for chat. (Press Enter to send message!)
 addEventListener("keypress", function (e){
