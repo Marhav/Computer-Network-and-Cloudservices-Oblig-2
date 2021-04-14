@@ -1,12 +1,9 @@
-// lists for memory
-let botman_list = [];
-
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you",
     "Nice to see you here", "Yo"];
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
 let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke", "code", "read", "talk",
-    "jog", "run", "paint", "speak", "fly", "game", "walk", "climb", "help", "sleep"];
-let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO", "look at memes"];
+    "jog", "run", "paint", "speak", "fly", "game", "walk", "climb", "help", "sleep", "knit", "train"];
+let blackjack_enjoys = ["watch youtube", "look at memes", "play sims", "go the gym", "play card games"];
 let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup", "yo", "hei"];
 
 
@@ -25,7 +22,16 @@ String.prototype.format = function () {
     });
 };
 
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
 
+
+// calling the different bot-functions
 function bots(bot, input) {
     if (bot === "Botman"){
         return botman(input)
@@ -43,6 +49,7 @@ function bots(bot, input) {
 }
 
 
+let botman_list = [];
 function botman(input) {
     let action = input.format() + "ing";
     let output;
@@ -68,7 +75,7 @@ function botman(input) {
     }
     send_bot_MSG(output, 'Botman')
 }
-let responses;
+
 
 function blackjack(input) {
     let output;
@@ -76,25 +83,31 @@ function blackjack(input) {
         output = getRandomFromArray(greeting)
     } else if (input.toLowerCase() === "bye") {
         output = getRandomFromArray(bye);
-    } else {
-        responses = {
-            "work": "Nah. Working is boring",
-            "play": "Oh yes. Playing is fun!",
-            "eat": "I love to eat. But i'm not a very good cook...",
-            "sing": "Singing is fun! I love opera",
-            "study": "We can study if you do my homework:)",
-            "cook": "You can do the cooking and I eat the food;)",
-            "joke": "You should ask RangerDanger! He knows many jokes."
-        };
-        if (input.toLowerCase() in responses) {
-            output = responses[input.toLowerCase()];
-        } else {
-            output = "I'm not sure what that is. But i would love to " + getRandomFromArray(geir_likes);
-        }
+    } else if (input.toLowerCase().includes("talk")) {
+        output = "blablabla";
+    }else if (input.toLowerCase().includes("work")){
+        output = "Nah. Working is boring";
+    } else if (input.toLowerCase().includes("play")){
+        output = "Oh yes. Playing is fun!";
+    }else if (input.toLowerCase().includes("eat")){
+        output = "I love to eat. But i'm not a very good cook...";
+    }else if (input.toLowerCase().includes("sing")){
+        output = "Singing is fun! I love opera";
+    }else if (input.toLowerCase().includes("study")){
+        output = "We can study if you do my homework:)";
+    }else if (input.toLowerCase().includes("cook")){
+        output = "You can do the cooking and I eat the food;)";
+    }else if (input.toLowerCase().includes("joke")){
+        output = "You should ask RangerDanger! He knows many jokes.";
+    }
+    else {
+            output = "I'm not sure what that is. But i would love to " + getRandomFromArray(blackjack_enjoys);
 
     }
     send_bot_MSG(output,'BlackJack')
 }
+
+
 arne_list = [];
 function dj_aron(input) {
     let action = input.format() + "ing";
@@ -120,6 +133,8 @@ function dj_aron(input) {
     }
     send_bot_MSG(output, 'DJ ARON')
 }
+
+
 let jokes = [
     "Why do Java developers wear glasses? ...Because they can not C#.",
     "How do you comfort a JavaScript bug? ...You console it.",
@@ -128,10 +143,11 @@ let jokes = [
     "Why was the JavaScript developer sad? ...Because he didn't Node how to Express himself.",
     "How many programmers does it take to change a light bulb? ...None, thats a hardware problem.",
     "How do functions break up? ...They stop calling each other.",
-    "You can continue whenever you want. But you can only take a break once in a while."
+    "You can continue whenever you want. But you can only take a break once in a while.",
+    "I told a JS joke to my non-tech friend. He didn't react, I guess he didn't git it.",
+    "What did the programmer quit their job? Because they didn't get arrays"
 ];
 function rangerdanger(input) {
-
     let output;
     if (hello.includes(input.toLowerCase())) {
         output = getRandomFromArray(greeting)
