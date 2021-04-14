@@ -135,7 +135,9 @@ let jokes = [
     "Why was the JavaScript developer sad? ...Because he didn't Node how to Express himself.",
     "How many programmers does it take to change a light bulb? ...None, thats a hardware problem.",
     "How do functions break up? ...They stop calling each other.",
-    "You can continue whenever you want. But you can only take a break once in a while."
+    "You can continue whenever you want. But you can only take a break once in a while.",
+    "I told a JS joke to my non-tech friend. He didn't react, I guess he didn't git it.",
+    "What did the programmer quit their job? Because they didn't get arrays"
 ];
 function rangerdanger(input) {
     let output;
