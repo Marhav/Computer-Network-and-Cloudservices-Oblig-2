@@ -17,7 +17,7 @@ function getRandomFromArray(arr) {
     }
 }
 
-// formatting strings, similar to .format in python
+// formatting strings
 String.prototype.format = function () {
     let i = 0, args = arguments;
     return this.replace(/{}/g, function () {
@@ -68,7 +68,6 @@ function botman(input) {
     }
     send_bot_MSG(output, 'Botman')
 }
-let responses;
 
 function blackjack(input) {
     let output;
