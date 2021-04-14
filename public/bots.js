@@ -6,7 +6,7 @@ let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", 
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
 let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke", "code", "read", "talk",
     "jog", "run", "paint", "speak", "fly", "game", "walk", "climb", "help", "sleep"];
-let geir_likes = ["watch youtube", "watch tiktok", "watch netflix", "watch HBO", "look at memes"];
+let blackjack_enjoys = ["watch youtube", "look at memes", "play LOL", "go the gym", ];
 let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup", "yo", "hei"];
 
 
@@ -17,7 +17,7 @@ function getRandomFromArray(arr) {
     }
 }
 
-// formatting strings
+// formatting strings, similar to .format in python
 String.prototype.format = function () {
     let i = 0, args = arguments;
     return this.replace(/{}/g, function () {
@@ -76,21 +76,25 @@ function blackjack(input) {
         output = getRandomFromArray(greeting)
     } else if (input.toLowerCase() === "bye") {
         output = getRandomFromArray(bye);
-    } else {
-        responses = {
-            "work": "Nah. Working is boring",
-            "play": "Oh yes. Playing is fun!",
-            "eat": "I love to eat. But i'm not a very good cook...",
-            "sing": "Singing is fun! I love opera",
-            "study": "We can study if you do my homework:)",
-            "cook": "You can do the cooking and I eat the food;)",
-            "joke": "You should ask RangerDanger! He knows many jokes."
-        };
-        if (input.toLowerCase() in responses) {
-            output = responses[input.toLowerCase()];
-        } else {
-            output = "I'm not sure what that is. But i would love to " + getRandomFromArray(geir_likes);
-        }
+    } else if (input.toLowerCase().includes("talk")) {
+        output = "blablabla";
+    }else if (input.toLowerCase().includes("work")){
+        output = "Nah. Working is boring";
+    } else if (input.toLowerCase().includes("play")){
+        output = "Oh yes. Playing is fun!";
+    }else if (input.toLowerCase().includes("eat")){
+        output = "I love to eat. But i'm not a very good cook...";
+    }else if (input.toLowerCase().includes("sing")){
+        output = "Singing is fun! I love opera";
+    }else if (input.toLowerCase().includes("study")){
+        output = "We can study if you do my homework:)";
+    }else if (input.toLowerCase().includes("cook")){
+        output = "You can do the cooking and I eat the food;)";
+    }else if (input.toLowerCase().includes("joke")){
+        output = "You should ask RangerDanger! He knows many jokes.";
+    }
+    else {
+            output = "I'm not sure what that is. But i would love to " + getRandomFromArray(blackjack_enjoys);
 
     }
     send_bot_MSG(output,'BlackJack')
