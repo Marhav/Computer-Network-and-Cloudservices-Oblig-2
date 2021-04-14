@@ -1,6 +1,7 @@
 // initial function
+
 $(function () {
-    //Skjuler alle feedbacks.
+    // Hide all feedbacks.
     $("#danger_feedback").hide()
     $("#success_feedback").hide()
     $("#new_room_danger_feedback").hide()
@@ -8,18 +9,23 @@ $(function () {
     $("#join_danger_feedback").hide()
     $("#join_success_feedback").hide()
     $("#warning_feedback").hide()
+
+    // Hide other stuff.
     $(".hidden_before_login").hide()
     $("#bot_div").hide()
     $(".mesgs").hide()
 
 })
 
+// Adding some useful variables
 let current_user
 let current_room_id;
 let subs = [];
 
-
 // index.html/login
+
+// Login
+
 function login(){
 
     const input_login_user = $("#login_username").val();
@@ -33,7 +39,6 @@ function login(){
         url: "/api/login",
         data: user,
         success: function(data) {
-            console.log(data);
             current_user = input_login_user;
             $("#login_div").hide();
             $(".hidden_before_login").show()
@@ -54,7 +59,17 @@ function login(){
         }});
 }
 
+// Logout
+
+function logout(){
+    current_user = null;
+    current_room_id = null;
+    $("#login_div").show();
+    $(".hidden_before_login").hide()
+}
+
 // Signup.html
+
 function create_user(){
 
     const input_Register_user = $("#register_username").val();
@@ -68,7 +83,6 @@ function create_user(){
         url: "/api/users",
         data: user,
         success: function(data, status_text, xhr) {
-            console.log(data);
             $("#success_feedback").show().html('<strong>Success!</strong> ' + xhr.responseText)
             setTimeout(function() { $("#success_feedback").fadeOut(1500); }, 2000);
 
@@ -105,22 +119,7 @@ function get_user_rooms() {
         type: "get",
         url: "/api/get_rooms/" + current_user,
         success: function(data) {
-            console.log(data);
             $("#user_rooms").html(data);
-        },
-        error: function (xhr, textStatus) {
-            console.log(textStatus + " " + xhr.responseText);
-        }
-    });
-}
-
-function get_all_users() {
-    $.ajax({
-        type: "get",
-        url: "/api/users/",
-        success: function(data) {
-            console.log(data);
-            $("#users").html(data);
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
@@ -133,7 +132,6 @@ function get_all_rooms() {
         type: "get",
         url: "/api/rooms",
         success: function(data) {
-            console.log(data);
             $("#room").html(data);
         },
         error: function (xhr, textStatus) {
@@ -215,9 +213,7 @@ function enter_room(room_id){
     })
 }
 
-
 //messages
-
 
 function sendMSG() {
     const msg_input = $("#msgInput").val();
@@ -243,8 +239,6 @@ function sendMSG() {
 
         }
     })
-
-
 }
 
 // Users
@@ -256,7 +250,6 @@ function get_room_users(){
         url: "/api/room/"+ current_room_id +"/users",
         success: function (data){
             $("#join_danger_feedback").hide();
-            console.log("From get_room_users: " + data)
             $("#user_rooms").show().html(data)
         },
         error: function (xhr){
@@ -265,6 +258,19 @@ function get_room_users(){
 
         }
     })
+}
+
+function get_all_users() {
+    $.ajax({
+        type: "get",
+        url: "/api/users/",
+        success: function(data) {
+            $("#users").html(data);
+        },
+        error: function (xhr, textStatus) {
+            console.log(textStatus + " " + xhr.responseText);
+        }
+    });
 }
 
 function delete_user(){
@@ -292,8 +298,6 @@ function delete_user(){
     })
 }
 
-
-
 // bots
 
 const botArray = ['BlackJack','Botman','DJ ARON','RangerDanger'];
@@ -310,7 +314,6 @@ function addBot(bot){
             url: "/api/users",
             data: user,
             success: function(data) {
-                console.log(data);
                 $("#warning_feedback").hide();
             }});
 
@@ -342,10 +345,8 @@ function get_room_bots(msg_input){
         type: "get",
         url: "/api/room/"+ current_room_id +"/bots",
         success: function (data){
-            console.log(data[0].username)
             for (let i = 0; i < data.length; i++) {
                 if (botArray.includes(data[i].username)) {
-                    console.log("Dette er data[].username: " + data[i].username)
                     bots(data[i].username, msg_input)
                 }
             }
@@ -369,7 +370,6 @@ function send_bot_MSG(input, bot) {
         success: function (data){
             sleep(300);
             enter_room(current_room_id)
-            console.log("Success i send_bot_MSG: " + data)
         },
         error: function (xhr){
             console.log("Error i send_bot_MSG: " + xhr.responseText)
@@ -377,6 +377,7 @@ function send_bot_MSG(input, bot) {
     })
 }
 
+// Push Notifications
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').then(function(reg) {
@@ -396,6 +397,7 @@ if ('serviceWorker' in navigator) {
             console.log('Service Worker registration failed: ', err);
         });
 }
+
 function subscribe() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(function(reg) {
@@ -435,13 +437,6 @@ function add_sub(input){
 }
 
 // Additional functions
-
-function logout(){
-    current_user = null;
-    current_room_id = null;
-    $("#login_div").show();
-    $(".hidden_before_login").hide()
-}
 
 function refresh_everything(){
 
