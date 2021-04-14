@@ -1,12 +1,9 @@
-// lists for memory
-let botman_list = [];
-
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you",
     "Nice to see you here", "Yo"];
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
 let known_verbs = ["work", "play", "eat", "sing", "study", "cook", "joke", "code", "read", "talk",
-    "jog", "run", "paint", "speak", "fly", "game", "walk", "climb", "help", "sleep"];
-let blackjack_enjoys = ["watch youtube", "look at memes", "play LOL", "go the gym", ];
+    "jog", "run", "paint", "speak", "fly", "game", "walk", "climb", "help", "sleep", "knit", "train"];
+let blackjack_enjoys = ["watch youtube", "look at memes", "play sims", "go the gym", "play card games"];
 let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup", "yo", "hei"];
 
 
@@ -26,6 +23,7 @@ String.prototype.format = function () {
 };
 
 
+// calling the different bot-functions
 function bots(bot, input) {
     if (bot === "Botman"){
         return botman(input)
@@ -43,6 +41,7 @@ function bots(bot, input) {
 }
 
 
+let botman_list = [];
 function botman(input) {
     let action = input.format() + "ing";
     let output;
@@ -68,6 +67,7 @@ function botman(input) {
     }
     send_bot_MSG(output, 'Botman')
 }
+
 
 function blackjack(input) {
     let output;
@@ -98,6 +98,8 @@ function blackjack(input) {
     }
     send_bot_MSG(output,'BlackJack')
 }
+
+
 arne_list = [];
 function dj_aron(input) {
     let action = input.format() + "ing";
@@ -123,6 +125,8 @@ function dj_aron(input) {
     }
     send_bot_MSG(output, 'DJ ARON')
 }
+
+
 let jokes = [
     "Why do Java developers wear glasses? ...Because they can not C#.",
     "How do you comfort a JavaScript bug? ...You console it.",
@@ -134,7 +138,6 @@ let jokes = [
     "You can continue whenever you want. But you can only take a break once in a while."
 ];
 function rangerdanger(input) {
-
     let output;
     if (hello.includes(input.toLowerCase())) {
         output = getRandomFromArray(greeting)
