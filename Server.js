@@ -220,10 +220,21 @@ app.route('/api/user/:username')
         const user = users.find(c => c.username === req.params.username);
         if (!user) return res.status(404).send('The user with the given id was not found.');
 
+        for (let i = 0;i<chat_rooms.length;i++){
+            let roomuser = chat_rooms[i].roomUsers;
+            for (let j = 0;j<roomuser.length;j++){
+                console.log(roomuser[j])
+                if (roomuser[j].username === user.username){
+                    console.log(roomuser[j].username + " has been deleted" + " from room " + chat_rooms[i].name);
+                    roomuser.splice(j,1);
+                }
+            }
+        }
         const index = users.indexOf(user);
         users.splice(index,1);
 
         res.status(200).send(`User ${user.username} is deleted!`);
+
     });
 
 
@@ -295,20 +306,16 @@ app.route('/api/room/:room_id/users')
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) return res.status(404).send('The room with the given id was not found.');
 
-
-
-
     const joinUser = {
         username: req.body.username
     };
 
     const check_users_in_room = room.roomUsers.find(c => c.username === joinUser.username);
-
     if(check_users_in_room) return res.status(400).send("You have already joined " + room.name);
 
-    const user = users.indexOf(joinUser);
 
-    if (!user) res.status(404).send("No user with user ID " + joinUser.username + " is found");
+    const user = users.indexOf(joinUser);
+    if (!user) res.status(404).send("No user with username " + joinUser.username + " is found");
 
     room.roomUsers.push(joinUser);
 
