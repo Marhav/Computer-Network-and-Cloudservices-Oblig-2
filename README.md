@@ -1,4 +1,4 @@
-# Computer Nettwork and Cloudservices
+# Computer Network and Cloudservices
 ### Obligatory assignment 2, Data 2410
 Available for testing at heroku: https://data2410-oblig-2.herokuapp.com
 
