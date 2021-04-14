@@ -220,6 +220,9 @@ function delete_user(){
         type: "delete",
         url: "/api/user/" + user_dlt,
         success: function (data){
+            if(current_user == user_dlt)
+                window.location.assign('index.html');
+
             $("#join_success_feedback").show().html("<strong>Success!</strong> " + data);
             $("#join_danger_feedback").hide();
             document.getElementById("input_delete_user").value = '';
@@ -384,7 +387,4 @@ addEventListener("keypress", function (e){
     if(e.keyCode === 13){
         document.getElementById("msg_btn").click();
     }
-});
-
-$(document).ready(function() {
 });
