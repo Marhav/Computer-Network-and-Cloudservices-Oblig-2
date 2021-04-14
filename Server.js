@@ -48,6 +48,44 @@ function formater_my_rooms(arr){
 
     return out;
 }
+
+function formater_room_users(arr){
+
+    let out = new StringBuilder()
+
+    let div = `<div class="chat_list">
+                    <div class="chat_people">
+                        <div class="recent_heading"><h4>Participants:</h4></div>
+    
+                        </div>
+                    </div>
+                </div>`
+
+    out.append(div)
+
+    arr.forEach(user => {
+
+        div = `<div class="chat_list">
+                    <div class="chat_people">
+                        <div class="chat_img"><span class="material-icons" style="color: lime;">adjust</span></div>
+                           <div class="chat_ib">${user.username}</div>
+                        </div>
+                    </div>
+                </div>`
+
+        out.append(div);
+    });
+    div = `<div class="chat_list">
+                    <div class="chat_people">
+                        <button class="btn btn-lg btn-danger btn-block" onclick="get_user_rooms()">Exit</button>
+    
+                        </div>
+                    </div>
+                </div>`
+    out.append(div)
+    return out.toString();
+}
+
 function formater_rooms(arr) {
 
     let link;
@@ -293,12 +331,21 @@ app.get('/api/room/:room_id', (req,res) => {
 
 });
 
+app.route('/api/room/:room_id/bots')
+    //Get all users in the room
+    .get((req, res) =>{
+        const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
+        if (!room) return res.status(404).send('The room with the given id was not found.');
+        res.status(200).send(room.roomUsers);
+    });
+
+
 app.route('/api/room/:room_id/users')
     //Get all users in the room
     .get((req, res) =>{
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) return res.status(404).send('The room with the given id was not found.');
-    res.status(200).send(room.roomUsers);
+    res.status(200).send(formater_room_users(room.roomUsers));
     })
     //Add/join user
     //Restrictions:Only registered users can join
