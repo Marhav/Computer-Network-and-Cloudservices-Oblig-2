@@ -49,13 +49,13 @@ function formater_my_rooms(arr){
     return out;
 }
 
-function formater_room_users(arr){
+function formater_room_users(arr, room){
 
     let out = new StringBuilder()
 
     let div = `<div class="chat_list">
                     <div class="chat_people">
-                        <div class="recent_heading"><h4>Participants:</h4></div>
+                        <div class="recent_heading"><h4>${room.name}</h4><br><h5>Participants:</h5></div>
     
                         </div>
                     </div>
@@ -345,7 +345,7 @@ app.route('/api/room/:room_id/users')
     .get((req, res) =>{
     const room = chat_rooms.find(c => c.room_id === parseInt(req.params.room_id));
     if (!room) return res.status(404).send('The room with the given id was not found.');
-    res.status(200).send(formater_room_users(room.roomUsers));
+    res.status(200).send(formater_room_users(room.roomUsers, room));
     })
     //Add/join user
     //Restrictions:Only registered users can join
