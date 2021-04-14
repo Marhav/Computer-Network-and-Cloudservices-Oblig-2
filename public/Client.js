@@ -42,7 +42,7 @@ function login(){
             current_user = input_login_user;
             $("#login_div").hide();
             $(".hidden_before_login").show()
-            $("#current_user").html(current_user)
+            $("#current_user").html('Hello, ' + current_user + "!")
             get_all_rooms()
             get_user_rooms()
             get_all_users()
@@ -52,6 +52,9 @@ function login(){
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
             $("#danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#danger_feedback").fadeOut(1500); }, 2000);
+
+
             $("#success_feedback").hide();
         }});
 }
@@ -81,6 +84,8 @@ function create_user(){
         data: user,
         success: function(data, status_text, xhr) {
             $("#success_feedback").show().html('<strong>Success!</strong> ' + xhr.responseText)
+            setTimeout(function() { $("#success_feedback").fadeOut(1500); }, 2000);
+
             $("#warning_feedback").hide();
             window.location.assign('index.html');
         },
@@ -89,10 +94,17 @@ function create_user(){
             $("#success_feedback").hide();
             if(xhr.status === 400) {
                 $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+                setTimeout(function() { $("#warning_feedback").fadeOut(1500); }, 2000);
+
             } else if (xhr.status === 409) {
                 $("#warning_feedback").show().html('<strong>Warning!</strong> ' + xhr.responseText);
+                setTimeout(function() { $("#warning_feedback").fadeOut(1500); }, 2000);
+
             } else {
-                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: ' + xhr.status + " " + xhr.responseText);
+                $("#warning_feedback").show().html('<strong>Warning!</strong> Something went wrong! Error code: '
+                    + xhr.status + " " + xhr.responseText);
+                setTimeout(function() { $("#warning_feedback").fadeOut(1500); }, 2000);
+
             }
         }});
 }
@@ -142,12 +154,15 @@ function create_room() {
         data: room_name,
         success: function (data){
             $("#new_room_success_feedback").show().html("<strong>Success!</strong> " + data);
+            setTimeout(function() { $("#new_room_success_feedback").fadeOut(1500); }, 2000);
+
             $("#new_room_danger_feedback").hide();
             get_all_rooms()
             document.getElementById("input_New_Room").value = '';
         },
         error: function (xhr){
             $("#new_room_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#new_room_danger_feedback").fadeOut(1500); }, 2000);
             $("#new_room_success_feedback").hide();
         }
     })
@@ -164,11 +179,13 @@ function join_room(room_id){
         data: user,
         success: function (){
             $("#join_success_feedback").show().html("<strong>Success!</strong> Room joined!");
+            setTimeout(function() { $("#join_success_feedback").fadeOut(1500); }, 2000);
             $("#join_danger_feedback").hide();
             get_user_rooms()
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#join_danger_feedback").fadeOut(1500); }, 2000);
             $("#join_success_feedback").hide();
         }
     })
@@ -190,6 +207,7 @@ function enter_room(room_id){
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#join_danger_feedback").fadeOut(1500); }, 2000);
             $("#join_success_feedback").hide();
         }
     })
@@ -198,7 +216,6 @@ function enter_room(room_id){
 //messages
 
 function sendMSG() {
-
     const msg_input = $("#msgInput").val();
 
     const msg = {
@@ -208,18 +225,21 @@ function sendMSG() {
 
     $.ajax({
         type: "post",
-        url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
+        url: "/api/room/" + current_room_id + "/" + current_user + "/messages",
         data: msg,
-        success: function (){
+        success: function () {
             $("#join_danger_feedback").hide();
             enter_room(current_room_id);
             document.getElementById("msgInput").value = '';
             get_room_bots(msg_input)
         },
-        error: function (xhr){
+        error: function (xhr) {
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#join_danger_feedback").fadeOut(1500); }, 2000);
+
         }
     })
+
 
 }
 
@@ -236,6 +256,8 @@ function get_room_users(){
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#join_danger_feedback").fadeOut(1500); }, 2000);
+
         }
     })
 }
@@ -263,13 +285,16 @@ function delete_user(){
         success: function (data){
             if (user_dlt == current_user)
                 window.location.assign('index.html');
+            get_all_users();
             $("#join_success_feedback").show().html("<strong>Success!</strong> " + data);
+            setTimeout(function() { $("#join_success_feedback").fadeOut(1500); }, 2000);
             $("#join_danger_feedback").hide();
             document.getElementById("input_delete_user").value = '';
             get_room_users()
         },
         error: function (xhr){
             $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + xhr.responseText);
+            setTimeout(function() { $("#join_danger_feedback").fadeOut(1500); }, 2000);
             $("#join_success_feedback").hide();
         }
     })
@@ -300,11 +325,15 @@ function addBot(bot){
             data: user,
             success: function (){
                 $("#join_success_feedback").show().html("<strong>Success!</strong> " + bot + " has entered the room!");
+                setTimeout(function() { $("#join_success_feedback").fadeOut(1500); }, 2000);
+
                 $("#join_danger_feedback").hide();
                 get_room_users()
             },
             error: function (xhr){
                 $("#join_danger_feedback").show().html("<strong>Danger!</strong> " + bot + " has already entered the room");
+                setTimeout(function() { $("#join_danger_feedback").fadeOut(1500); }, 2000);
+
                 $("#join_success_feedback").hide();
             }
         })
