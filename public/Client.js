@@ -313,7 +313,6 @@ function get_room_bots(msg_input){
 }
 
 function send_bot_MSG(input, bot) {
-
     const msg = {
         user: bot,
         msg: input
@@ -324,6 +323,7 @@ function send_bot_MSG(input, bot) {
         url: "/api/room/"+current_room_id+"/"+current_user+"/messages",
         data: msg,
         success: function (data){
+            sleep(300);
             enter_room(current_room_id)
             console.log("Success i send_bot_MSG: " + data)
         },
@@ -332,7 +332,7 @@ function send_bot_MSG(input, bot) {
         }
     })
 }
-setTimeout(send_bot_MSG,2000);
+
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').then(function(reg) {

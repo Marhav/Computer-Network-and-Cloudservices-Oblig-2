@@ -22,6 +22,14 @@ String.prototype.format = function () {
     });
 };
 
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
 
 // calling the different bot-functions
 function bots(bot, input) {
