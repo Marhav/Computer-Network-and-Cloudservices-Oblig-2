@@ -239,8 +239,6 @@ function sendMSG() {
 
         }
     })
-
-
 }
 
 // Users
@@ -399,6 +397,7 @@ if ('serviceWorker' in navigator) {
             console.log('Service Worker registration failed: ', err);
         });
 }
+
 function subscribe() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(function(reg) {
