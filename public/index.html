@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Oblig2</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="Client.js"></script>
@@ -28,7 +29,8 @@
                     </div><br>
 
                     <div class="form-label-group">
-                        <input type="text" class="form-control" placeholder="Username" id="login_username" name="login_username" required="" autofocus="">
+                        <input type="text" class="form-control" placeholder="Username" id="login_username"
+                               name="login_username" required="" autofocus="">
                     </div><br>
 
                     <div class="alert alert-danger" id="danger_feedback">
@@ -45,79 +47,119 @@
             </div>
         </div>
     </div>
-    <div id="navbar" class="hidden_before_login">
-        <div class="topnav">
+
+
+    <div id="navbar" class="row hidden_before_login">
+        <div class="topnav col-12">
             <a class="active" href="#home">ChatMet</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
+            <a href="#news">Created Rooms</a>
+            <a onclick="get_all_users()">Users</a>
             <div class="topnav-right">
-                <a href="#search">Search</a>
-                <a id="current_user"  href="#about">About</a>
+                <a class="me" style="color: white;" id="current_user">Me</a>
                 <a class="active" onclick="logout()">Log out</a>
             </div>
         </div>
     </div>
 
+
     <div class="row hidden_before_login" style="margin-top: 40px">
 
+        <div class="col-3">
+            <input type="text" class="form-control" id="input_New_Room" placeholder="New Room Name">
+            <button class="btn btn-lg btn-primary btn-block"  style="margin-top: 7px; margin-bottom: 7px"
+                    onclick="create_room()">Create Room</button>
+            <div class="alert alert-danger" id="new_room_danger_feedback"></div>
+            <div class="alert alert-success" id="new_room_success_feedback"></div>
 
-
-        <div id="out_all_rooms" class="col-md-3">
-            <div class="inbox_msg">
-                <div class="all_rooms">
-                    <div class="headind_srch">
-                        <div class="recent_heading">
-                            <h4>Created rooms</h4>
+            <div id="out_all_rooms">
+                <div class="inbox_msg">
+                    <div class="all_rooms">
+                        <div class="headind_srch">
+                            <div class="recent_heading">
+                                <h4>Created rooms</h4>
+                            </div>
                         </div>
-
+                        <div id="room"></div>
                     </div>
-                    <div id="room">
-
-                    </div>
-
                 </div>
             </div>
         </div>
-        <div id="msgs" class="col-md-7 messaging">
+
+        <div id="msgs" class="col-6 messaging">
             <div class="inbox_msg">
                 <div class="inbox_people">
                     <div class="headind_srch">
                         <div class="recent_heading">
                             <h4>My Rooms</h4>
                         </div>
-
                     </div>
-                    <div id="user_rooms" class="inbox_chat">
-
-                    </div>
-
+                    <div id="user_rooms" class="inbox_chat"></div>
                 </div>
+
                 <div class="mesgs">
                     <div class="msg_history">
                         <div id="msgs_boxes" class="incoming_msg"></div>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input id="msgInput" type="text" class="write_msg" placeholder="Type a message" name="msg"/>
-                            <span id="msg_btn" type="button" onclick="sendMSG()" class="material-icons md-dark msg_send_btn">send</span>
+                            <input id="msgInput" type="text" class="write_msg" placeholder="Type a message"
+                                   name="msg"/>
+                            <span id="msg_btn" type="button" onclick="sendMSG()"
+                                  class="material-icons md-dark msg_send_btn">send</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="out_all_users" class="col-md-3">
+            <input type="text" class="form-control" id="input_delete_user"
+                       placeholder="Delete user" style="margin-bottom: 7px">
+            <button class="btn btn-lg btn-danger btn-block" style="margin-bottom: 7px"  onclick="delete_user()">Delete User</button>
+            <div class="inbox_msg">
+                <div class="all_rooms">
+                    <div class="headind_srch">
+                        <div class="recent_heading">
+                            <h4>users</h4>
+                        </div>
+                    </div>
+                    <div id="users"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row hidden_before_login" style="margin-bottom: 20px">
+
+        <div class="col-2"></div>
+
+        <div class="col-2">
+            <button class="btn btn-lg btn-danger btn-block" onclick="addBot('RangerDanger')">RangerDanger</button>
+        </div>
+
+        <div class="col-2">
+            <button class="btn btn-lg btn-warning btn-block" onclick="addBot('BlackJack')">BlackJack</button>
+        </div>
+
+        <div class="col-2">
+            <button class="btn btn-lg btn-success btn-block" onclick="addBot('Botman')">Botman</button>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-lg btn-primary btn-block" onclick="addBot('DJ ARON')">DJ ARON</button>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row hidden_before_login">
+        <div class="col-6">
+            <div class="alert alert-success" id="join_success_feedback">
+            </div>
+            <div class="alert alert-danger" id="join_danger_feedback">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row hidden_before_login">
+
         <div class="col-md-2">
-            <div id="bot_div">
-                <button class="btn btn-lg btn-warning btn-block" onclick="addBot('BlackJack')">BlackJack</button>
-                <button class="btn btn-lg btn-success btn-block" onclick="addBot('Botman')">Botman</button>
-                <button class="btn btn-lg btn-primary btn-block" onclick="addBot('DJ ARON')">DJ ARON</button>
-                <button class="btn btn-lg btn-danger btn-block" onclick="addBot('RangerDanger')">RangerDanger</button>
-            </div>
-            <input type="text" class="form-control" id="input_New_Room" placeholder="New Room Name" style="margin-top: 40px">
-            <button class="btn btn-lg btn-primary btn-block"  style="margin-top: 7px; margin-bottom: 7px" onclick="create_room()">Create Room</button>
-            <div class="alert alert-danger" id="new_room_danger_feedback">
-            </div>
-            <div class="alert alert-success" id="new_room_success_feedback">
-            </div>
             <div id="myModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -128,7 +170,8 @@
                         <div class="modal-body">
                             <p>Subscribe to get notification when someone send you a message.</p>
                             <form>
-                                <button onclick="subscribe()" class="btn btn-primary" data-dismiss="modal">Subscribe</button>
+                                <button onclick="subscribe()" class="btn btn-primary"
+                                        data-dismiss="modal">Subscribe</button>
                                 <button type="button" class="close" data-dismiss="modal" >Subscribe later</button>
                             </form>
                         </div>
@@ -137,98 +180,7 @@
             </div>
         </div>
     </div>
-    <div class="row hidden_before_login">
-        <div class="col-md-3">
-            <div class="alert alert-success" id="join_success_feedback">
-            </div>
-            <div class="alert alert-danger" id="join_danger_feedback">
-            </div>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="input_delete_user" placeholder="Delete user" style="margin-top: 5px">
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-lg btn-danger btn-block"  onclick="delete_user()">Delete User</button>
-        </div>
-        <div class="col-md-1"></div>
-        <!--
-        <div class="col-md-2 float-right">
-            <button class="btn btn-lg btn-danger btn-block"  onclick="logout()">Log out</button>
-        </div>
-        -->
-    </div>
 </div>
-<!--
-<h1>Welcome to chatserver data2410</h1>
-
-<form>
-    <button type="submit">Log in</button>
-</form>
-
-<form>
-    <a type="button" class="btn primary col" href="signup.html">Register</a>
-</form>
-
-<h3>Register user</h3>
-<form action="http://localhost:2828/api/users" method="POST">
-    <div class="form-col">
-        <input class="col" type="text" name="name" placeholder="username">
-        <input class="col" type="password" name="password" placeholder="password">
-        <button class="btn primary col" type="submit">Sign up</button>
-    </div>
-</form>
-
-<form action="http://localhost:2828/api/users" method="GET">
-    <button class="btn primary col"  type="submit">USERS</button>
-</form>
-
-<form action="http://localhost:2828/api/rooms" method="POST">
-    <div class="form-col">
-        <input class="col" type="text" name="name" placeholder="Room name">
-        <button class="btn primary col" type="submit">Sign up</button>
-    </div>
-</form>
-
-<form action="http://localhost:2828/api/room/:room_id/users" method="POST">
-    <div class="form-col">
-        <input class="col" type="text" name="name" placeholder="username">
-        <input class="col" type="password" name="password" placeholder="password">
-        <button class="btn primary col" type="submit">Sign up</button>
-    </div>
-</form>
-
-
-<p>
-    <label for="name">Name</label>
-    <input type="text" id="name"/>
-    <label for="user">Register as: </label>
-    <select name="user" onchange="selectUser()" id="user">
-        <option value="user">user</option>
-        <option value="bot1">bot1 (bot)</option>
-        <option value="bot2">bot2 (bot)</option>
-        <option value="bot3">bot3 (bot)</option>
-        <option value="bot4">bot4 (bot)</option>
-    </select>
-    <button class="btn btn-primary" onclick="joinUser()">Join</button>
-</p>
-
-<p>
-    <label for="roomid">Enter room: </label>
-    <input type="text" id="roomid"/>
-    <button class="btn btn-primary" onclick="joinRoom()">Join</button>
-</p>
-
-
-<p>
-<h2>Currently joined rooms: </h2>
-<div id="joinedRooms"></div>
-</p>
-
-<p>
-    <button class="btn btn-danger" onclick="dangerTest()">dangerTest</button>
-</p>
--->
 
 </body>
 </html>

@@ -86,6 +86,25 @@ function formater_room_users(arr, room){
     return out.toString();
 }
 
+function formater_users(arr){
+
+    let out = new StringBuilder()
+
+    arr.forEach(user => {
+
+        div = `<div class="chat_list">
+                        <div class="chat_people">
+                            <div class="chat_img"><span class="material-icons" style="color: lime;">adjust</span></div>
+                               <div class="chat_ib">${user.username}</div>
+                            </div>
+                        </div>
+                    </div>`
+
+        out.append(div);
+    });
+    return out.toString();
+}
+
 function formater_rooms(arr) {
 
     let link;
@@ -206,16 +225,9 @@ app.get('/api/get_rooms/:username', function (req,res){
 
 
 app.route('/api/users')
-
     //get all
     .get((req, res) => {
-
-        const out = new StringBuilder();
-        users.forEach(user => {
-            out.append(user.username);
-        });
-
-        res.status(200).send(out.toString())
+        res.status(200).send(formater_users(users));
     })
     //add user
     .post((req,res) => {

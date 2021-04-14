@@ -40,6 +40,7 @@ function login(){
             $("#current_user").html(current_user)
             get_all_rooms()
             get_user_rooms()
+            get_all_users()
             if (subs.indexOf(current_user) === -1) $("#myModal").modal('show');
             $("#danger_feedback").hide();
         },
@@ -94,6 +95,20 @@ function get_user_rooms() {
         success: function(data) {
             console.log(data);
             $("#user_rooms").html(data);
+        },
+        error: function (xhr, textStatus) {
+            console.log(textStatus + " " + xhr.responseText);
+        }
+    });
+}
+
+function get_all_users() {
+    $.ajax({
+        type: "get",
+        url: "/api/users/",
+        success: function(data) {
+            console.log(data);
+            $("#users").html(data);
         },
         error: function (xhr, textStatus) {
             console.log(textStatus + " " + xhr.responseText);
@@ -406,3 +421,5 @@ addEventListener("keypress", function (e){
         document.getElementById("msg_btn").click();
     }
 });
+
+
