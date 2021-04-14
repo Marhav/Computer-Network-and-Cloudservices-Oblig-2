@@ -1,3 +1,4 @@
+//arrays used by bots
 let greeting = ["Hey there!", "Hey", "Sup", "Nice to meet you!", "Hello", "Hi", "Heyyyy", "Good to finally meet you",
     "Nice to see you here", "Yo"];
 let bye = ["Bye", "Sad to see you go", "Goodbye", "Thank you! Come again!", "Byebye", "See you soon"];
@@ -7,7 +8,7 @@ let blackjack_enjoys = ["watch youtube", "look at memes", "play sims", "go the g
 let hello = ["hey", "hello", "hi", "hva skjer", "halla", "hallo", "sup", "yo", "hei"];
 
 
-// get a random value from an array
+// gets a random value from an array
 function getRandomFromArray(arr) {
     if (arr && arr.length){
         return arr[Math.floor(Math.random()*arr.length)];
@@ -22,6 +23,7 @@ String.prototype.format = function () {
     });
 };
 
+//delay
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -49,8 +51,8 @@ function bots(bot, input) {
 }
 
 
-let botman_list = [];
-function botman(input) {
+let botman_list = []; // for memory
+function botman(input) { //Botman
     let action = input.format() + "ing";
     let output;
     if (hello.includes(input.toLowerCase())) {
@@ -77,7 +79,7 @@ function botman(input) {
 }
 
 
-function blackjack(input) {
+function blackjack(input) { //BlackJack
     let output;
     if (hello.includes(input.toLowerCase())) {
         output = getRandomFromArray(greeting)
@@ -108,8 +110,8 @@ function blackjack(input) {
 }
 
 
-arne_list = [];
-function dj_aron(input) {
+arne_list = []; //to get different answers
+function dj_aron(input) { //DJ ARON
     let action = input.format() + "ing";
     let output;
     if (hello.includes(input.toLowerCase())) {
@@ -147,7 +149,7 @@ let jokes = [
     "I told a JS joke to my non-tech friend. He didn't react, I guess he didn't git it.",
     "What did the programmer quit their job? Because they didn't get arrays"
 ];
-function rangerdanger(input) {
+function rangerdanger(input) { //RangerDanger
     let output;
     if (hello.includes(input.toLowerCase())) {
         output = getRandomFromArray(greeting)
