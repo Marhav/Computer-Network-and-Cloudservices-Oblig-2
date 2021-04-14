@@ -37,6 +37,7 @@ function login(){
             current_user = input_login_user;
             $("#login_div").hide();
             $(".hidden_before_login").show()
+            $("#current_user").html(current_user)
             get_all_rooms()
             get_user_rooms()
             if (subs.indexOf(current_user) === -1) $("#myModal").modal('show');
@@ -237,9 +238,8 @@ function delete_user(){
         type: "delete",
         url: "/api/user/" + user_dlt,
         success: function (data){
-            if(current_user == user_dlt)
+            if (user_dlt == current_user)
                 window.location.assign('index.html');
-
             $("#join_success_feedback").show().html("<strong>Success!</strong> " + data);
             $("#join_danger_feedback").hide();
             document.getElementById("input_delete_user").value = '';
