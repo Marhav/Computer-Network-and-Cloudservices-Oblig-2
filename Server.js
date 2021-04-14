@@ -353,7 +353,7 @@ app.route('/api/room/:room_id/:username/messages')
         }
     }
 
-    res.status(200).send(user_messages); // NB! MÅ IKKE RETURNERE ALLE MELDINGER I ROMMET!
+    res.status(200).send(user_messages);
     })
     //Add message
     .post((req, res) => {
