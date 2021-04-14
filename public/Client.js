@@ -11,7 +11,6 @@ $(function () {
     $(".hidden_before_login").hide()
     $("#bot_div").hide()
     $(".mesgs").hide()
-
 })
 
 let current_user
@@ -459,5 +458,3 @@ addEventListener("keypress", function (e){
         document.getElementById("msg_btn").click();
     }
 });
-
-

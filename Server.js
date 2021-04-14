@@ -8,8 +8,6 @@ const bodyParser = require('body-parser')
 
 const app = express();
 
-
-
 app.set('port', process.env.PORT || 2828);
 
 
@@ -157,8 +155,8 @@ function getTimeAndDate(){
     const now = new Date();
     date.format(now, 'YYYY/MM/DD HH:mm:ss');
     date.format(now, 'ddd, MMM DD YYYY');
-    date.format(now, 'hh:mm A [GMT]Z');
-    date.format(now, 'hh:mm A [GMT]Z', true);
+    date.format(now, 'hh:mm A [GMT+2]Z');
+    date.format(now, 'hh:mm A [GMT+2]Z', true);
     const pattern = date.compile('ddd, MMM DD YYYY, HH:mm:ss');
 
     return date.format(now, pattern);
@@ -170,13 +168,11 @@ function getTimeAndDate(){
 const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
 const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
 
-
 push.setVapidDetails('mailto:test@code.no', publicVapidKey, privateVapidKey)
 
 let subscribers = [];
 
 app.post('/api/sub', (req, res) => {
-
     if(req.body){
         subscribers.push(req.body)
         return res.status(200).send("Sub registered!");
@@ -273,9 +269,7 @@ app.route('/api/user/:username')
         for (let i = 0;i<chat_rooms.length;i++){
             let roomuser = chat_rooms[i].roomUsers;
             for (let j = 0;j<roomuser.length;j++){
-                console.log(roomuser[j])
                 if (roomuser[j].username === user.username){
-                    console.log(roomuser[j].username + " has been deleted" + " from room " + chat_rooms[i].name);
                     roomuser.splice(j,1);
                 }
             }
@@ -286,7 +280,6 @@ app.route('/api/user/:username')
         res.status(200).send(`User ${user.username} is deleted!`);
 
     });
-
 
                    // -------------- Chat-Rooms -------------------- //
 
