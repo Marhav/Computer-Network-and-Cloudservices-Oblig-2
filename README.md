@@ -2,6 +2,10 @@
 ### Obligatory assignment 2, Data 2410
 Available for testing at heroku: https://data2410-oblig-2.herokuapp.com
 
+##### Disclaimer:
+This assignment was given as a practical task to learn about REST API. The application therefor 
+use API calls even when it isnt the best solution to all the problems the assignment present.
+
 ##### Made by:
 Mohamed Harate
 
@@ -23,10 +27,6 @@ feel like we have succeeded and we feel rewarded for the hours put into it.
 
 ### The assignment
 ---
-##### Disclaimer:
-This assignment was given as a practical task to learn about REST API. The application therefor 
-use API calls even when it isnt the best solution to all the problems the assignment present.
-
 The assignment did not demand a GUI, simple commands in terminal would be enough and the 
 standard language for the course is python. However we chose to build this as a web-service 
 purely for the sake of learning. We picked up Node.js for the first time and put alot of 
